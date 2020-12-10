@@ -2,10 +2,16 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import reportWebVitals from './reportWebVitals';
 import Dashboard from './Dashboard/Dashboard';
+import AppMenu from './AppMenu';
+import './index.css';
+import { Row } from 'antd';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Dashboard />
+    <Row>
+      <AppMenu />
+      <Dashboard />
+    </Row>
   </React.StrictMode>,
   document.getElementById('root')
 );

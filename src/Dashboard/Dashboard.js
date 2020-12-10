@@ -1,4 +1,5 @@
 import React from 'react';
+import { Button } from 'antd';
 
 
 class Dashboard extends React.Component {
@@ -14,7 +15,7 @@ class Dashboard extends React.Component {
   render() {
     return(
       <div>
-        Dashboard
+        <Button> button </Button>
       </div>
     )
   }
