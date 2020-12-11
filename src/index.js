@@ -4,14 +4,13 @@ import reportWebVitals from './reportWebVitals';
 import Dashboard from './Dashboard/Dashboard';
 import AppMenu from './AppMenu';
 import './index.css';
-import { Row } from 'antd';
+import { Row, Image, Col } from 'antd';
+import AppLayout from './AppLayout';
+
 
 ReactDOM.render(
   <React.StrictMode>
-    <Row>
-      <AppMenu />
-      <Dashboard />
-    </Row>
+     <AppLayout />
   </React.StrictMode>,
   document.getElementById('root')
 );
