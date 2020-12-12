@@ -6,7 +6,7 @@ class ProtectedRoute extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isAuthenticated: false
+      isAuthenticated: true
     }
   }
 
