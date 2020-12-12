@@ -1,6 +1,6 @@
 import React from 'react';
 import { Row, Card, Menu } from 'antd';
-import { RiseOutlined } from '@ant-design/icons';
+import { RiseOutlined, CopyOutlined } from '@ant-design/icons';
 
 class Dashboard extends React.Component {
 
@@ -20,8 +20,8 @@ class Dashboard extends React.Component {
           <Menu.Item icon={<RiseOutlined />}>
             Promo
           </Menu.Item>
-          <Menu.Item>
-            Settings
+          <Menu.Item icon={<CopyOutlined />}>
+            Reports
           </Menu.Item>
         </Menu>
       </div>
