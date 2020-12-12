@@ -3,11 +3,38 @@ import ReactDOM from 'react-dom';
 import reportWebVitals from './reportWebVitals';
 import './index.css';
 import AppLayout from './AppLayout';
+import { LoginForm } from './LoginForm';
+import { RegisterForm }  from './RegisterForm';
+import ProtectedRoute from './ProtectedRoute';
+import { Redirect, BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import Dashboard from './Dashboard/Dashboard';
+import { Settings } from './Settings/Settings';
 
+const LoginContainer = () => (
+  <div className="container">
+    <Route exact path="/" render={() => <Redirect to="/login" />} />
+    <Route path="/login" component={LoginForm} />
+    <Route path="/register" component={RegisterForm} />
+  </div>
+)
+
+const DefaultContainer = () => (
+  <div className="container">
+    <Switch>
+      <ProtectedRoute path="/" component={AppLayout} />
+    </Switch>
+  </div>
+);
 
 ReactDOM.render(
   <React.StrictMode>
-     <AppLayout />
+    <Router>
+      <Switch>
+        <Route exact path="/login" component={LoginContainer} />
+        <Route exact path="/register" component={LoginContainer} />
+        <Route component={DefaultContainer} />
+      </Switch>
+    </Router>
   </React.StrictMode>,
   document.getElementById('root')
 );
