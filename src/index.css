@@ -28,6 +28,10 @@ code {
 
 }
 
+.ant-link {
+  color: red;
+}
+
 .ant-menu-vertical
 .ant-menu-item::after,
 .ant-menu-vertical-left

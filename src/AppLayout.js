@@ -7,6 +7,10 @@ import {
   SettingOutlined
 } from '@ant-design/icons';
 import { NameCard } from './NameCard';
+import { Switch, Link } from 'react-router-dom';
+import ProtectedRoute from './ProtectedRoute';
+import Dashboard from './Dashboard/Dashboard';
+import { Settings } from './Settings/Settings';
 
 const { Header, Sider, Content } = Layout;
 
@@ -49,10 +53,18 @@ class AppLayout extends React.Component {
 
             <Menu mode="inline" defaultSelectedKeys={['1']}>
               <Menu.Item key="1" icon={<DashboardOutlined />}>
+                <Link to='/Dashboard' >
+
+                </Link>
                 Dashboard
               </Menu.Item>
               <Menu.Item key="2" icon={<SettingOutlined />}>
                 Settings
+                <Link to='/Settings' style={{
+                  color: 'white'
+                }}>
+
+                </Link>
               </Menu.Item>
             </Menu>
         </Sider>
@@ -71,16 +83,10 @@ class AppLayout extends React.Component {
               })}
             </Header>
           </div>
-          <Content
-            className="site-layout-background"
-            style={{
-              margin: '24px 16px',
-              padding: 24,
-              minHeight: 280,
-            }}
-          >
-            Content
-          </Content>
+          <Switch>
+              <ProtectedRoute path='/Dashboard' component={Dashboard} />
+              <ProtectedRoute path='/Settings' component={Settings} />
+          </Switch>
         </Layout>
       </Layout>
     );
