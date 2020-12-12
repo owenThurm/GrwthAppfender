@@ -3,9 +3,8 @@ import { Layout, Menu, Image } from 'antd';
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
-  UserOutlined,
-  VideoCameraOutlined,
-  UploadOutlined,
+  DashboardOutlined,
+  SettingOutlined
 } from '@ant-design/icons';
 import { NameCard } from './NameCard';
 
@@ -49,14 +48,11 @@ class AppLayout extends React.Component {
           <NameCard />
 
             <Menu mode="inline" defaultSelectedKeys={['1']}>
-              <Menu.Item className='customclass' key="1" icon={<UserOutlined />}>
-                nav 1
+              <Menu.Item key="1" icon={<DashboardOutlined />}>
+                Dashboard
               </Menu.Item>
-              <Menu.Item key="2" icon={<VideoCameraOutlined />}>
-                nav 2
-              </Menu.Item>
-              <Menu.Item key="3" icon={<UploadOutlined />}>
-                nav 3
+              <Menu.Item key="2" icon={<SettingOutlined />}>
+                Settings
               </Menu.Item>
             </Menu>
         </Sider>
