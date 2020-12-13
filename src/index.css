@@ -54,6 +54,10 @@ code {
 
 }
 
+.ant-card-body {
+  border-top-color: rgb(38, 41, 56);
+}
+
 .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
   background-color: transparent;
 }
