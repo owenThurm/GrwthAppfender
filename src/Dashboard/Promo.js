@@ -17,9 +17,19 @@ class Promo extends React.Component {
           title='Promo Account #1'
           headStyle={{color: 'white', textAlign: 'center', borderWidth: 2, borderBottomColor: 'rgb(190, 190, 194)'}}>
 
-            <Input />
-            <Input />
-            <Switch />
+            <Input placeholder='username'/>
+            <Input placeholder='password' />
+            <Switch style={{width: 300}}
+                    checkedChildren={
+                    <div>
+                      Active <CheckOutlined />
+                    </div>}
+                    unCheckedChildren={
+                      <div>
+                        Inactive <CloseOutlined />
+                      </div>
+                    } defaultUnchecked
+                    />
         </Card>
       </div>
     )
