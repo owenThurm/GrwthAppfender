@@ -1,5 +1,6 @@
 import React from 'react';
-import { Card, Input, Switch } from 'antd';
+import { Card, Input, Switch, Row } from 'antd';
+import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 
 class Promo extends React.Component {
   constructor(props) {
@@ -17,19 +18,39 @@ class Promo extends React.Component {
           title='Promo Account #1'
           headStyle={{color: 'white', textAlign: 'center', borderWidth: 2, borderBottomColor: 'rgb(190, 190, 194)'}}>
 
-            <Input placeholder='username'/>
-            <Input placeholder='password' />
-            <Switch style={{width: 300}}
-                    checkedChildren={
-                    <div>
-                      Active <CheckOutlined />
-                    </div>}
-                    unCheckedChildren={
+            <Row>
+              <Input placeholder='username'/>
+            </Row>
+
+            <br />
+            <Row>
+              <Input placeholder='password' />
+            </Row>
+
+            <br />
+
+            <Row>
+              <Switch style={{width: 270}}
+                      checkedChildren={
                       <div>
-                        Inactive <CloseOutlined />
-                      </div>
-                    } defaultUnchecked
-                    />
+                        Active <CheckOutlined />
+                      </div>}
+                      unCheckedChildren={
+                        <div>
+                          Inactive <CloseOutlined />
+                        </div>
+                      } defaultUnchecked
+                      />
+            </Row>
+
+            <br />
+            <br />
+
+            <Row>
+              <Input placeholder="target audience account" />
+            </Row>
+
+
         </Card>
       </div>
     )
