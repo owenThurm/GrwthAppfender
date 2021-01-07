@@ -53,7 +53,7 @@ class AppLayout extends React.Component {
 
             <Menu mode="inline" defaultSelectedKeys={['1']}>
               <Menu.Item key="1" icon={<DashboardOutlined />}>
-                <Link to='/dashboard' >
+                <Link to='/' >
 
                 </Link>
                 Dashboard
@@ -84,8 +84,8 @@ class AppLayout extends React.Component {
             </Header>
           </div>
           <Switch>
-              <ProtectedRoute path='/dashboard' component={Dashboard} />
               <ProtectedRoute path='/settings' component={Settings} />
+              <ProtectedRoute path='/' component={Dashboard} />
           </Switch>
         </Layout>
       </Layout>

@@ -18,18 +18,14 @@ class Promo extends React.Component {
           title='Promo Account #1'
           headStyle={{color: 'white', textAlign: 'center', borderWidth: 2, borderBottomColor: 'rgb(190, 190, 194)'}}>
 
-            <Row>
-              <Input placeholder='username'/>
+            <Row style={{marginBottom: 5}}>
+              <Input placeholder='username' style={{borderRadius: '1.2vh', color: 'white', backgroundColor: 'rgb(36, 36, 52)'}}/>
+            </Row >
+            <Row style={{marginBottom: 10}}>
+              <Input placeholder='password' style={{borderRadius: '1.2vh', color: 'white', backgroundColor: 'rgb(36, 36, 52)'}}/>
             </Row>
 
-            <br />
-            <Row>
-              <Input placeholder='password' />
-            </Row>
-
-            <br />
-
-            <Row>
+            <Row style={{marginBottom: 75}}>
               <Switch style={{width: 270}}
                       checkedChildren={
                       <div>
@@ -43,11 +39,8 @@ class Promo extends React.Component {
                       />
             </Row>
 
-            <br />
-            <br />
-
             <Row>
-              <Input placeholder="target audience account" />
+              <Input placeholder="target audience account" style={{borderRadius: '1.2vh', color: 'white', backgroundColor: 'rgb(36, 36, 52)'}}/>
             </Row>
 
 

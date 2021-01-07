@@ -22,17 +22,17 @@ class Dashboard extends React.Component {
            borderBottomColor: 'rgb(38, 41, 56)',
             borderBottomWidth: 2}}>
           <Menu.Item icon={<RiseOutlined />}>
-            <Link to='/dashboard' />
+            <Link to='/' />
             Promo
           </Menu.Item>
           <Menu.Item icon={<CopyOutlined />}>
-            <Link to='/dashboard/reports' />
+            <Link to='/reports' />
             Reports
           </Menu.Item>
         </Menu>
         <Switch>
-          <ProtectedRoute path='/dashboard/reports' component={Reports} />
-          <ProtectedRoute path='/dashboard' component={Promo} />
+          <ProtectedRoute path='/reports' component={Reports} />
+          <ProtectedRoute path='/' component={Promo} />
         </Switch>
       </div>
     )
