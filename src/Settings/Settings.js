@@ -1,3 +1,23 @@
 import React from 'react';
+import { Menu } from 'antd';
+import { Link, Switch } from 'react-router-dom';
+import { SettingOutlined } from '@ant-design/icons'
 
-export const Settings = props => (<div>Settings</div>);
+export const Settings = props => (
+  <div>
+    <Menu mode='horizontal'
+    style={{
+      marginTop: 20,
+       borderBottomColor: 'rgb(38, 41, 56)',
+        borderBottomWidth: 2}}>
+      <Menu.Item icon={<SettingOutlined />}>
+        <Link to='/settings' />
+        Account Settings
+      </Menu.Item>
+
+    </Menu>
+
+
+
+  </div>
+);
