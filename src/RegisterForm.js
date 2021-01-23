@@ -2,15 +2,44 @@ import React from 'react';
 
 import { Form, Input, Button, Checkbox } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import axios from 'axios';
 
 function RegisterForm() {
 
   const onFinish = (values) => {
     console.log('Received values of form: ', values);
+    createUser(values);
   };
 
-  const checkLoginCredentials = (values) => {
-    // axios post request with body as username and password
+  const createUser = (values) => {
+    // axios post request to register
+    const headers = {
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': "*",
+      "Access-Control-Allow-Methods": "DELETE, POST, GET, OPTIONS"
+    }
+    // axios post request with body as email and password
+    axios.post("https://cors-anywhere.herokuapp.com/34.226.214.56/api/user", {
+      "email": values.email,
+      "username": values.username,
+      "password": values.password,
+      "location": values.location,
+      "brand_name": values.brandName
+    },
+      { headers: headers }
+    )
+      .then(response => {
+        console.log(response);
+        localStorage.setItem("loggedIn", response.data.message == "saved");
+        localStorage.setItem("username",values.username);
+        localStorage.setItem("brand",values.brandName);
+        return response.data.message == "saved";
+
+      })
+      .catch(err => {
+        console.log(err);
+        return false;
+      });
   };
 
 
@@ -25,6 +54,17 @@ function RegisterForm() {
       onFinish={onFinish}
     >
       <Form.Item
+        name="email"
+        rules={[
+          {
+            required: true,
+            message: 'Please input your Email!',
+          },
+        ]}
+      >
+        <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Enter Your Email" />
+      </Form.Item>
+      <Form.Item
         name="username"
         rules={[
           {
@@ -33,7 +73,10 @@ function RegisterForm() {
           },
         ]}
       >
-        <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Enter Your Username" />
+        <Input
+          prefix={<LockOutlined className="site-form-item-icon" />}
+          placeholder="Enter Your Username"
+        />
       </Form.Item>
       <Form.Item
         name="password"
@@ -48,6 +91,34 @@ function RegisterForm() {
           prefix={<LockOutlined className="site-form-item-icon" />}
           type="password"
           placeholder="Enter Your Password"
+        />
+      </Form.Item>
+      <Form.Item
+        name="brandName"
+        rules={[
+          {
+            required: true,
+            message: 'Please input your brand name!',
+          },
+        ]}
+      >
+        <Input
+          prefix={<LockOutlined className="site-form-item-icon" />}
+          placeholder="Enter Your brand name"
+        />
+      </Form.Item>
+      <Form.Item
+        name="location"
+        rules={[
+          {
+            required: true,
+            message: 'Please input your state and country!',
+          },
+        ]}
+      >
+        <Input
+          prefix={<LockOutlined className="site-form-item-icon" />}
+          placeholder="Enter Your state and country"
         />
       </Form.Item>
       <Form.Item>

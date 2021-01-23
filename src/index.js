@@ -10,13 +10,16 @@ import { Redirect, BrowserRouter as Router, Switch, Route } from 'react-router-d
 import Dashboard from './Dashboard/Dashboard';
 import { Settings } from './Settings/Settings';
 
-const LoginContainer = () => (
+const LoginContainer = () => {
+  
+  return(
   <div className="container">
     <Route exact path="/" render={() => <Redirect to="/login" />} />
-    <Route path="/login" component={LoginForm} />
+    <Route path="/login" component={LoginForm}/>
     <Route path="/register" component={RegisterForm} />
   </div>
-)
+  )
+};
 
 const DefaultContainer = () => (
   <div className="container">

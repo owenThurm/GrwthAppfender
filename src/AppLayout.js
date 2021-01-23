@@ -17,6 +17,8 @@ const { Header, Sider, Content } = Layout;
 class AppLayout extends React.Component {
   state = {
     collapsed: false,
+    brand: localStorage.getItem("brand"),
+    username: localStorage.getItem("username")
   };
 
   toggle = () => {
@@ -49,7 +51,7 @@ class AppLayout extends React.Component {
             </div>
           </div>
 
-          <NameCard />
+          <NameCard username={this.state.username} brand={this.state.brand} />
 
             <Menu mode="inline" defaultSelectedKeys={['1']}>
               <Menu.Item key="1" icon={<DashboardOutlined />}>
