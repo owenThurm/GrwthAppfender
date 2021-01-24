@@ -10,7 +10,10 @@ class Dashboard extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {}
+    this.state = {
+      userUsername: props.props.userUsername,
+      brand: props.props.brand
+    }
   }
 
   render() {
@@ -32,7 +35,7 @@ class Dashboard extends React.Component {
         </Menu>
         <Switch>
           <ProtectedRoute path='/reports' component={Reports} />
-          <ProtectedRoute path='/' component={Promo} />
+          <ProtectedRoute path='/' component={Promo} props={{'userUsername': this.props.props.userUsername}}/>
         </Switch>
       </div>
     )

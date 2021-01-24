@@ -28,6 +28,13 @@ code {
 
 }
 
+.ant-form-item-has-error .ant-input,
+ .ant-form-item-has-error .ant-input-affix-wrapper,
+  .ant-form-item-has-error .ant-input:hover,
+   .ant-form-item-has-error .ant-input-affix-wrapper:hover {
+     background-color: rgb(38, 41, 56);
+   }
+
 .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item:hover,
 .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu:hover,
 .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item-active,
@@ -89,6 +96,11 @@ code {
   margin: 0;
   font-size: 12px;
 
+}
+
+.ant-input {
+  background-color: rgb(36, 36, 52);
+  color: white;
 }
 
 .ant-layout-sider-children {

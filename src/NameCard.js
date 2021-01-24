@@ -11,7 +11,7 @@ export const NameCard = (props) => {
       avatar={
         <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
       }
-      title={<Text style={{color: 'white'}} strong>{props.username}</Text>}
+      title={<Text style={{color: 'white'}} strong>{props.userUsername}</Text>}
       description={props.brand}
     />
   </Card>)

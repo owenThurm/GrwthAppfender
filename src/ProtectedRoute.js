@@ -1,7 +1,5 @@
 import React from 'react';
-
 import { Redirect } from 'react-router-dom';
-import AppLayout from './AppLayout';
 
 class ProtectedRoute extends React.Component {
   constructor(props) {
@@ -11,20 +9,12 @@ class ProtectedRoute extends React.Component {
     }
   }
 
-  updateAuthentication(value) {
-    this.setState({ isAuthenticated: value })
-    console.log("Updated!");
-    console.log(this.state.isAuthenticated);
-  }
-
   render() {
     const Component = this.props.component;
-    console.log("meow: " + this.state.isAuthenticated);
-    console.log(localStorage.getItem("loggedIn"));
-
     return (
+
       this.state.isAuthenticated ?
-        (<Component />) : <Redirect to="/login" />
+        (<Component props={this.props.props}/>) : <Redirect to="/login" />
     )
   }
 }

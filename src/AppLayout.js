@@ -11,15 +11,36 @@ import { Switch, Link } from 'react-router-dom';
 import ProtectedRoute from './ProtectedRoute';
 import Dashboard from './Dashboard/Dashboard';
 import { Settings } from './Settings/Settings';
+import axios from 'axios';
 
 const { Header, Sider, Content } = Layout;
 
 class AppLayout extends React.Component {
-  state = {
-    collapsed: false,
-    brand: localStorage.getItem("brand"),
-    username: localStorage.getItem("username")
-  };
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      collapsed: false,
+      brand: '',
+      userUsername: '',
+      location: '',
+      email: localStorage.getItem('email')
+    }
+  }
+
+  componentDidMount() {
+    axios.get(
+      '/api/user?email='+this.state.email
+      ).then(response => {
+        this.setState({
+          brand: response.data.brand_name,
+          userUsername: response.data.username,
+          location: response.data.location
+        });
+      }).catch(err => {
+        console.log(err);
+      });
+  }
 
   toggle = () => {
     this.setState({
@@ -47,11 +68,11 @@ class AppLayout extends React.Component {
               marginLeft: 60,
               marginRight: 70,
               }}>
-              <Image src='https://genuineapparelgrowth.com/Images/WhiteLabel.png' />
+              <Image src='http://genuineapparelgrowth.com/Images/WhiteLabel.png' />
             </div>
           </div>
 
-          <NameCard username={this.state.username} brand={this.state.brand} />
+          <NameCard userUsername={this.state.userUsername} brand={this.state.brand} />
 
             <Menu mode="inline" defaultSelectedKeys={['1']}>
               <Menu.Item key="1" icon={<DashboardOutlined />}>
@@ -87,7 +108,11 @@ class AppLayout extends React.Component {
           </div>
           <Switch>
               <ProtectedRoute path='/settings' component={Settings} />
-              <ProtectedRoute path='/' component={Dashboard} />
+              <ProtectedRoute path='/' component={Dashboard}
+              props={{
+                'userUsername': this.state.userUsername,
+                'brand': this.state.brand
+                }}/>
           </Switch>
         </Layout>
       </Layout>
