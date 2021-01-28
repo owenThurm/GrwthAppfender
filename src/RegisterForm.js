@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Form, Input, Button, Checkbox } from 'antd';
-import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import { UserOutlined, LockOutlined, MailOutlined, SkinOutlined, EnvironmentOutlined } from '@ant-design/icons';
 import axios from 'axios';
 
 function RegisterForm() {
@@ -19,7 +19,7 @@ function RegisterForm() {
       "Access-Control-Allow-Methods": "DELETE, POST, GET, OPTIONS"
     }
     // axios post request with body as email and password
-    axios.post("/api/user", {
+    axios.post("https://owenthurm.com/api/user", {
       "email": values.email,
       "username": values.username,
       "password": values.password,
@@ -33,7 +33,7 @@ function RegisterForm() {
         localStorage.setItem("loggedIn", response.data.message == "saved");
         localStorage.setItem("email",values.email);
         if(response.data.message == 'saved') {
-          window.location.replace("http://localhost:3000/");
+          window.location.replace("/");
         }
       })
       .catch(err => {
@@ -43,7 +43,8 @@ function RegisterForm() {
 
   return (
     <div style={{margin: 80}}>
-      <Form autoComplete='off'
+      <Form
+        autoComplete='off'
         name="normal_login"
         className="login-form"
         initialValues={{
@@ -60,7 +61,7 @@ function RegisterForm() {
             },
           ]}
         >
-          <Input prefix={<UserOutlined className="site-form-item-icon" />}
+          <Input prefix={<MailOutlined className="site-form-item-icon" />}
           placeholder="Enter Your Email"
           style={{ borderRadius: '1.2vh', color: 'white', backgroundColor: 'rgb(36, 36, 52)' }}
           />
@@ -75,7 +76,7 @@ function RegisterForm() {
           ]}
         >
           <Input
-            prefix={<LockOutlined className="site-form-item-icon" />}
+            prefix={<UserOutlined className="site-form-item-icon" />}
             placeholder="Enter Your Username"
             style={{ borderRadius: '1.2vh', color: 'white', backgroundColor: 'rgb(36, 36, 52)' }}
           />
@@ -106,7 +107,7 @@ function RegisterForm() {
           ]}
         >
           <Input
-            prefix={<LockOutlined className="site-form-item-icon" />}
+            prefix={<SkinOutlined className="site-form-item-icon" />}
             placeholder="Enter Your brand name"
             style={{ borderRadius: '1.2vh', color: 'white', backgroundColor: 'rgb(36, 36, 52)' }}
           />
@@ -121,7 +122,7 @@ function RegisterForm() {
           ]}
         >
           <Input
-            prefix={<LockOutlined className="site-form-item-icon" />}
+            prefix={<EnvironmentOutlined className="site-form-item-icon" />}
             placeholder="Enter Your state and country"
             style={{ borderRadius: '1.2vh', color: 'white', backgroundColor: 'rgb(36, 36, 52)' }}
           />
