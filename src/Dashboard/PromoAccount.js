@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card, Input, Switch, Row, Button, Typography } from 'antd';
-import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
+import { CheckOutlined, CloseOutlined, EyeInvisibleOutlined, EyeOutlined,
+  InstagramOutlined, AimOutlined, LockOutlined } from '@ant-design/icons';
 import axios from 'axios';
 
 const { Title } = Typography;
@@ -20,7 +21,7 @@ class PromoAccount extends React.Component {
   }
 
   componentDidMount() {
-    axios.get('/api/promo?username=' + this.props.promoUsername)
+    axios.get('https://owenthurm.com/api/promo?username=' + this.props.promoUsername)
       .then(response => {
         this.setState({
           promoPassword: response.data.promo_password,
@@ -40,7 +41,7 @@ class PromoAccount extends React.Component {
         promoUsername: this.props.promoUsername,
         userUsername: this.props.userUsername
       })
-      axios.get('/api/promo?username=' + this.props.promoUsername)
+      axios.get('https://owenthurm.com/api/promo?username=' + this.props.promoUsername)
       .then(response => {
         this.setState({
           promoPassword: response.data.promo_password,
@@ -55,7 +56,7 @@ class PromoAccount extends React.Component {
 
   onSubmit() {
     console.log(this.state);
-    axios.post('/api/promo', {
+    axios.post('https://owenthurm.com/api/promo', {
       "promo_username": this.state.promoUsername,
       "promo_password": this.state.promoPassword,
       "target_account": this.state.targetAccount,
@@ -89,7 +90,7 @@ class PromoAccount extends React.Component {
 
   changeActivation = (event) => {
     if(event) {
-      axios.post('/api/activate', {
+      axios.post('https://owenthurm.com/api/activate', {
         "promo_username": this.state.promoUsername
       }).then(response => {
         console.log(response);
@@ -100,7 +101,7 @@ class PromoAccount extends React.Component {
         console.log(err);
       });
     } else {
-      axios.post('/api/deactivate', {
+      axios.post('https://owenthurm.com/api/deactivate', {
         "promo_username": this.state.promoUsername
       }).then(response => {
         console.log(response);
@@ -151,6 +152,7 @@ class PromoAccount extends React.Component {
       return <Title level={5} style={{color: 'white', fontSize: 15}}>{this.state.promoUsername}</Title>
     } else {
       return <Input onChange={event => this.onChangeHandler(event, "promoUsername")}
+          prefix={<InstagramOutlined className='site-form-item-icon'/>}
           defaultValue={this.state.promoUsername}
           disabled={this.state.underReview}
           placeholder='Username'
@@ -160,10 +162,11 @@ class PromoAccount extends React.Component {
 
   passwordField = () => {
     if(!this.state.submitted) {
-      return <Input onChange={event => this.onChangeHandler(event, "promoPassword")}
-          type='password'
+      return <Input.Password onChange={event => this.onChangeHandler(event, "promoPassword")}
+          prefix={<LockOutlined className='site-form-item-icon'/>}
           defaultValue={this.state.promoPassword}
           disabled={this.state.underReview}
+          iconRender={visible => (visible ? <EyeOutlined style={{color: 'white'}}/> : <EyeInvisibleOutlined style={{color:'white'}}/>)}
           placeholder='Password'
           style={{ borderRadius: '1.2vh', color: 'white', backgroundColor: 'rgb(36, 36, 52)', width: 200 }} />
     }
@@ -174,9 +177,10 @@ class PromoAccount extends React.Component {
       return <Title level={5} style={{fontSize: 14, color: 'white'}}>{'Targeting: ' + this.state.targetAccount }</Title>
     } else {
       return <Input onChange={event => this.onChangeHandler(event, "targetAccount")}
+          prefix={<AimOutlined className='site-form-item-icon'/>}
           defaultValue={this.state.targetAccount}
           disabled={this.state.underReview}
-          placeholder="Target Audience Account"
+          placeholder="Target IG Account"
           style={{ borderRadius: '1.2vh', color: 'white', backgroundColor: 'rgb(36, 36, 52)', width: 200 }} />
     }
   }
