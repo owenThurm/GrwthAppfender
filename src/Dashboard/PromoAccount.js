@@ -54,24 +54,28 @@ class PromoAccount extends React.Component {
     }
   }
 
-  onSubmit() {
-    console.log(this.state);
-    axios.post('https://owenthurm.com/api/promo', {
-      "promo_username": this.state.promoUsername,
-      "promo_password": this.state.promoPassword,
-      "target_account": this.state.targetAccount,
-      "user": this.state.userUsername
-    }).then(response => {
-      console.log(response);
-      this.setState({
-        submitted: true,
-        underReview: true,
-        active: false
-      })
-    }).catch(err => {
-      console.log(err);
-    })
+  onSubmitReview() {
+    console.log(this.state)
+    if(this.state.promoUsername != '' && this.state.promoUsername != undefined
+      && this.state.promoPassword != '' && this.state.promoPassword != undefined
+      && this.state.targetAccount != '' && this.state.targetAccount != undefined) {
 
+      axios.post('https://owenthurm.com/api/promo', {
+        "promo_username": this.state.promoUsername,
+        "promo_password": this.state.promoPassword,
+        "target_account": this.state.targetAccount,
+        "user": this.state.userUsername
+      }).then(response => {
+        console.log(response);
+        this.setState({
+          submitted: true,
+          underReview: true,
+          active: false
+        });
+      }).catch(err => {
+        console.log(err);
+      });
+    }
   }
 
   onChangeHandler(event, type) {
@@ -114,11 +118,11 @@ class PromoAccount extends React.Component {
     }
   }
 
-  button = () => {
+  submitForReviewButton = () => {
     if(!this.state.submitted) {
       return <Button
       style={{backgroundColor: 'rgb(36, 36, 52)', borderRadius: '1.2vh', color: 'white', width: '100vh'}}
-      onClick={() => this.onSubmit()}>
+      onClick={() => this.onSubmitReview()}>
         Submit For Review
       </Button>
     } else if(this.state.underReview) {
@@ -129,7 +133,7 @@ class PromoAccount extends React.Component {
     }
   }
 
-  switch = () => {
+  activateSwitch = () => {
     if(this.state.submitted && !this.state.underReview) {
       return <Switch style={{ width: 270 }}
       checked={this.state.active}
@@ -186,7 +190,6 @@ class PromoAccount extends React.Component {
   }
 
   render() {
-    console.log('state>>', this.state)
     return(
       <Card style={{
         height: 320, width: 250, backgroundColor: 'rgb(36, 36, 52)',
@@ -211,11 +214,11 @@ class PromoAccount extends React.Component {
         </Row>
 
         <Row style={{ marginBottom: 30 }}>
-          {this.switch()}
+          {this.activateSwitch()}
         </Row>
 
         <Row>
-          {this.button()}
+          {this.submitForReviewButton()}
         </Row>
       </Card>
     )
