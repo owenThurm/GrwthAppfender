@@ -30,8 +30,9 @@ class AppLayout extends React.Component {
 
   componentDidMount() {
     axios.get(
-      '/api/user?email='+this.state.email
+      'https://owenthurm.com/api/user?email='+this.state.email
       ).then(response => {
+        console.log('app layout response', response)
         this.setState({
           brand: response.data.brand_name,
           userUsername: response.data.username,

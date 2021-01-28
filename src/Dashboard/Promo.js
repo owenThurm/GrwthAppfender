@@ -12,7 +12,7 @@ class Promo extends React.Component {
   }
 
   componentDidMount() {
-    axios.post('/api/user/promoaccounts',
+    axios.post('https://owenthurm.com/api/user/promoaccounts',
      {
        "username": this.props.props.userUsername
       }).then(response => {
@@ -27,7 +27,7 @@ class Promo extends React.Component {
 
   componentDidUpdate(prevProps) {
     if(prevProps != this.props) {
-      axios.post('/api/user/promoaccounts',
+      axios.post('https://owenthurm.com/api/user/promoaccounts',
      {
        "username": this.props.props.userUsername
       }).then(response => {
@@ -38,6 +38,7 @@ class Promo extends React.Component {
       }).catch(err => {
         console.log(err);
       });
+
     }
   }
 
