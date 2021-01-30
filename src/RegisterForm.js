@@ -1,7 +1,7 @@
 import React from 'react';
-
 import { Form, Input, Button, Checkbox } from 'antd';
-import { UserOutlined, LockOutlined, MailOutlined, SkinOutlined, EnvironmentOutlined } from '@ant-design/icons';
+import { UserOutlined, LockOutlined, MailOutlined, SkinOutlined,
+  EnvironmentOutlined, EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
 import axios from 'axios';
 
 function RegisterForm() {
@@ -90,9 +90,9 @@ function RegisterForm() {
             },
           ]}
         >
-          <Input
+          <Input.Password
             prefix={<LockOutlined className="site-form-item-icon" />}
-            type="password"
+            iconRender={visible => (visible ? <EyeOutlined style={{color: 'white'}}/> : <EyeInvisibleOutlined style={{color:'white'}}/>)}
             placeholder="Enter Your Password"
             style={{ borderRadius: '1.2vh', color: 'white', backgroundColor: 'rgb(36, 36, 52)' }}
           />
