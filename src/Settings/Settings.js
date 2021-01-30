@@ -3,7 +3,7 @@ import { Menu } from 'antd';
 import { Link, Switch } from 'react-router-dom';
 import { SettingOutlined } from '@ant-design/icons'
 import ProtectedRoute from '../ProtectedRoute';
-import AccountSettings from './AccountSettings';
+import AccountSettings from './AccountSettings/AccountSettings';
 
 export const Settings = props => (
   <div>
@@ -19,7 +19,8 @@ export const Settings = props => (
 
     </Menu>
     <Switch>
-      <ProtectedRoute path='/settings' component={AccountSettings}/>
+      <ProtectedRoute path='/settings' component={AccountSettings}
+      props={{'userUsername': props.props.userUsername}}/>
     </Switch>
 
 
