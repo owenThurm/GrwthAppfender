@@ -47,6 +47,41 @@ code {
   color: white;
 }
 
+.ant-modal-header {
+  background-color: rgb(36, 36, 52);
+  color: white;
+  border-bottom: white;
+}
+
+.ant-modal-title {
+  color: white;
+}
+
+.ant-modal-close-x {
+  color: white;
+}
+
+.ant-modal-footer {
+  border-top-color: rgb(38, 41, 56);
+}
+
+.ant-btn {
+  color: white;
+  background-color: rgb(36, 36, 52);
+  border-radius: 1.2vh;
+  border-color: white;
+}
+
+.ant-btn:hover, .ant-btn:focus, .ant-btn:after {
+  background: rgb(36, 36, 52);
+  color: white;
+}
+
+.ant-modal-content {
+  color: rgb(36, 36, 52);
+  background-color: rgb(36, 36, 52);
+}
+
 .ant-menu-vertical
 .ant-menu-item::after,
 .ant-menu-vertical-left
