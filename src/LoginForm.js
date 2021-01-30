@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Form, Input, Button, Checkbox } from 'antd';
-import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import { UserOutlined, LockOutlined, MailOutlined, EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
 import axios from 'axios';
 
 class LoginForm extends React.Component {
@@ -44,10 +44,7 @@ class LoginForm extends React.Component {
       .catch(err => {
         console.log(err);
       });
-
   };
-
-
 
   render() {
     return (
@@ -71,7 +68,7 @@ class LoginForm extends React.Component {
             ]}
           >
             <Input
-            prefix={<UserOutlined className="site-form-item-icon" />}
+            prefix={<MailOutlined className="site-form-item-icon" />}
             placeholder="Email"
             style={{ borderRadius: '1.2vh', color: 'white', backgroundColor: 'rgb(36, 36, 52)' }}/>
           </Form.Item>
@@ -84,8 +81,9 @@ class LoginForm extends React.Component {
               },
             ]}
           >
-            <Input
+            <Input.Password
               prefix={<LockOutlined className="site-form-item-icon" />}
+              iconRender={visible => (visible ? <EyeOutlined style={{color: 'white'}}/> : <EyeInvisibleOutlined style={{color:'white'}}/>)}
               type="password"
               placeholder="Password"
               style={{ borderRadius: '1.2vh', color: 'white', backgroundColor: 'rgb(36, 36, 52)' }}
