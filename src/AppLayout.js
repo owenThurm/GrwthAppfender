@@ -4,7 +4,8 @@ import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
   DashboardOutlined,
-  SettingOutlined
+  SettingOutlined,
+  LogoutOutlined
 } from '@ant-design/icons';
 import { NameCard } from './NameCard';
 import { Switch, Link } from 'react-router-dom';
@@ -49,6 +50,11 @@ class AppLayout extends React.Component {
     });
   };
 
+  logout = () => {
+    localStorage.setItem("loggedIn", false)
+    window.location.replace("/login");
+  }
+
   render() {
     return (
       <Layout>
@@ -77,18 +83,17 @@ class AppLayout extends React.Component {
 
             <Menu mode="inline" defaultSelectedKeys={['1']}>
               <Menu.Item key="1" icon={<DashboardOutlined />}>
-                <Link to='/' >
-
-                </Link>
+                <Link to='/' />
                 Dashboard
               </Menu.Item>
               <Menu.Item key="2" icon={<SettingOutlined />}>
                 Settings
                 <Link to='/settings' style={{
                   color: 'white'
-                }}>
-
-                </Link>
+                }} />
+              </Menu.Item>
+              <Menu.Item key="3" icon={<LogoutOutlined />} onClick={() => this.logout()}>
+                Log Out
               </Menu.Item>
             </Menu>
         </Sider>
@@ -108,7 +113,10 @@ class AppLayout extends React.Component {
             </Header>
           </div>
           <Switch>
-              <ProtectedRoute path='/settings' component={Settings} />
+              <ProtectedRoute path='/settings' component={Settings}
+              props={{
+                'userUsername': this.state.userUsername
+              }}/>
               <ProtectedRoute path='/' component={Dashboard}
               props={{
                 'userUsername': this.state.userUsername,
