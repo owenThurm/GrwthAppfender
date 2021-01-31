@@ -1,9 +1,10 @@
 import React from 'react';
 import { Menu } from 'antd';
-import { Link, Switch } from 'react-router-dom';
-import { SettingOutlined } from '@ant-design/icons'
+import { Link, Switch, Route } from 'react-router-dom';
+import { SettingOutlined, CommentOutlined } from '@ant-design/icons'
 import ProtectedRoute from '../ProtectedRoute';
 import AccountSettings from './AccountSettings/AccountSettings';
+import AccountComments from './AccountSettings/AccountComments';
 
 export const Settings = props => (
   <div>
@@ -17,10 +18,22 @@ export const Settings = props => (
         Account Settings
       </Menu.Item>
 
+      <Menu.Item icon={<CommentOutlined />}>
+        <Link to='/settings/comments' />
+        Edit Custom Accounts
+      </Menu.Item>
+
     </Menu>
     <Switch>
+
+
+      <ProtectedRoute exact path='/settings/comments' component={AccountComments}
+      props={{'userUsername': props.props.userUsername}}/>
+
       <ProtectedRoute path='/settings' component={AccountSettings}
       props={{'userUsername': props.props.userUsername}}/>
+
+      
     </Switch>
 
 

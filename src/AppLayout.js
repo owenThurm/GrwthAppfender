@@ -113,10 +113,15 @@ class AppLayout extends React.Component {
             </Header>
           </div>
           <Switch>
+
+
+          
+
               <ProtectedRoute path='/settings' component={Settings}
               props={{
                 'userUsername': this.state.userUsername
               }}/>
+
               <ProtectedRoute path='/' component={Dashboard}
               props={{
                 'userUsername': this.state.userUsername,
