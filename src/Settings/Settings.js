@@ -20,7 +20,7 @@ export const Settings = props => (
 
       <Menu.Item icon={<CommentOutlined />}>
         <Link to='/settings/comments' />
-        Edit Custom Accounts
+        Comments Settings
       </Menu.Item>
 
     </Menu>
