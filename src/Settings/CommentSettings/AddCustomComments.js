@@ -1,5 +1,4 @@
 import React from 'react';
-import ResetPassword from './ResetPassword'
 import { Card, Form, Input, Button } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 
@@ -19,33 +18,16 @@ const formItemLayout = {
       sm: { span: 20, offset: 4 },
     },
   };
-  
-  const AccountComments = () => {
+
+  const AddCustomComments = () => {
     const onFinish = values => {
       console.log('Received values of form:', values);
     };
-  
+
     return (
-    <Card style={{
-        borderRadius: '1.5vh',
-        height: '100vh', margin: 15,
-        borderWidth: 2,
-        borderColor: 'rgb(38, 41, 56)',
-        backgroundColor: 'rgb(36, 36, 52)'}
-      }>
       <Form name="dynamic_form_item" {...formItemLayoutWithOutLabel} onFinish={onFinish}>
         <Form.List
-          name="names"
-          rules={[
-            {
-              validator: async (_, names) => {
-                if (!names || names.length < 2) {
-                  return Promise.reject(new Error('At least 2 passengers'));
-                }
-              },
-            },
-          ]}
-        >
+          name="names">
           {(fields, { add, remove }, { errors }) => (
             <>
               {fields.map((field, index) => (
@@ -56,7 +38,7 @@ const formItemLayout = {
                   key={field.key}
                 >
                   <Form.Item
-                    
+
                     {...field}
                     validateTrigger={['onChange', 'onBlur']}
                     rules={[
@@ -85,9 +67,9 @@ const formItemLayout = {
                   style={{ width: '60%' }}
                   icon={<PlusOutlined />}
                 >
-                  Add field
+                  Add Comment
                 </Button>
-                
+
                 <Form.ErrorList errors={errors} />
               </Form.Item>
             </>
@@ -99,8 +81,7 @@ const formItemLayout = {
           </Button>
         </Form.Item>
       </Form>
-      </Card>
     );
   };
 
-export default AccountComments;
+export default AddCustomComments;
