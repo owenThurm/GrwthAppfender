@@ -1,6 +1,7 @@
 import React from 'react';
-import { Card, Form, Input, Button } from 'antd';
+import {Form, Input, Button } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import axios from 'axios';
 
 const formItemLayout = {
     labelCol: {
@@ -19,9 +20,20 @@ const formItemLayout = {
     },
   };
 
-  const AddCustomComments = () => {
+  const AddCustomComments = props => {
     const onFinish = values => {
       console.log('Received values of form:', values);
+      let customCommentsText = values.names;
+      //axios post to add list of comment values
+      axios.post('https://owenthurm.com/api/user/customcomments', {
+        'user_username': props.userUsername,
+        'new_custom_comments': customCommentsText
+      }).then(response => {
+        console.log(response);
+        props.addToCommentList(customCommentsText)
+      }).catch(err => {
+        console.log(err);
+      });
     };
 
     return (
@@ -45,19 +57,20 @@ const formItemLayout = {
                       {
                         required: true,
                         whitespace: true,
-                        message: "Please input comment or delete this field.",
+                        message: "Please input comment (<100 characters)",
+                        max: 100
                       },
                     ]}
                     noStyle
                   >
                     <Input placeholder="Dope style! Dm us when you're free!" style={{ width: '60%', "borderRadius":"1.2vh" }} />
                   </Form.Item>
-                  {fields.length > 1 ? (
+                  {(
                     <MinusCircleOutlined style={{"margin": 10,color:"white"}}
                       className="dynamic-delete-button"
                       onClick={() => remove(field.name)}
                     />
-                  ) : null}
+                  )}
                 </Form.Item>
               ))}
               <Form.Item>
@@ -67,7 +80,7 @@ const formItemLayout = {
                   style={{ width: '60%' }}
                   icon={<PlusOutlined />}
                 >
-                  Add Comment
+                  Add Custom Comment
                 </Button>
 
                 <Form.ErrorList errors={errors} />
