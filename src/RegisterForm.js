@@ -32,6 +32,7 @@ function RegisterForm() {
         console.log(response);
         localStorage.setItem("loggedIn", response.data.message == "saved");
         localStorage.setItem("email",values.email);
+        localStorage.setItem("username", values.username)
         if(response.data.message == 'saved') {
           window.location.replace("/");
         }

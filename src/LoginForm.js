@@ -29,7 +29,7 @@ class LoginForm extends React.Component {
       "Access-Control-Allow-Methods": "DELETE, POST, GET, OPTIONS"
     }
     // axios post request with body as email and password
-    axios.post("https://owenthurm.com/api/authenticate", {
+    axios.post("https://owenthurm.com/api/user/authenticate", {
       "email": values.email,
       "password": values.password
     },
@@ -39,6 +39,7 @@ class LoginForm extends React.Component {
         console.log(response);
         localStorage.setItem("loggedIn", response.data.authenticated);
         localStorage.setItem("email",values.email);
+        localStorage.setItem("username", response.data.data)
         window.location.replace("/");
       })
       .catch(err => {

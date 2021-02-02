@@ -23,7 +23,7 @@ class AppLayout extends React.Component {
     this.state = {
       collapsed: false,
       brand: '',
-      userUsername: '',
+      userUsername: localStorage.getItem('username'),
       location: '',
       email: localStorage.getItem('email')
     }
@@ -36,7 +36,6 @@ class AppLayout extends React.Component {
         console.log('app layout response', response)
         this.setState({
           brand: response.data.brand_name,
-          userUsername: response.data.username,
           location: response.data.location
         });
       }).catch(err => {
