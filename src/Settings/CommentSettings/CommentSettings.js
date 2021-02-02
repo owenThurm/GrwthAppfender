@@ -32,6 +32,31 @@ class CommentSettings extends React.Component {
     });
   }
 
+  deleteCustomComment = (commentText) => {
+    //axios delete custom comments
+    console.log(this.props.props.userUsername)
+    console.log('Comment text>>' + commentText)
+    axios.delete('https://owenthurm.com/api/user/customcomments', {
+      data: {
+        "user_username": this.props.props.userUsername,
+        "custom_comment_text": commentText
+      }
+    }).then(response => {
+      let newCommentList = []
+      for(let i=0; i<this.state.userCustomComments.length; i++) {
+        if(this.state.userCustomComments[i] != commentText) {
+          newCommentList.push(this.state.userCustomComments[i])
+        }
+      }
+      this.setState({
+        userCustomComments: newCommentList
+      }, () => console.log(this.state))
+      console.log(response);
+    }).catch(err => {
+      console.log(err);
+    });
+  }
+
   addToCommentList = (newComments) => {
     console.log(newComments)
     let newCommentList = this.state.userCustomComments.concat(newComments)
@@ -52,7 +77,7 @@ class CommentSettings extends React.Component {
         backgroundColor: 'rgb(36, 36, 52)'}
       }>
         <AddCustomComments userUsername={this.props.props.userUsername} addToCommentList={this.addToCommentList}/>
-        <CustomCommentList userCustomComments={this.state.userCustomComments}/>
+        <CustomCommentList userCustomComments={this.state.userCustomComments} deleteCustomComment={this.deleteCustomComment}/>
       </Card>
     )
   }

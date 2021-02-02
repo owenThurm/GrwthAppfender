@@ -4,6 +4,7 @@ import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import axios from 'axios';
 
 const formItemLayout = {
+
     labelCol: {
       xs: { span: 24 },
       sm: { span: 4 },
@@ -22,6 +23,7 @@ const formItemLayoutWithOutLabel = {
 };
 
 const AddCustomComments = props => {
+  const [form] = Form.useForm();
 
   const onFinish = values => {
     console.log('Received values of form:', values);
@@ -32,14 +34,24 @@ const AddCustomComments = props => {
       'new_custom_comments': customCommentsText
     }).then(response => {
       console.log(response);
-      props.addToCommentList(customCommentsText)
+      if(response.data.message != "Comments are not unique") {
+        props.addToCommentList(customCommentsText)
+        form.resetFields();
+      } else {
+        form.setFields([
+          {
+            name: 'names',
+            errors: ['Custom comments must be unique!'],
+          },
+       ]);
+      }
     }).catch(err => {
       console.log(err);
     });
   };
 
   return (
-    <Form name="dynamic_form_item" {...formItemLayoutWithOutLabel} onFinish={onFinish}>
+    <Form form={form} name="dynamic_form_item" {...formItemLayoutWithOutLabel} onFinish={onFinish}>
       <Form.List
         name="names">
         {(fields, { add, remove }, { errors }) => (
