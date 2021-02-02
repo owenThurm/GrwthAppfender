@@ -1,21 +1,19 @@
-import React from 'react'
+import React from 'react';
+import { List } from 'antd';
 
-class CustomCommentList extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      userUsername: props.userUsername
-    }
-  }
+const CustomCommentList = props => {
 
 
-  render() {
-    return(
-      <div>
-        custom comments here
-      </div>
-    )
-  }
+
+  return(
+    <List
+      style={{color: 'white', borderRadius: '1.2vh'}}
+      dataSource={props.userCustomComments}
+      bordered
+      renderItem={item => <List.Item style={{color: 'white'}}>{item}</List.Item>}
+    />
+  )
+
 }
 
 export default CustomCommentList;

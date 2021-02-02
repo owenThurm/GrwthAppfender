@@ -2,6 +2,7 @@ import React from 'react';
 import AddCustomComments from './AddCustomComments';
 import CustomCommentList from './CustomCommentsList';
 import { Card } from 'antd';
+import axios from 'axios';
 
 class CommentSettings extends React.Component {
 
@@ -13,8 +14,29 @@ class CommentSettings extends React.Component {
     }
   }
 
+  componentDidMount() {
+    //axios get to get user's custom comments
+    console.log(this.props.props.userUsername)
+    axios.get(
+      'https://owenthurm.com/api/user/customcomments?user=' + this.props.props.userUsername
+      ).then(response => {
+        let customComments = []
+        for(let i=0; i<response.data.data.length; i++) {
+          customComments.push(response.data.data[i].comment_text)
+        }
+        this.setState({
+          userCustomComments: customComments
+        }, () => console.log('comment settings state: ', this.state));
+    }).catch(err => {
+      console.log(err);
+    });
+  }
+
   addToCommentList = (newComments) => {
-    let newCommentList = this.state.userCustomComments.push(newComments)
+    console.log(newComments)
+    let newCommentList = this.state.userCustomComments.concat(newComments)
+    console.log(newCommentList)
+    console.log(typeof(newCommentList))
     this.setState({
       userCustomComments: newCommentList
     }, () => console.log(this.state));
@@ -30,7 +52,7 @@ class CommentSettings extends React.Component {
         backgroundColor: 'rgb(36, 36, 52)'}
       }>
         <AddCustomComments userUsername={this.props.props.userUsername} addToCommentList={this.addToCommentList}/>
-        <CustomCommentList />
+        <CustomCommentList userCustomComments={this.state.userCustomComments}/>
       </Card>
     )
   }

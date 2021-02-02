@@ -56,6 +56,7 @@ class AppLayout extends React.Component {
   }
 
   render() {
+    console.log('username passed down >>', this.state.userUsername)
     return (
       <Layout>
         <div style={{
