@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Typography } from 'antd';
+import { Switch, Typography, Row } from 'antd';
 import axios from 'axios';
 
 const { Title } = Typography;
@@ -47,14 +47,17 @@ class CommentPoolSwitch extends React.Component {
   render() {
     return(
       <div>
-      <Switch
-      defaultChecked={false}
-      checked={this.state.usingCustomComments && this.props.customCommentCount >= 25}
-      checkedChildren={"Custom Comments"}
-      unCheckedChildren={"Default Comments"}
-      onChange={this.toggleSwitch}
-      disabled={this.props.customCommentCount < 25}/>
-      {this.customCommentThreshold()}
+        <Row>
+          <Title level={5} style={{color: 'white', marginRight: 5}}>Using: </Title>
+          <Switch
+          defaultChecked={false}
+          checked={this.state.usingCustomComments && this.props.customCommentCount >= 25}
+          checkedChildren={"Custom Comments"}
+          unCheckedChildren={"Default Comments"}
+          onChange={this.toggleSwitch}
+          disabled={this.props.customCommentCount < 25}/>
+        </Row>
+        {this.customCommentThreshold()}
       </div>
     )
   }

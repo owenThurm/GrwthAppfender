@@ -55,7 +55,7 @@ const AddCustomComments = props => {
     value = value.replaceAll(" ", "")
     let newComments = []
     form.getFieldsValue().names.forEach(element => {
-      newComments.push(element.replaceAll(" ", ""))
+      if(element) newComments.push(element.replaceAll(" ", ""))
     });
     let existingComments = []
     props.customCommentsTuples.forEach(tuple => {
