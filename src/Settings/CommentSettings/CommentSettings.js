@@ -1,6 +1,7 @@
 import React from 'react';
 import AddCustomComments from './AddCustomComments';
 import CustomCommentList from './CustomCommentsList';
+import CommentPoolSwitch from './CommentPoolSwitch';
 import { Card } from 'antd';
 import axios from 'axios';
 
@@ -22,7 +23,8 @@ class CommentSettings extends React.Component {
       ).then(response => {
         let customComments = []
         for(let i=0; i<response.data.data.length; i++) {
-          customComments.push(response.data.data[i].comment_text)
+          let customCommentTextNumberTuple = [i+1, response.data.data[i].comment_text]
+          customComments.push(customCommentTextNumberTuple)
         }
         this.setState({
           userCustomComments: customComments
@@ -32,9 +34,9 @@ class CommentSettings extends React.Component {
     });
   }
 
-  deleteCustomComment = (commentText) => {
+  deleteCustomComment = (commentTuple) => {
     //axios delete custom comments
-    console.log(this.props.props.userUsername)
+    let commentText = commentTuple[1]
     console.log('Comment text>>' + commentText)
     axios.delete('https://owenthurm.com/api/user/customcomments', {
       data: {
@@ -44,7 +46,7 @@ class CommentSettings extends React.Component {
     }).then(response => {
       let newCommentList = []
       for(let i=0; i<this.state.userCustomComments.length; i++) {
-        if(this.state.userCustomComments[i] != commentText) {
+        if(this.state.userCustomComments[i][1] != commentText) {
           newCommentList.push(this.state.userCustomComments[i])
         }
       }
@@ -58,10 +60,12 @@ class CommentSettings extends React.Component {
   }
 
   addToCommentList = (newComments) => {
-    console.log(newComments)
-    let newCommentList = this.state.userCustomComments.concat(newComments)
-    console.log(newCommentList)
-    console.log(typeof(newCommentList))
+    let newCommentsWithNumbers = []
+    for(let i=0; i<newComments.length; i++) {
+      let customCommentTextNumberTuple = [i+1+this.state.userCustomComments.length, newComments[i]]
+      newCommentsWithNumbers.push(customCommentTextNumberTuple)
+    }
+    let newCommentList = this.state.userCustomComments.concat(newCommentsWithNumbers)
     this.setState({
       userCustomComments: newCommentList
     }, () => console.log(this.state));
@@ -76,7 +80,8 @@ class CommentSettings extends React.Component {
         borderColor: 'rgb(38, 41, 56)',
         backgroundColor: 'rgb(36, 36, 52)'}
       }>
-        <AddCustomComments userUsername={this.props.props.userUsername} addToCommentList={this.addToCommentList}/>
+        <CommentPoolSwitch usingCustomComments={this.props.props.usingCustomComments} userUsername={this.props.props.userUsername} customCommentCount={this.state.userCustomComments.length}/>
+        <AddCustomComments customCommentsTuples={this.state.userCustomComments} userUsername={this.props.props.userUsername} addToCommentList={this.addToCommentList}/>
         <CustomCommentList userCustomComments={this.state.userCustomComments} deleteCustomComment={this.deleteCustomComment}/>
       </Card>
     )

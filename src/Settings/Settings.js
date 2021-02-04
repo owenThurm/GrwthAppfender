@@ -28,7 +28,7 @@ export const Settings = props => (
 
 
       <ProtectedRoute exact path='/settings/comments' component={CommentSettings}
-      props={{'userUsername': props.props.userUsername}}/>
+      props={{'userUsername': props.props.userUsername, 'usingCustomComments': props.props.usingCustomComments}}/>
 
       <ProtectedRoute path='/settings' component={AccountSettings}
       props={{'userUsername': props.props.userUsername}}/>

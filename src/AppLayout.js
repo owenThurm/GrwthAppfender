@@ -25,7 +25,8 @@ class AppLayout extends React.Component {
       brand: '',
       userUsername: localStorage.getItem('username'),
       location: '',
-      email: localStorage.getItem('email')
+      email: localStorage.getItem('email'),
+      usingCustomComments: false,
     }
   }
 
@@ -36,7 +37,8 @@ class AppLayout extends React.Component {
         console.log('app layout response', response)
         this.setState({
           brand: response.data.brand_name,
-          location: response.data.location
+          location: response.data.location,
+          usingCustomComments: response.data.using_custom_comments,
         });
       }).catch(err => {
         console.log(err);
@@ -116,7 +118,8 @@ class AppLayout extends React.Component {
 
               <ProtectedRoute path='/settings' component={Settings}
               props={{
-                'userUsername': this.state.userUsername
+                'userUsername': this.state.userUsername,
+                'usingCustomComments': this.state.usingCustomComments,
               }}/>
 
               <ProtectedRoute path='/' component={Dashboard}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {Form, Input, Button } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import axios from 'axios';
@@ -26,6 +26,7 @@ const AddCustomComments = props => {
   const [form] = Form.useForm();
 
   const onFinish = values => {
+    if(values.names == null) return
     console.log('Received values of form:', values);
     let customCommentsText = values.names;
     //axios post to add list of comment values
@@ -40,7 +41,7 @@ const AddCustomComments = props => {
       } else {
         form.setFields([
           {
-            name: 'names',
+            name: 'button',
             errors: ['Custom comments must be unique!'],
           },
        ]);
@@ -49,6 +50,29 @@ const AddCustomComments = props => {
       console.log(err);
     });
   };
+
+  const uniqueValidator = (rule, value) => {
+    value = value.replaceAll(" ", "")
+    let newComments = []
+    form.getFieldsValue().names.forEach(element => {
+      newComments.push(element.replaceAll(" ", ""))
+    });
+    let existingComments = []
+    props.customCommentsTuples.forEach(tuple => {
+      existingComments.push(tuple[1].replaceAll(" ", ""))
+    })
+    let valueOccurences = 0
+    for(let i=0; i<newComments.length; i++) {
+      if(value == newComments[i] && valueOccurences == 0) valueOccurences++;
+      else if(value == newComments[i]) return Promise.reject();
+    }
+    for(let i=0; i<existingComments.length; i++) {
+      if(value == existingComments[i]) {
+        return Promise.reject()
+      }
+    }
+    return Promise.resolve()
+  }
 
   return (
     <Form form={form} name="dynamic_form_item" {...formItemLayoutWithOutLabel} onFinish={onFinish}>
@@ -62,18 +86,21 @@ const AddCustomComments = props => {
                 label={index === 0 ? <label style={{ color: "white", fontSize: 18 }}>Comments:</label> : ''}
                 required={false}
                 key={field.key}
+
               >
                 <Form.Item
-
                   {...field}
-                  validateTrigger={['onChange', 'onBlur']}
                   rules={[
                     {
                       required: true,
                       whitespace: true,
                       message: "Please input comment (<100 characters)",
-                      max: 100
+                      max: 100,
                     },
+                    {
+                      validator: uniqueValidator,
+                      message: "Comments must be unique!"
+                    }
                   ]}
                   noStyle
                 >
