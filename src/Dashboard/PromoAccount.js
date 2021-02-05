@@ -3,6 +3,7 @@ import { Card, Input, Switch, Row, Button, Typography } from 'antd';
 import { CheckOutlined, CloseOutlined, EyeInvisibleOutlined, EyeOutlined,
   InstagramOutlined, AimOutlined, LockOutlined } from '@ant-design/icons';
 import axios from 'axios';
+import EditableTagGroup from './EditableTag';
 
 const { Title } = Typography;
 
@@ -13,14 +14,14 @@ class PromoAccount extends React.Component {
       userUsername: props.userUsername,
       promoUsername: props.promoUsername,
       promoPassword: '',
-      targetAccount: '',
+      targetAccounts: [],
       active: false,
       underReview: false,
       submitted: props.submitted,
       editing: false,
       editedPromoUsername: props.promoUsername,
       editedPromoPassword: '',
-      editedTargetAccount: ''
+      editedTargetAccounts: []
     }
   }
 
@@ -31,9 +32,9 @@ class PromoAccount extends React.Component {
           promoPassword: response.data.promo_password,
           active: response.data.activated,
           underReview: response.data.under_review,
-          targetAccount: response.data.target_account,
+          targetAccounts: response.data.target_account,
           editedPromoPassword: response.data.promo_password,
-          editedTargetAccount: response.data.target_account
+          editedTargetAccounts: response.data.target_account
         });
       }).catch(err => {
         console.log(err);
@@ -52,11 +53,11 @@ class PromoAccount extends React.Component {
       .then(response => {
         this.setState({
           promoPassword: response.data.promo_password,
-          targetAccount: response.data.target_account,
+          targetAccounts: response.data.target_account,
           active: response.data.activated,
           underReview: response.data.under_review,
           editedPromoPassword: response.data.promo_password,
-          editedTargetAccount: response.data.target_account
+          editedTargetAccounts: response.data.target_account
         });
       }).catch(err => {
         console.log(err);
@@ -69,12 +70,12 @@ class PromoAccount extends React.Component {
     console.log(this.state)
     if(this.state.promoUsername != '' && this.state.promoUsername != undefined
       && this.state.promoPassword != '' && this.state.promoPassword != undefined
-      && this.state.targetAccount != '' && this.state.targetAccount != undefined) {
+      && this.state.targetAccounts != '' && this.state.targetAccounts != undefined) {
 
       axios.post('https://owenthurm.com/api/promo', {
         "promo_username": this.state.promoUsername,
         "promo_password": this.state.promoPassword,
-        "target_account": this.state.targetAccount,
+        "target_account": this.state.targetAccounts,
         "user": this.state.userUsername
       }).then(response => {
         console.log(response);
@@ -84,7 +85,7 @@ class PromoAccount extends React.Component {
           active: false,
           editedPromoUsername: this.state.promoUsername,
           editedPromoPassword: this.state.promoPassword,
-          editedTargetAccount: this.state.targetAccount
+          editedTargetAccounts: this.state.targetAccounts
         });
       }).catch(err => {
         console.log(err);
@@ -96,7 +97,7 @@ class PromoAccount extends React.Component {
     console.log('called update')
     if(!(this.state.promoUsername == this.state.editedPromoUsername
         && this.state.promoPassword == this.state.editedPromoPassword
-        && this.state.targetAccount == this.state.editedTargetAccount)) {
+        && this.state.targetAccounts == this.state.editedTargetAccounts)) {
           console.log('was a difference')
         //axios put to update the account
         //set to underreview and deactivated
@@ -105,7 +106,7 @@ class PromoAccount extends React.Component {
           'old_promo_username': this.state.promoUsername,
           'new_promo_username': this.state.editedPromoUsername,
           'new_promo_password': this.state.editedPromoPassword,
-          'new_promo_target': this.state.editedTargetAccount
+          'new_promo_target': this.state.editedTargetAccounts
         }).then(response => {
           console.log(response);
           console.log('state', this.state)
@@ -116,7 +117,7 @@ class PromoAccount extends React.Component {
             editing: false,
             promoUsername: this.state.editedPromoUsername,
             promoPassword: this.state.editedPromoPassword,
-            targetAccount: this.state.editedTargetAccount
+            targetAccounts: this.state.editedTargetAccounts
           })
         }).catch(err => {
           console.log(err);
@@ -138,19 +139,25 @@ class PromoAccount extends React.Component {
       case "promoPassword":
         this.setState({ promoPassword: event.target.value })
         break;
-      case "targetAccount":
-        this.setState({ targetAccount: event.target.value })
-        break;
       case "editedPromoUsername":
         this.setState({ editedPromoUsername: event.target.value })
         break;
       case "editedPromoPassword":
         this.setState({ editedPromoPassword: event.target.value })
         break;
-      case "editedTargetAccount":
-        this.setState({ editedTargetAccount: event.target.value }, () => console.log(this.state))
-        break;
     }
+  }
+
+  setTargetAccounts = targetAccounts => {
+    this.setState({
+      targetAccounts: targetAccounts
+    }, () => console.log('UPDATED STATE>>>', this.state));
+  }
+
+  setEditedTargetAccounts = targetAccounts => {
+    this.setState({
+      editedTargetAccounts: targetAccounts
+    }, () => console.log("UPDATED STATE2>>>", this.state))
   }
 
   changeActivation = (event) => {
@@ -252,7 +259,23 @@ class PromoAccount extends React.Component {
     }
   }
 
-  targetAccountField = () => {
+  targetAccountsField = () => {
+
+    if(this.state.submitted) {
+      return (<EditableTagGroup
+        isEditing={this.state.editing}
+        targetAccountsTags={this.state.targetAccounts}
+        setTargetAccounts={this.setEditedTargetAccounts}
+        />)
+    } else {
+      return (<EditableTagGroup
+        isEditing={true}
+        targetAccountsTags={this.state.targetAccounts}
+        setTargetAccounts={this.setTargetAccounts}
+        />)
+    }
+
+      /*
     if(this.state.submitted && !this.state.editing) {
       return <Title level={5} style={{fontSize: 14, color: 'white'}}>{'Targeting: ' + this.state.targetAccount }</Title>
     } else if(this.state.submitted && this.state.editing) {
@@ -269,6 +292,7 @@ class PromoAccount extends React.Component {
           placeholder="Target IG Account"
           style={{ borderRadius: '1.2vh', color: 'white', backgroundColor: 'rgb(36, 36, 52)', width: 200 }} />
     }
+    */
   }
 
   editButton = () => {
@@ -314,7 +338,7 @@ class PromoAccount extends React.Component {
 
         <Row style={{ marginBottom: 20 }}>
           <div style={{margin: 'auto'}}>
-            {this.targetAccountField()}
+            {this.targetAccountsField()}
           </div>
         </Row>
 
