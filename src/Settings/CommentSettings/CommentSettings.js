@@ -45,11 +45,24 @@ class CommentSettings extends React.Component {
       }
     }).then(response => {
       let newCommentList = []
+      let counter = 1
       for(let i=0; i<this.state.userCustomComments.length; i++) {
         if(this.state.userCustomComments[i][1] != commentText) {
-          newCommentList.push(this.state.userCustomComments[i])
+          let modifiedCounterComment = this.state.userCustomComments[i]
+          modifiedCounterComment[0] = counter
+          counter++;
+
+          newCommentList.push(modifiedCounterComment)
         }
       }
+
+      // let counter = 1
+      // newCommentList.forEach(element => {
+      //   element[0] = counter
+      //   counter++;
+      // });
+
+
       this.setState({
         userCustomComments: newCommentList
       }, () => console.log(this.state))
