@@ -67,7 +67,6 @@ class PromoAccount extends React.Component {
 
   //When adding a promo account for the first time
   onSubmitReview() {
-    console.log(this.state)
     if(this.state.promoUsername != '' && this.state.promoUsername != undefined
       && this.state.promoPassword != '' && this.state.promoPassword != undefined
       && this.state.targetAccounts != '' && this.state.targetAccounts != undefined) {
@@ -75,7 +74,7 @@ class PromoAccount extends React.Component {
       axios.post('https://owenthurm.com/api/promo', {
         "promo_username": this.state.promoUsername,
         "promo_password": this.state.promoPassword,
-        "target_account": this.state.targetAccounts,
+        "target_accounts": this.state.targetAccounts,
         "user": this.state.userUsername
       }).then(response => {
         console.log(response);
@@ -97,7 +96,6 @@ class PromoAccount extends React.Component {
     if(!(this.state.promoUsername == this.state.editedPromoUsername
         && this.state.promoPassword == this.state.editedPromoPassword
         && this.state.targetAccounts == this.state.editedTargetAccounts)) {
-          console.log('was a difference')
         //axios put to update the account
         //set to underreview and deactivated
         //submitted = true -> should already be true
@@ -105,10 +103,9 @@ class PromoAccount extends React.Component {
           'old_promo_username': this.state.promoUsername,
           'new_promo_username': this.state.editedPromoUsername,
           'new_promo_password': this.state.editedPromoPassword,
-          'new_promo_target': this.state.editedTargetAccounts
+          'new_promo_targets': this.state.editedTargetAccounts
         }).then(response => {
-          console.log(response);
-          console.log('state', this.state)
+          console.log('updatePromo response', response);
           this.setState({
             underReview: true,
             activated: false,
@@ -150,13 +147,13 @@ class PromoAccount extends React.Component {
   setTargetAccounts = targetAccounts => {
     this.setState({
       targetAccounts: targetAccounts
-    }, () => console.log('UPDATED STATE>>>', this.state));
+    }, () => console.log('UPDATED STATE targetaccounts>>>', this.state));
   }
 
   setEditedTargetAccounts = targetAccounts => {
     this.setState({
       editedTargetAccounts: targetAccounts
-    }, () => console.log("UPDATED STATE2>>>", this.state))
+    }, () => console.log("UPDATED STATE Editedtargetaccounts>>>", this.state))
   }
 
   changeActivation = (event) => {

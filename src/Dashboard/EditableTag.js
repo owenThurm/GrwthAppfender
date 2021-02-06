@@ -16,10 +16,7 @@ class EditableTagGroup extends React.Component {
     };
   }
 
-  componentDidUpdate(prevProps) {
-    console.log('updating PROPs>>', this.props)
-    console.log('can add>>', !this.props.targetAccountsTags, this.props.targetAccountsTags == null ? '' : this.props.targetAccountsTags.length < 8)
-    if(prevProps != this.props) {
+  componentDidUpdate(prevProps) {if(prevProps != this.props) {
       this.setState({
         isEditing: this.props.isEditing,
         canAdd: !this.props.targetAccountsTags || this.props.targetAccountsTags.length < 8
@@ -64,7 +61,6 @@ class EditableTagGroup extends React.Component {
     this.setState(({ tags, editInputIndex, editInputValue }) => {
       const newTags = [...tags];
       newTags[editInputIndex] = editInputValue;
-      console.log(newTags)
       return {
         tags: newTags,
         editInputIndex: -1,
@@ -82,8 +78,6 @@ class EditableTagGroup extends React.Component {
   };
 
   render() {
-    console.log('STATE HERERRERE', this.state)
-    console.log('will appear>>>>', this.state.isEditing, this.state.canAdd)
     const { tags, inputVisible, inputValue, editInputIndex, editInputValue } = this.state;
     return (
       <>
