@@ -5,7 +5,7 @@ import { UserOutlined, LockOutlined, MailOutlined, EyeOutlined, EyeInvisibleOutl
 import axios from 'axios';
 
 class LoginForm extends React.Component {
-
+  formRef = React.createRef();
   constructor(props) {
     super(props);
     this.state = {
@@ -36,11 +36,24 @@ class LoginForm extends React.Component {
       { headers: headers }
     )
       .then(response => {
-        console.log(response);
-        localStorage.setItem("loggedIn", response.data.authenticated);
-        localStorage.setItem("email",values.email);
-        localStorage.setItem("username", response.data.data)
-        window.location.replace("/");
+        console.log(response)
+        if(response.data.authenticated) {
+          localStorage.setItem("loggedIn", response.data.authenticated);
+          localStorage.setItem("email",values.email);
+          localStorage.setItem("username", response.data.data)
+          window.location.replace("/");
+        } else {
+          this.formRef.current.setFields([
+            {
+              name: 'email',
+              errors: ['Invalid email or password!']
+            },
+            {
+              name: 'password',
+              errors: ['Invalid email or password!']
+            }
+          ])
+        }
       })
       .catch(err => {
         console.log(err);
@@ -50,7 +63,9 @@ class LoginForm extends React.Component {
   render() {
     return (
       <div style={{margin: 80}}>
-        <Form autoComplete='off'
+        <Form
+          ref={this.formRef}
+          autoComplete='off'
           name="normal_login"
           className="login-form"
           initialValues={{
