@@ -47,6 +47,14 @@ code {
   color: white;
 }
 
+.ant-tag-close-icon {
+  color: white;
+}
+
+.ant-tag-close-icon :hover {
+  color: #1890ff
+}
+
 .ant-modal-header {
   background-color: rgb(36, 36, 52);
   color: white;

@@ -94,7 +94,6 @@ class PromoAccount extends React.Component {
   }
 
   updatePromo = () => {
-    console.log('called update')
     if(!(this.state.promoUsername == this.state.editedPromoUsername
         && this.state.promoPassword == this.state.editedPromoPassword
         && this.state.targetAccounts == this.state.editedTargetAccounts)) {
@@ -203,7 +202,7 @@ class PromoAccount extends React.Component {
 
   activateSwitch = () => {
     if(this.state.submitted && !this.state.underReview && !this.state.editing) {
-      return <Switch style={{ width: 270 }}
+      return <Switch style={{ width: 200, margin: 'auto' }}
       checked={this.state.active}
       onChange={(event) => this.changeActivation(event)}
       checkedChildren={
@@ -264,7 +263,7 @@ class PromoAccount extends React.Component {
     if(this.state.submitted) {
       return (<EditableTagGroup
         isEditing={this.state.editing}
-        targetAccountsTags={this.state.targetAccounts}
+        targetAccountsTags={this.state.editedTargetAccounts}
         setTargetAccounts={this.setEditedTargetAccounts}
         />)
     } else {
@@ -274,46 +273,32 @@ class PromoAccount extends React.Component {
         setTargetAccounts={this.setTargetAccounts}
         />)
     }
-
-      /*
-    if(this.state.submitted && !this.state.editing) {
-      return <Title level={5} style={{fontSize: 14, color: 'white'}}>{'Targeting: ' + this.state.targetAccount }</Title>
-    } else if(this.state.submitted && this.state.editing) {
-      return <Input onChange={event => this.onChangeHandler(event, "editedTargetAccount")}
-          prefix={<AimOutlined className='site-form-item-icon'/>}
-          defaultValue={this.state.targetAccount}
-          value={this.state.editedTargetAccount}
-          placeholder="Target IG Account"
-          style={{ borderRadius: '1.2vh', color: 'white', backgroundColor: 'rgb(36, 36, 52)', width: 200 }} />
-    } else {
-      return <Input onChange={event => this.onChangeHandler(event, "targetAccount")}
-          prefix={<AimOutlined className='site-form-item-icon'/>}
-          defaultValue={this.state.targetAccount}
-          placeholder="Target IG Account"
-          style={{ borderRadius: '1.2vh', color: 'white', backgroundColor: 'rgb(36, 36, 52)', width: 200 }} />
-    }
-    */
   }
 
   editButton = () => {
     if(this.state.submitted && !this.state.editing) {
-      return <Button
-              style={{margin: 'auto', width: 80}}
-              onClick={this.toggleEdit}>
-              Edit
-             </Button>
-    } else if(this.state.submitted && this.state.editing) {
-      return <Row style={{margin: 'auto'}}>
+      return (
+        <Row style={{position: 'absolute', bottom: 55, margin: 'auto', left: 0, right: 0}}>
           <Button
-              style={{marginRight: 5, width: 80}}
+            style={{margin: 'auto', width: 80}}
+            onClick={this.toggleEdit}>
+            Edit
+          </Button>
+        </Row>)
+    } else if(this.state.submitted && this.state.editing) {
+      return <Row style={{position: 'absolute', margin: 'auto', left: 0, right: 0, bottom: 20 }}>
+          <div style={{margin: 'auto'}}>
+            <Button
+              style={{ width: 80, marginRight: 5 }}
               onClick={this.toggleEdit}>
               Cancel
-             </Button>
-          <Button
-            style={{marginLeft: 5, width: 80}}
-            onClick={this.updatePromo}>
-            Submit
-          </Button>
+            </Button>
+            <Button
+              style={{ width: 80, marginRight: 5 }}
+              onClick={this.updatePromo}>
+              Submit
+            </Button>
+          </div>
         </Row>
     }
   }
@@ -321,38 +306,41 @@ class PromoAccount extends React.Component {
   render() {
     return(
       <Card style={{
-        height: 320, width: 250, backgroundColor: 'rgb(36, 36, 52)',
+        height: 350, width: 280, backgroundColor: 'rgb(36, 36, 52)',
         borderColor: 'rgb(190, 190, 194)', borderRadius: '1.5vh', borderWidth: 2
       }}
         title='Promo Account #1'
         headStyle={{ color: 'white', textAlign: 'center', borderWidth: 2, borderBottomColor: 'rgb(190, 190, 194)' }}>
 
         <Row style={{ marginBottom: 5 }}>
-          <div style={{margin: 'auto'}}>
+          <div style={{ margin: 'auto' }}>
             {this.usernameField()}
           </div>
         </Row >
         <Row style={{ marginBottom: 5 }}>
-              {this.passwordField()}
+          <div style={{ margin: 'auto' }}>
+            {this.passwordField()}
+          </div>
         </Row>
 
-        <Row style={{ marginBottom: 20 }}>
-          <div style={{margin: 'auto'}}>
+        <Row style={{  }}>
+          <div style={{margin: 'auto', textAlign: 'center'}}>
+            <Title style={{color: 'white', fontSize: 12, textDecoration: 'underline'}} level={5}><AimOutlined /> Target IG Accounts</Title>
             {this.targetAccountsField()}
           </div>
         </Row>
 
-        <Row style={{ marginBottom: 40 }}>
+        {this.editButton()}
+
+        <Row style={{bottom: 15, position: 'absolute', margin: 'auto', left: 0, right: 0}}>
+          {this.submitForReviewButton()}
+        </Row>
+
+        <Row style={{ position: 'absolute', bottom: 20, margin: 'auto', left: 0, right: 0 }}>
           {this.activateSwitch()}
         </Row>
 
-        <Row style={{marginBottom: 15}}>
-          {this.editButton()}
-        </Row>
 
-        <Row>
-          {this.submitForReviewButton()}
-        </Row>
       </Card>
     )
   }

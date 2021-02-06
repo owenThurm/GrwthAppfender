@@ -6,19 +6,23 @@ class EditableTagGroup extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      tags: props.targetAccountTags || [],
-      inputVisible: true,
+      tags: props.targetAccountsTags || [],
+      inputVisible: false,
       inputValue: '',
       editInputIndex: -1,
       editInputValue: '',
       isEditing: this.props.isEditing,
+      canAdd: !props.targetAccountsTags || props.targetAccountsTags.length <= 8
     };
   }
 
   componentDidUpdate(prevProps) {
+    console.log('updating PROPs>>', this.props)
+    console.log('can add>>', !this.props.targetAccountsTags, this.props.targetAccountsTags == null ? '' : this.props.targetAccountsTags.length < 8)
     if(prevProps != this.props) {
       this.setState({
-        isEditing: this.props.isEditing
+        isEditing: this.props.isEditing,
+        canAdd: !this.props.targetAccountsTags || this.props.targetAccountsTags.length < 8
       })
     }
   }
@@ -26,7 +30,7 @@ class EditableTagGroup extends React.Component {
   handleClose = removedTag => {
     const tags = this.state.tags.filter(tag => tag !== removedTag);
     this.props.setTargetAccounts(tags)
-    this.setState({ tags });
+    this.setState({ tags, canAdd: tags.length < 8 });
   };
 
   showInput = () => {
@@ -48,7 +52,8 @@ class EditableTagGroup extends React.Component {
       tags,
       inputVisible: false,
       inputValue: '',
-    });
+      canAdd: tags.length < 8
+    }, () => console.log(this.state));
   };
 
   handleEditInputChange = e => {
@@ -77,32 +82,23 @@ class EditableTagGroup extends React.Component {
   };
 
   render() {
-    console.log('props', this.props)
-    console.log('state', this.state)
+    console.log('STATE HERERRERE', this.state)
+    console.log('will appear>>>>', this.state.isEditing, this.state.canAdd)
     const { tags, inputVisible, inputValue, editInputIndex, editInputValue } = this.state;
     return (
       <>
         {tags.map((tag, index) => {
-          if (editInputIndex === index) {
-            return (
-              <Input
-                ref={this.saveEditInputRef}
-                key={tag}
-                size="small"
-                className="tag-input"
-                value={editInputValue}
-                onChange={this.handleEditInputChange}
-                onBlur={this.handleEditInputConfirm}
-                onPressEnter={this.handleEditInputConfirm}
-              />
-            );
-          }
 
           const isLongTag = tag.length > 10;
 
           const tagElem = (
             <Tag
-              style={{}}
+              style={{
+                background: 'rgb(36, 36, 52)',
+                borderColor: 'white',
+                color: 'white',
+                borderRadius: '1.1vh'
+              }}
               className="edit-tag"
               key={tag}
               closable={this.state.isEditing}
@@ -134,8 +130,15 @@ class EditableTagGroup extends React.Component {
           />
         )}
         {!inputVisible && (
-          <Tag visible={this.state.isEditing} className="site-tag-plus" onClick={this.showInput}>
-            <PlusOutlined /> New Tag
+          <Tag
+          style={{
+            background: 'rgb(36, 36, 52)',
+            borderColor: 'white',
+            color: 'white',
+            borderRadius: '1.1vh'
+          }}
+          visible={this.state.canAdd && this.state.isEditing} className="site-tag-plus" onClick={this.showInput}>
+            <PlusOutlined /> New Target
           </Tag>
         )}
       </>
