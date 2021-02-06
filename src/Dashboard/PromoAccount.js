@@ -200,7 +200,7 @@ class PromoAccount extends React.Component {
     if(this.state.submitted && !this.state.underReview && !this.state.editing) {
       return <Switch
       style={{ width: 200, margin: 'auto' }}
-      disabled={this.state.targetAccounts == null}
+      disabled={this.state.targetAccounts == null || this.state.targetAccounts.length == 0}
       checked={this.state.active}
       onChange={(event) => this.changeActivation(event)}
       checkedChildren={
