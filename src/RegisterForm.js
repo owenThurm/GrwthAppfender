@@ -5,6 +5,7 @@ import { UserOutlined, LockOutlined, MailOutlined, SkinOutlined,
 import axios from 'axios';
 
 function RegisterForm() {
+  const [form] = Form.useForm();
 
   const onFinish = (values) => {
     console.log('Received values of form: ', values);
@@ -30,11 +31,22 @@ function RegisterForm() {
     )
       .then(response => {
         console.log(response);
-        localStorage.setItem("loggedIn", response.data.message == "saved");
-        localStorage.setItem("email",values.email);
-        localStorage.setItem("username", values.username)
         if(response.data.message == 'saved') {
+          localStorage.setItem("loggedIn", response.data.message == "saved");
+          localStorage.setItem("email",values.email);
+          localStorage.setItem("username", values.username)
           window.location.replace("/");
+        } else {
+          form.setFields([
+            {
+              name: 'email',
+              errors: ['Must use valid and unique email!']
+            },
+            {
+              name: 'username',
+              errors: ['Must use valid and unique username!']
+            }
+          ])
         }
       })
       .catch(err => {
@@ -45,6 +57,7 @@ function RegisterForm() {
   return (
     <div style={{margin: 80}}>
       <Form
+        form={form}
         autoComplete='off'
         name="normal_login"
         className="login-form"
