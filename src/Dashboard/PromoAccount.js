@@ -32,9 +32,9 @@ class PromoAccount extends React.Component {
           promoPassword: response.data.promo_password,
           active: response.data.activated,
           underReview: response.data.under_review,
-          targetAccounts: response.data.target_account,
+          targetAccounts: response.data.target_accounts,
           editedPromoPassword: response.data.promo_password,
-          editedTargetAccounts: response.data.target_account
+          editedTargetAccounts: response.data.target_accounts
         });
       }).catch(err => {
         console.log(err);
@@ -53,11 +53,11 @@ class PromoAccount extends React.Component {
       .then(response => {
         this.setState({
           promoPassword: response.data.promo_password,
-          targetAccounts: response.data.target_account,
+          targetAccounts: response.data.target_accounts,
           active: response.data.activated,
           underReview: response.data.under_review,
           editedPromoPassword: response.data.promo_password,
-          editedTargetAccounts: response.data.target_account
+          editedTargetAccounts: response.data.target_accounts
         });
       }).catch(err => {
         console.log(err);
@@ -69,7 +69,7 @@ class PromoAccount extends React.Component {
   onSubmitReview() {
     if(this.state.promoUsername != '' && this.state.promoUsername != undefined
       && this.state.promoPassword != '' && this.state.promoPassword != undefined
-      && this.state.targetAccounts != '' && this.state.targetAccounts != undefined) {
+      && this.state.targetAccounts != [] && this.state.targetAccounts != undefined) {
 
       axios.post('https://owenthurm.com/api/promo', {
         "promo_username": this.state.promoUsername,
@@ -77,7 +77,6 @@ class PromoAccount extends React.Component {
         "target_accounts": this.state.targetAccounts,
         "user": this.state.userUsername
       }).then(response => {
-        console.log(response);
         this.setState({
           submitted: true,
           underReview: true,
@@ -95,7 +94,10 @@ class PromoAccount extends React.Component {
   updatePromo = () => {
     if(!(this.state.promoUsername == this.state.editedPromoUsername
         && this.state.promoPassword == this.state.editedPromoPassword
-        && this.state.targetAccounts == this.state.editedTargetAccounts)) {
+        && this.state.targetAccounts == this.state.editedTargetAccounts)
+        && (this.state.editedPromoUsername != '' && this.state.editedPromoUsername != undefined
+        && this.state.editedPromoPassword != '' && this.state.editedPromoPassword != undefined
+        && this.state.editedTargetAccounts != undefined && this.state.editedTargetAccounts.length > 0)) {
         //axios put to update the account
         //set to underreview and deactivated
         //submitted = true -> should already be true
@@ -105,7 +107,6 @@ class PromoAccount extends React.Component {
           'new_promo_password': this.state.editedPromoPassword,
           'new_promo_targets': this.state.editedTargetAccounts
         }).then(response => {
-          console.log('updatePromo response', response);
           this.setState({
             underReview: true,
             activated: false,
@@ -124,7 +125,7 @@ class PromoAccount extends React.Component {
   toggleEdit = () => {
     this.setState({
       editing: !this.state.editing
-    }, () => console.log(this.state));
+    });
   }
 
   onChangeHandler(event, type) {
@@ -147,13 +148,13 @@ class PromoAccount extends React.Component {
   setTargetAccounts = targetAccounts => {
     this.setState({
       targetAccounts: targetAccounts
-    }, () => console.log('UPDATED STATE targetaccounts>>>', this.state));
+    });
   }
 
   setEditedTargetAccounts = targetAccounts => {
     this.setState({
       editedTargetAccounts: targetAccounts
-    }, () => console.log("UPDATED STATE Editedtargetaccounts>>>", this.state))
+    });
   }
 
   changeActivation = (event) => {
@@ -161,7 +162,6 @@ class PromoAccount extends React.Component {
       axios.post('https://owenthurm.com/api/activate', {
         "promo_username": this.state.promoUsername
       }).then(response => {
-        console.log(response);
         this.setState({
           active: event
         });
@@ -172,7 +172,6 @@ class PromoAccount extends React.Component {
       axios.post('https://owenthurm.com/api/deactivate', {
         "promo_username": this.state.promoUsername
       }).then(response => {
-        console.log(response);
         this.setState({
           active: event
         });
@@ -199,7 +198,9 @@ class PromoAccount extends React.Component {
 
   activateSwitch = () => {
     if(this.state.submitted && !this.state.underReview && !this.state.editing) {
-      return <Switch style={{ width: 200, margin: 'auto' }}
+      return <Switch
+      style={{ width: 200, margin: 'auto' }}
+      disabled={this.state.targetAccounts == null}
       checked={this.state.active}
       onChange={(event) => this.changeActivation(event)}
       checkedChildren={
@@ -257,10 +258,16 @@ class PromoAccount extends React.Component {
 
   targetAccountsField = () => {
 
-    if(this.state.submitted) {
+    if(this.state.submitted && this.state.editing) {
       return (<EditableTagGroup
         isEditing={this.state.editing}
         targetAccountsTags={this.state.editedTargetAccounts}
+        setTargetAccounts={this.setEditedTargetAccounts}
+        />)
+    } else if(this.state.submitted && !this.state.editing) {
+      return (<EditableTagGroup
+        isEditing={this.state.editing}
+        targetAccountsTags={this.state.targetAccounts}
         setTargetAccounts={this.setEditedTargetAccounts}
         />)
     } else {
@@ -336,8 +343,6 @@ class PromoAccount extends React.Component {
         <Row style={{ position: 'absolute', bottom: 20, margin: 'auto', left: 0, right: 0 }}>
           {this.activateSwitch()}
         </Row>
-
-
       </Card>
     )
   }

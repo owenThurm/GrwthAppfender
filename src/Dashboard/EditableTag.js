@@ -19,7 +19,8 @@ class EditableTagGroup extends React.Component {
   componentDidUpdate(prevProps) {if(prevProps != this.props) {
       this.setState({
         isEditing: this.props.isEditing,
-        canAdd: !this.props.targetAccountsTags || this.props.targetAccountsTags.length < 8
+        canAdd: !this.props.targetAccountsTags || this.props.targetAccountsTags.length < 8,
+        tags: this.props.targetAccountsTags || []
       })
     }
   }
@@ -50,7 +51,7 @@ class EditableTagGroup extends React.Component {
       inputVisible: false,
       inputValue: '',
       canAdd: tags.length < 8
-    }, () => console.log(this.state));
+    });
   };
 
   handleEditInputChange = e => {
