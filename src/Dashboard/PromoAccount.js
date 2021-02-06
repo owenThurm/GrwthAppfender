@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Input, Switch, Row, Button, Typography } from 'antd';
+import { Card, Input, Switch, Row, Button, Typography, message } from 'antd';
 import { CheckOutlined, CloseOutlined, EyeInvisibleOutlined, EyeOutlined,
   InstagramOutlined, AimOutlined, LockOutlined } from '@ant-design/icons';
 import axios from 'axios';
@@ -8,6 +8,7 @@ import EditableTagGroup from './EditableTag';
 const { Title } = Typography;
 
 class PromoAccount extends React.Component {
+
   constructor(props) {
     super(props)
     this.state = {
@@ -88,6 +89,8 @@ class PromoAccount extends React.Component {
       }).catch(err => {
         console.log(err);
       });
+    } else {
+      this.warningMessage('Fill in all fields and include target brands!')
     }
   }
 
@@ -119,7 +122,13 @@ class PromoAccount extends React.Component {
         }).catch(err => {
           console.log(err);
         });
+      } else {
+        this.warningMessage('Make changes to submit for review!')
       }
+  }
+
+  warningMessage = warning => {
+    message.warning(warning);
   }
 
   toggleEdit = () => {
