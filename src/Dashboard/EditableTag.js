@@ -92,14 +92,15 @@ class EditableTagGroup extends React.Component {
                 background: 'rgb(36, 36, 52)',
                 borderColor: 'white',
                 color: 'white',
-                borderRadius: '1.1vh'
+                borderRadius: '1.1vh',
+                marginBottom: 5,
               }}
               className="edit-tag"
               key={tag}
               closable={this.state.isEditing}
               onClose={() => this.handleClose(tag)}
             >
-              <span style={{fontSize: 10}}>
+              <span style={{fontSize: 14}}>
                 {isLongTag ? `${tag.slice(0, 10)}...` : tag}
               </span>
             </Tag>
