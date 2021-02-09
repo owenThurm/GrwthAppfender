@@ -1,8 +1,10 @@
 import React from 'react';
 
-import { Form, Input, Button, Checkbox } from 'antd';
+import { Form, Input, Button, Checkbox, Row, Col } from 'antd';
 import { UserOutlined, LockOutlined, MailOutlined, EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
 import axios from 'axios';
+import './Forms.css';
+import Logo from './images/whitelabel.png';
 
 class LoginForm extends React.Component {
   formRef = React.createRef();
@@ -37,9 +39,9 @@ class LoginForm extends React.Component {
     )
       .then(response => {
         console.log(response)
-        if(response.data.authenticated) {
+        if (response.data.authenticated) {
           localStorage.setItem("loggedIn", response.data.authenticated);
-          localStorage.setItem("email",values.email);
+          localStorage.setItem("email", values.email);
           localStorage.setItem("username", response.data.data)
           window.location.replace("/");
         } else {
@@ -62,67 +64,79 @@ class LoginForm extends React.Component {
 
   render() {
     return (
-      <div style={{margin: 80}}>
-        <Form
-          ref={this.formRef}
-          autoComplete='off'
-          name="normal_login"
-          className="login-form"
-          initialValues={{
-            remember: true,
-          }}
-          onFinish={this.onFinish}
-          style={{backgroundColor: 'rgb(36, 36, 52)'}}
-        >
-          <Form.Item
-            name="email"
-            rules={[
-              {
-                required: true,
-                message: 'Please input your Email!',
-              },
-            ]}
-          >
-            <Input
-            prefix={<MailOutlined className="site-form-item-icon" />}
-            placeholder="Email"
-            style={{ borderRadius: '1.2vh', color: 'white', backgroundColor: 'rgb(36, 36, 52)' }}/>
-          </Form.Item>
-          <Form.Item
-            name="password"
-            rules={[
-              {
-                required: true,
-                message: 'Please input your Password!',
-              },
-            ]}
-          >
-            <Input.Password
-              prefix={<LockOutlined className="site-form-item-icon" />}
-              iconRender={visible => (visible ? <EyeOutlined style={{color: 'white'}}/> : <EyeInvisibleOutlined style={{color:'white'}}/>)}
-              type="password"
-              placeholder="Password"
-              style={{ borderRadius: '1.2vh', color: 'white', backgroundColor: 'rgb(36, 36, 52)' }}
-            />
-          </Form.Item>
-          <Form.Item>
-            <Form.Item name="remember" valuePropName="checked" noStyle>
-              <Checkbox>Remember me</Checkbox>
-            </Form.Item>
+      <Row type="flex" justify="center" align="middle" style={{ minHeight: '100vh' }}>
+        <Col span={12} align="center" >
+          <img src={Logo} className="form-logo" alt="GA_Logo" style={{"width":"100%" }} />
+        </Col>
 
-            <a className="login-form-forgot" href="">
-              Forgot password
+        <Col>
+          <div className="form" style={{ marginLeft: 80,marginRight: 80 }}>
+            <h2 className="form-header">Sign In</h2>
+            <Form
+              ref={this.formRef}
+              autoComplete='off'
+              name="normal_login"
+              className="login-form"
+              initialValues={{
+                remember: true,
+              }}
+              onFinish={this.onFinish}
+              style={{ backgroundColor: 'rgb(36, 36, 52)' }}
+            >
+              <Form.Item
+                name="email"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please input your Email!',
+                  },
+                ]}
+              >
+                <Input
+                  prefix={<MailOutlined className="site-form-item-icon" />}
+                  placeholder="Email"
+                  className="form-field"
+                  style={{}} />
+              </Form.Item>
+              <Form.Item
+                name="password"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please input your Password!',
+                  },
+                ]}
+              >
+                <Input.Password
+                  prefix={<LockOutlined className="site-form-item-icon" />}
+                  iconRender={visible => (visible ? <EyeOutlined style={{ color: 'white' }} /> : <EyeInvisibleOutlined style={{ color: 'white' }} />)}
+                  type="password"
+                  placeholder="Password"
+                  className="form-field"
+                />
+              </Form.Item>
+              <Form.Item>
+                <Form.Item name="remember" valuePropName="checked" noStyle>
+                  <Checkbox style={{ "color": "white" }}>Remember me</Checkbox>
+                </Form.Item>
+                <a className="login-form-forgot" href="" style={{ "float": "right", "textDecorationLine": "underline" }}>
+                  Forgot password?
           </a>
-          </Form.Item>
+              </Form.Item>
 
-          <Form.Item>
-            <Button type="primary" htmlType="submit" className="login-form-button">
-              Log in
+              <Form.Item>
+                <Button type="primary" htmlType="submit" className="login-form-button">
+                  Log in
           </Button>
-          Or <a href="/register">Register now!</a>
-          </Form.Item>
-        </Form>
-      </div>
+                <a href="/register" style={{ "float": "right", "textDecorationLine": "underline" }}>
+                  Create an account
+            </a>
+              </Form.Item>
+            </Form>
+          </div>
+        </Col>
+      </Row>
+
     );
   };
 }
