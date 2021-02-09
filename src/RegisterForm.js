@@ -1,8 +1,10 @@
 import React from 'react';
-import { Form, Input, Button, Checkbox } from 'antd';
+import { Form, Input, Button, Checkbox,Row, Col } from 'antd';
 import { UserOutlined, LockOutlined, MailOutlined, SkinOutlined,
   EnvironmentOutlined, EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
 import axios from 'axios';
+import './Forms.css';
+import Logo from './images/whitelabel.png';
 
 function RegisterForm() {
   const [form] = Form.useForm();
@@ -55,7 +57,14 @@ function RegisterForm() {
   };
 
   return (
-    <div style={{margin: 80}}>
+  <Row type="flex" justify="center" align="middle">
+    <Col span={10} align="center" >
+          <img src={Logo} className="form-logo" alt="GA_Logo" style={{"width":"100%" }} />
+    </Col>
+
+    <Col>
+    <div className="form" style={{margin: 80}}>
+      <h2 className="form-header">Register</h2>
       <Form
         form={form}
         autoComplete='off'
@@ -77,7 +86,7 @@ function RegisterForm() {
         >
           <Input prefix={<MailOutlined className="site-form-item-icon" />}
           placeholder="Enter Your Email"
-          style={{ borderRadius: '1.2vh', color: 'white', backgroundColor: 'rgb(36, 36, 52)' }}
+          className="form-field"
           />
         </Form.Item>
         <Form.Item
@@ -92,7 +101,7 @@ function RegisterForm() {
           <Input
             prefix={<UserOutlined className="site-form-item-icon" />}
             placeholder="Enter Your Username"
-            style={{ borderRadius: '1.2vh', color: 'white', backgroundColor: 'rgb(36, 36, 52)' }}
+            className="form-field"
           />
         </Form.Item>
         <Form.Item
@@ -108,7 +117,7 @@ function RegisterForm() {
             prefix={<LockOutlined className="site-form-item-icon" />}
             iconRender={visible => (visible ? <EyeOutlined style={{color: 'white'}}/> : <EyeInvisibleOutlined style={{color:'white'}}/>)}
             placeholder="Enter Your Password"
-            style={{ borderRadius: '1.2vh', color: 'white', backgroundColor: 'rgb(36, 36, 52)' }}
+            className="form-field"
           />
         </Form.Item>
         <Form.Item
@@ -123,7 +132,7 @@ function RegisterForm() {
           <Input
             prefix={<SkinOutlined className="site-form-item-icon" />}
             placeholder="Enter Your brand name"
-            style={{ borderRadius: '1.2vh', color: 'white', backgroundColor: 'rgb(36, 36, 52)' }}
+            className="form-field"
           />
         </Form.Item>
         <Form.Item
@@ -138,15 +147,15 @@ function RegisterForm() {
           <Input
             prefix={<EnvironmentOutlined className="site-form-item-icon" />}
             placeholder="Enter Your state and country"
-            style={{ borderRadius: '1.2vh', color: 'white', backgroundColor: 'rgb(36, 36, 52)' }}
+            className="form-field"
           />
         </Form.Item>
         <Form.Item>
           <Form.Item name="remember" valuePropName="checked" noStyle>
-            <Checkbox>Remember me</Checkbox>
+            <Checkbox style={{ "color": "white" }}>Remember me</Checkbox>
           </Form.Item>
 
-          <a className="login-form-forgot" href="">
+          <a className="login-form-forgot" href="" style={{"float":"right"}}>
             Forgot password
           </a>
         </Form.Item>
@@ -158,6 +167,8 @@ function RegisterForm() {
         </Form.Item>
       </Form>
     </div>
+    </Col>
+    </Row>
   );
 };
 
