@@ -47,6 +47,11 @@ code {
   color: white;
 }
 
+.ant-spin-dot-item {
+  background-color: white;
+}
+
+
 .ant-tag-close-icon {
   color: white;
 }

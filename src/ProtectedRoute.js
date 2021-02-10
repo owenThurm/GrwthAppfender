@@ -37,30 +37,16 @@ class ProtectedRoute extends React.Component {
     });
   }
 
-  privateRoute = () => {
-    /*if(this.state.isAuthenticated) {
-      const Component = this.props.Component;
-      return (<Component props={this.props.props}/>)
-    } else if(this.state.loading) {
-      return <div>hi</div>
-    } else {
-      return (<Redirect to="/login" />)
-      const Component = this.props.Component;
-    return <Component props={this.props.props}/>
-    console.log(this.props)
-    return (
-    <div>
-      {this.privateRoute()}
-    </div>
-    )
-    }*/
-  }
-
   render() {
     const Component = this.props.component;
     return (
       this.state.isAuthenticated ?
-        (<Component props={this.props.props}/>) : this.state.loading ? <Spin /> : <Redirect to="/login" />
+        (<Component props={this.props.props}/>) :
+        this.state.loading ?
+        <div style={{position: 'absolute', top: '50vh', left: 0, right: 0}}>
+        <Spin style={{position: 'absolute', margin: 'auto', left: 0, right: 0, top: 0, bottom: 0}}
+        size='large'/>
+      </div> : <Redirect to="/login" />
     )
   }
 }
