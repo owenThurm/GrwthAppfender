@@ -34,9 +34,7 @@ function RegisterForm() {
       .then(response => {
         console.log(response);
         if(response.data.message == 'saved') {
-          localStorage.setItem("loggedIn", response.data.message == "saved");
-          localStorage.setItem("email",values.email);
-          localStorage.setItem("username", values.username)
+          localStorage.setItem("token", response.data.token)
           window.location.replace("/");
         } else {
           form.setFields([

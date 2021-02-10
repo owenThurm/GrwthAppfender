@@ -40,9 +40,7 @@ class LoginForm extends React.Component {
       .then(response => {
         console.log(response)
         if (response.data.authenticated) {
-          localStorage.setItem("loggedIn", response.data.authenticated);
-          localStorage.setItem("email", values.email);
-          localStorage.setItem("username", response.data.data)
+          localStorage.setItem("token", response.data.token)
           window.location.replace("/");
         } else {
           this.formRef.current.setFields([
