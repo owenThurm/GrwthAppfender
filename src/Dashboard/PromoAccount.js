@@ -210,7 +210,7 @@ class PromoAccount extends React.Component {
   activateSwitch = () => {
     if (this.state.submitted && !this.state.underReview && !this.state.editing) {
       return <Switch
-        style={{ width: 200, margin: 'auto' }}
+        style={{ width: 200, margin: 'auto', marginTop: 20 }}
         disabled={this.state.targetAccounts == null || this.state.targetAccounts.length == 0}
         checked={this.state.active}
         onChange={(event) => this.changeActivation(event)}
@@ -356,7 +356,7 @@ class PromoAccount extends React.Component {
               {this.submitForReviewButton()}
             </Row>
 
-            <Row style={{ position: 'absolute', bottom: 20, margin: 'auto', left: 0, right: 0 }}>
+            <Row>
               {this.activateSwitch()}
             </Row>
           </Card>
