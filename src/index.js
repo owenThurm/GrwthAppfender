@@ -35,7 +35,7 @@ ReactDOM.render(
       <Switch>
         <Route exact path="/login" component={LoginContainer} />
         <Route exact path="/register" component={LoginContainer} />
-        <Route exact path="/forgotpassword/reset" component={ResetPassword} />
+        <Route exact path="/resetpassword/reset" component={ResetPassword} />
         <Route exact path="/forgotpassword" component={ForgotPassword} />
         <Route component={DefaultContainer} />
       </Switch>
