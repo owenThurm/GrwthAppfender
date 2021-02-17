@@ -7,11 +7,11 @@ import LoginForm from './LoginForm';
 import RegisterForm  from './RegisterForm';
 import ProtectedRoute from './ProtectedRoute';
 import { Redirect, BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import Dashboard from './Dashboard/Dashboard';
-import { Settings } from './Settings/Settings';
+import ForgotPassword from './ForgotPassword';
+import ResetPassword from './ResetPassword';
 
 const LoginContainer = () => {
-  
+
   return(
   <div className="container">
     <Route exact path="/" render={() => <Redirect to="/login" />} />
@@ -35,6 +35,8 @@ ReactDOM.render(
       <Switch>
         <Route exact path="/login" component={LoginContainer} />
         <Route exact path="/register" component={LoginContainer} />
+        <Route exact path="/forgotpassword/reset" component={ResetPassword} />
+        <Route exact path="/forgotpassword" component={ForgotPassword} />
         <Route component={DefaultContainer} />
       </Switch>
     </Router>

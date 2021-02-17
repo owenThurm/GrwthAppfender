@@ -153,8 +153,8 @@ function RegisterForm() {
             <Checkbox style={{ "color": "white" }}>Remember me</Checkbox>
           </Form.Item>
 
-          <a className="login-form-forgot" href="" style={{"float":"right"}}>
-            Forgot password
+          <a className="login-form-forgot" href="/forgotpassword" style={{"float":"right", "textDecorationLine": "underline" }}>
+            Forgot password?
           </a>
         </Form.Item>
 

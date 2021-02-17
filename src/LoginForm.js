@@ -18,10 +18,8 @@ class LoginForm extends React.Component {
   onFinish = (values) => {
     console.log('Received values of form: ', values);
     console.log(this.props);
-    //localStorage.setItem("loggedIn", true);
     // check credentials here with POST
     this.checkLoginCredentials(values);
-
   };
 
   checkLoginCredentials = (values) => {
@@ -68,7 +66,7 @@ class LoginForm extends React.Component {
         </Col>
 
         <Col>
-          <div className="form" style={{ marginLeft: 80,marginRight: 80 }}>
+          <div className="form" style={{ marginLeft: 80, marginRight: 80 }}>
             <h2 className="form-header">Sign In</h2>
             <Form
               ref={this.formRef}
@@ -117,24 +115,23 @@ class LoginForm extends React.Component {
                 <Form.Item name="remember" valuePropName="checked" noStyle>
                   <Checkbox style={{ "color": "white" }}>Remember me</Checkbox>
                 </Form.Item>
-                <a className="login-form-forgot" href="" style={{ "float": "right", "textDecorationLine": "underline" }}>
+                <a className="login-form-forgot" href="/forgotpassword" style={{ "float": "right", "textDecorationLine": "underline" }}>
                   Forgot password?
-          </a>
+                </a>
               </Form.Item>
 
               <Form.Item>
                 <Button type="primary" htmlType="submit" className="login-form-button">
                   Log in
-          </Button>
+                </Button>
                 <a href="/register" style={{ "float": "right", "textDecorationLine": "underline" }}>
                   Create an account
-            </a>
+                </a>
               </Form.Item>
             </Form>
           </div>
         </Col>
       </Row>
-
     );
   };
 }

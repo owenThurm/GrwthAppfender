@@ -70,7 +70,6 @@ class ResetPassword extends React.Component {
                 iconRender={visible => (visible ? <EyeOutlined style={{color: 'white'}}/> : <EyeInvisibleOutlined style={{color:'white'}}/>)}
                 style={{ borderRadius: '1.2vh', color: 'white', backgroundColor: 'rgb(36, 36, 52)' }}
                 onChange={(event) => {this.setState({newPassword: event.target.value})}}/>
-
             </Form.Item>
             <Form.Item
               name='retypePassword'
@@ -89,8 +88,6 @@ class ResetPassword extends React.Component {
       </div>
     )
   }
-
-
 }
 
 export default ResetPassword;
