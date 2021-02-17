@@ -52,7 +52,7 @@ class AppLayout extends React.Component {
   };
 
   logout = () => {
-    localStorage.setItem("loggedIn", false)
+    localStorage.setItem("token", "")
     window.location.replace("/login");
   }
 
