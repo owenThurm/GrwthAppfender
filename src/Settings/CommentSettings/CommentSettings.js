@@ -55,14 +55,6 @@ class CommentSettings extends React.Component {
           newCommentList.push(modifiedCounterComment)
         }
       }
-
-      // let counter = 1
-      // newCommentList.forEach(element => {
-      //   element[0] = counter
-      //   counter++;
-      // });
-
-
       this.setState({
         userCustomComments: newCommentList
       }, () => console.log(this.state))
