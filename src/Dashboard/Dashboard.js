@@ -1,10 +1,10 @@
 import React from 'react';
-import { Row, Card, Menu } from 'antd';
+import { Menu } from 'antd';
 import { RiseOutlined, CopyOutlined } from '@ant-design/icons';
 import { Link, Switch } from 'react-router-dom';
 import ProtectedRoute from '../ProtectedRoute';
 import Promo from './Promo';
-import Reports from './Reports';
+import Reports from './Reports/Reports';
 
 class Dashboard extends React.Component {
 
@@ -34,7 +34,7 @@ class Dashboard extends React.Component {
           </Menu.Item>
         </Menu>
         <Switch>
-          <ProtectedRoute path='/reports' component={Reports} />
+          <ProtectedRoute path='/reports' component={Reports} props={{'userUsername': this.props.props.userUsername}}/>
           <ProtectedRoute path='/' component={Promo} props={{'userUsername': this.props.props.userUsername}}/>
         </Switch>
       </div>
