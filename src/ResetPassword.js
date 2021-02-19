@@ -10,8 +10,25 @@ class ResetPassword extends React.Component {
     this.state = {
       newPassword: '',
       retypedNewPassword: '',
-      loading: false
+      loading: false,
+      accountName: '',
+      hasMounted: false
     }
+  }
+
+  componentDidMount() {
+    let queryString = window.location.search;
+    let parameters = new URLSearchParams(queryString);
+    let token = parameters.get('token');
+    //axios get the account name to reset the password of
+    axios.get(
+      'https://owenthurm.com/api/user/tokenresetpassword?reset_password_token='+token
+      ).then(response => {
+        console.log(response);
+        this.setState({ hasMounted: true, accountName: response.data.data })
+      }).catch(err => {
+        console.log(err)
+      });
   }
 
   matchingPasswordValidator = (rule, values) => {
@@ -56,53 +73,58 @@ class ResetPassword extends React.Component {
 
   render() {
     return(
-      <div className="form" style={{ marginLeft: 80, marginRight: 80, marginTop: 80 }}>
-        <h2 className="form-header">Reset Password</h2>
-        <Form
-          onFinish={this.submitChangePassword}
-          ref={this.formRef}
-          validateTrigger='onOk'>
-          <Form.Item
-            name="newpassword"
-                rules={[
-                  {
-                    required: true,
-                    message: 'New password required',
-                  },
-                ]}
-              >
-            <Input.Password placeholder={'New Password'}
-                iconRender={visible => (visible ? <EyeOutlined style={{color: 'white'}}/> : <EyeInvisibleOutlined style={{color:'white'}}/>)}
-                style={{ borderRadius: '1.2vh', color: 'white', backgroundColor: 'rgb(36, 36, 52)' }}
-                onChange={(event) => {this.setState({newPassword: event.target.value})}}/>
-          </Form.Item>
-          <Form.Item
-            name="retypepassword"
-                rules={[
-                  {
-                    required: true,
-                    message: 'Passwords must match!',
-                    validator: this.matchingPasswordValidator
-                  },
-                ]}
-              >
-            <Input.Password placeholder={'Retype Password'}
-                iconRender={visible => (visible ? <EyeOutlined style={{color: 'white'}}/> : <EyeInvisibleOutlined style={{color:'white'}}/>)}
-                style={{ borderRadius: '1.2vh', color: 'white', backgroundColor: 'rgb(36, 36, 52)' }}
-                onChange={(event) => {this.setState({retypedNewPassword: event.target.value})}}/>
-          </Form.Item>
-          <Form.Item>
-            <Button type='primary' htmlType="submit">
-              Reset Password
-            </Button>
-          </Form.Item>
-        </Form>
-        {this.state.loading ?
+      this.state.hasMounted?
+        <div className="form" style={{ marginLeft: 80, marginRight: 80, marginTop: 80 }}>
+          <h2 className="form-header">Reset password for {this.state.accountName}</h2>
+          <Form
+            onFinish={this.submitChangePassword}
+            ref={this.formRef}
+            validateTrigger='onOk'>
+            <Form.Item
+              name="newpassword"
+                  rules={[
+                    {
+                      required: true,
+                      message: 'New password required',
+                    },
+                  ]}
+                >
+              <Input.Password placeholder={'New Password'}
+                  iconRender={visible => (visible ? <EyeOutlined style={{color: 'white'}}/> : <EyeInvisibleOutlined style={{color:'white'}}/>)}
+                  style={{ borderRadius: '1.2vh', color: 'white', backgroundColor: 'rgb(36, 36, 52)' }}
+                  onChange={(event) => {this.setState({newPassword: event.target.value})}}/>
+            </Form.Item>
+            <Form.Item
+              name="retypepassword"
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Passwords must match!',
+                      validator: this.matchingPasswordValidator
+                    },
+                  ]}
+                >
+              <Input.Password placeholder={'Retype Password'}
+                  iconRender={visible => (visible ? <EyeOutlined style={{color: 'white'}}/> : <EyeInvisibleOutlined style={{color:'white'}}/>)}
+                  style={{ borderRadius: '1.2vh', color: 'white', backgroundColor: 'rgb(36, 36, 52)' }}
+                  onChange={(event) => {this.setState({retypedNewPassword: event.target.value})}}/>
+            </Form.Item>
+            <Form.Item>
+              <Button type='primary' htmlType="submit">
+                Reset Password
+              </Button>
+            </Form.Item>
+          </Form>
+          {this.state.loading ?
+          <div style={{position: 'absolute', top: '50vh', left: 0, right: 0}}>
+          <Spin style={{position: 'absolute', margin: 'auto', left: 0, right: 0, top: 0, bottom: 0}}
+          size='large'/>
+          </div> : ''}
+        </div> :
         <div style={{position: 'absolute', top: '50vh', left: 0, right: 0}}>
         <Spin style={{position: 'absolute', margin: 'auto', left: 0, right: 0, top: 0, bottom: 0}}
         size='large'/>
-        </div> : ''}
-      </div>
+        </div>
     )
   }
 
