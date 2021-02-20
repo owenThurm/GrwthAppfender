@@ -63,7 +63,8 @@ class PromoAccount extends React.Component {
             active: response.data.activated,
             underReview: response.data.under_review,
             editedPromoPassword: response.data.promo_password,
-            editedTargetAccounts: response.data.target_accounts
+            editedTargetAccounts: response.data.target_accounts,
+            promoUsingLikes: response.data.is_liking,
           });
         }).catch(err => {
           console.log(err);
@@ -364,7 +365,7 @@ class PromoAccount extends React.Component {
           <Switch
           style={{position: 'absolute', right: 15}}
           onChange={this.updateUsingLikes}
-          checked={this.state.usingLikes}
+          checked={this.state.promoUsingLikes}
           checkedChildren={
             <div>
               <CheckOutlined/> (Recommended)
@@ -379,6 +380,7 @@ class PromoAccount extends React.Component {
   }
 
   render() {
+    console.log('state', this.state)
     return (
       <Row type="flex" gutter={[40, 40]}>
         <Col>
