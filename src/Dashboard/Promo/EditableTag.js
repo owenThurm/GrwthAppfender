@@ -12,7 +12,7 @@ class EditableTagGroup extends React.Component {
       editInputIndex: -1,
       editInputValue: '',
       isEditing: this.props.isEditing,
-      canAdd: !props.targetAccountsTags || props.targetAccountsTags.length <= 8
+      canAdd: !props.targetAccountsTags || props.targetAccountsTags.length < 8
     };
   }
 
@@ -79,6 +79,8 @@ class EditableTagGroup extends React.Component {
   };
 
   render() {
+    console.log('tag state>>', this.state, this.props.targetAccountsTags)
+    console.log(!this.props.targetAccountsTags, this.props.targetAccountsTags != undefined ? this.props.targetAccountsTags.length <= 8 : 'null')
     const { tags, inputVisible, inputValue, editInputIndex, editInputValue } = this.state;
     return (
       <>
