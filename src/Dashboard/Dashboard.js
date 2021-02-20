@@ -3,7 +3,7 @@ import { Menu } from 'antd';
 import { RiseOutlined, CopyOutlined } from '@ant-design/icons';
 import { Link, Switch } from 'react-router-dom';
 import ProtectedRoute from '../ProtectedRoute';
-import Promo from './Promo';
+import Promo from './Promo/Promo';
 import Reports from './Reports/Reports';
 
 class Dashboard extends React.Component {

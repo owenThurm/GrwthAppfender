@@ -222,7 +222,7 @@ class PromoAccount extends React.Component {
           <div>
             Inactive <CloseOutlined />
           </div>
-        } defaultUnchecked
+        }
       />
     }
   }
