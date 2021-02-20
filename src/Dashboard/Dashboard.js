@@ -35,7 +35,7 @@ class Dashboard extends React.Component {
         </Menu>
         <Switch>
           <ProtectedRoute path='/reports' component={Reports} props={{'userUsername': this.props.props.userUsername}}/>
-          <ProtectedRoute path='/' component={Promo} props={{'userUsername': this.props.props.userUsername}}/>
+          <ProtectedRoute path='/' component={Promo} props={{'userUsername': this.props.props.userUsername, 'userPromoAccounts': this.props.props.userPromoAccounts}}/>
         </Switch>
       </div>
     )

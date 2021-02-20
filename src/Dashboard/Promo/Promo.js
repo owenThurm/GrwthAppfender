@@ -7,7 +7,8 @@ class Promo extends React.Component {
     super(props);
     this.state = {
       userUsername: props.props.userUsername,
-      promoUsernames: []
+      promoUsernames: [],
+      userPromoAccounts: props.props.userPromoAccounts,
     }
   }
 

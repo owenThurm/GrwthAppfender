@@ -47,8 +47,16 @@ code {
   color: white;
 }
 
+.ant-card-actions {
+  background-color: transparent;
+}
+
 .ant-spin-dot-item {
   background-color: white;
+}
+
+.ant-card-actions > li > span > .anticon {
+  color: white;
 }
 
 

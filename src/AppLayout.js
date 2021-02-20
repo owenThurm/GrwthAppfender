@@ -27,6 +27,7 @@ class AppLayout extends React.Component {
       location: '',
       email: localStorage.getItem('email'),
       usingCustomComments: false,
+      user_promo_accounts: []
     }
   }
 
@@ -36,10 +37,11 @@ class AppLayout extends React.Component {
       ).then(response => {
         console.log('app layout response', response)
         this.setState({
-          brand: response.data.brand_name,
-          location: response.data.location,
-          usingCustomComments: response.data.using_custom_comments,
-        });
+          brand: response.data.user_data.user_brand_name,
+          location: response.data.user_data.user_location,
+          usingCustomComments: response.data.user_data.user_using_custom_coments,
+          user_promo_accounts: response.data.user_data.user_promo_accounts
+        }, () => console.log(this.state));
       }).catch(err => {
         console.log(err);
       });
@@ -124,7 +126,8 @@ class AppLayout extends React.Component {
               <ProtectedRoute path='/' component={Dashboard}
               props={{
                 'userUsername': this.state.userUsername,
-                'brand': this.state.brand
+                'brand': this.state.brand,
+                'userPromoAccounts': this.state.userPromoAccounts,
                 }}/>
           </Switch>
         </Layout>

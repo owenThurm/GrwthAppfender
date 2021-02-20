@@ -2,8 +2,8 @@ import React from 'react';
 import { Card, Input, Switch, Row, Col, Button, Typography, message } from 'antd';
 import {
   CheckOutlined, CloseOutlined, EyeInvisibleOutlined, EyeOutlined,
-  InstagramOutlined, AimOutlined, LockOutlined, UserOutlined, EditOutlined
-} from '@ant-design/icons';
+  InstagramOutlined, AimOutlined, LockOutlined, UserOutlined, EditOutlined,
+  SettingOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import EditableTagGroup from './EditableTag';
 
@@ -24,6 +24,8 @@ class PromoAccount extends React.Component {
       editing: false,
       editedPromoUsername: props.promoUsername,
       editedPromoPassword: '',
+      configuring: false,
+      promoUsingLikes: props.promoUsingLikes,
       editedTargetAccounts: []
     }
   }
@@ -37,7 +39,8 @@ class PromoAccount extends React.Component {
           underReview: response.data.under_review,
           targetAccounts: response.data.target_accounts,
           editedPromoPassword: response.data.promo_password,
-          editedTargetAccounts: response.data.target_accounts
+          editedTargetAccounts: response.data.target_accounts,
+          promoUsingLikes: response.data.is_liking,
         });
       }).catch(err => {
         console.log(err);
@@ -72,8 +75,8 @@ class PromoAccount extends React.Component {
   onSubmitReview() {
     if (this.state.promoUsername != '' && this.state.promoUsername != undefined
       && this.state.promoPassword != '' && this.state.promoPassword != undefined
-      && this.state.targetAccounts != [] && this.state.targetAccounts != undefined) {
-
+      && this.state.targetAccounts != [] && this.state.targetAccounts != undefined
+      && this.state.targetAccounts.length > 0) {
       axios.post('https://owenthurm.com/api/promo', {
         "promo_username": this.state.promoUsername,
         "promo_password": this.state.promoPassword,
@@ -95,6 +98,8 @@ class PromoAccount extends React.Component {
       this.warningMessage('Fill in all fields and include target brands!')
     }
   }
+
+
 
   updatePromo = () => {
     if (!(this.state.promoUsername == this.state.editedPromoUsername
@@ -129,14 +134,36 @@ class PromoAccount extends React.Component {
     }
   }
 
+  updateUsingLikes = usingLikes => {
+    //axios put to update using likes
+    axios.put('https://owenthurm.com/api/promo/liking', {
+      'promo_username': this.state.promoUsername,
+      'is_liking': usingLikes,
+    }).then(response => {
+      this.setState({
+        promoUsingLikes: usingLikes,
+      });
+    }).catch(err => {
+      console.log(err);
+    });
+  }
+
   warningMessage = warning => {
     message.warning(warning);
   }
 
   toggleEdit = () => {
     this.setState({
-      editing: !this.state.editing
+      editing: !this.state.editing,
+      configuring: false,
     });
+  }
+
+  toggleConfigure = () => {
+    this.setState({
+      configuring: !this.state.configuring,
+      editing: false,
+    })
   }
 
   onChangeHandler(event, type) {
@@ -208,7 +235,9 @@ class PromoAccount extends React.Component {
   }
 
   activateSwitch = () => {
-    if (this.state.submitted && !this.state.underReview && !this.state.editing) {
+    if (this.state.configuring) {
+      return
+    } else if (this.state.submitted && !this.state.underReview && !this.state.editing) {
       return <Switch
         style={{ width: 200, margin: 'auto', marginTop: 20 }}
         disabled={this.state.targetAccounts == null || this.state.targetAccounts.length == 0}
@@ -270,40 +299,43 @@ class PromoAccount extends React.Component {
   }
 
   targetAccountsField = () => {
-
-    if (this.state.submitted && this.state.editing) {
-      return (<EditableTagGroup
+    if (this.state.configuring) {
+      return
+    } else if (this.state.submitted && this.state.editing) {
+      return (<div>
+        <Title style={{ color: 'white', fontSize: 14, textDecoration: 'underline' }}
+         level={5}><AimOutlined style={{ marginRight: 5 }} /> Target IG Accounts</Title>
+      <EditableTagGroup
         isEditing={this.state.editing}
         targetAccountsTags={this.state.editedTargetAccounts}
         setTargetAccounts={this.setEditedTargetAccounts}
-      />)
+      />
+      </div>)
     } else if (this.state.submitted && !this.state.editing) {
-      return (<EditableTagGroup
+      return (<div>
+        <Title style={{ color: 'white', fontSize: 14, textDecoration: 'underline' }}
+         level={5}><AimOutlined style={{ marginRight: 5 }} /> Target IG Accounts</Title>
+        <EditableTagGroup
         isEditing={this.state.editing}
         targetAccountsTags={this.state.targetAccounts}
         setTargetAccounts={this.setEditedTargetAccounts}
-      />)
+      />
+      </div>)
     } else {
-      return (<EditableTagGroup
+      return (<div>
+        <Title style={{ color: 'white', fontSize: 14, textDecoration: 'underline' }}
+         level={5}><AimOutlined style={{ marginRight: 5 }} /> Target IG Accounts</Title>
+        <EditableTagGroup
         isEditing={true}
         targetAccountsTags={this.state.targetAccounts}
         setTargetAccounts={this.setTargetAccounts}
-      />)
+      />
+      </div>)
     }
   }
 
   editButton = () => {
-    if (this.state.submitted && !this.state.editing) {
-      return (
-        <Row>
-          <Button
-            style={{ margin: 'auto', width: 80, marginTop: 20 }}
-            onClick={this.toggleEdit}>
-            <EditOutlined/>Edit
-          </Button>
-          <br/>
-        </Row>)
-    } else if (this.state.submitted && this.state.editing) {
+    if(this.state.submitted && this.state.editing) {
       return <Row>
         <div style={{ margin: 'auto' }}>
           <Button
@@ -321,6 +353,31 @@ class PromoAccount extends React.Component {
     }
   }
 
+  usingLikesConfig = () => {
+    if(this.state.configuring) {
+      return (
+      <div>
+        <Row>
+          <Title style={{fontSize: 14, color: 'white'}}>
+            Liking Photos:
+          </Title>
+          <Switch
+          style={{position: 'absolute', right: 15}}
+          onChange={this.updateUsingLikes}
+          checked={this.state.usingLikes}
+          checkedChildren={
+            <div>
+              <CheckOutlined/> (Recommended)
+            </div>}
+          unCheckedChildren={
+            <div>
+              <CloseOutlined/> (Discouraged)
+            </div>}/>
+        </Row>
+      </div>)
+    }
+  }
+
   render() {
     return (
       <Row type="flex" gutter={[40, 40]}>
@@ -329,8 +386,12 @@ class PromoAccount extends React.Component {
             height:"100%", width: 300, backgroundColor: 'rgb(36, 36, 52)',
             borderColor: 'rgb(190, 190, 194)', borderRadius: '1.5vh', borderWidth: 2
           }}
-            title='Promo Account #1'
-            headStyle={{ color: 'white', textAlign: 'center', borderWidth: 2, borderBottomColor: 'rgb(190, 190, 194)' }}>
+          actions={ this.state.submitted ? [
+            <SettingOutlined onClick={this.toggleConfigure}/>,
+            <EditOutlined onClick={this.toggleEdit}/>
+          ] : []}
+          title='Promo Account #1'
+          headStyle={{ color: 'white', textAlign: 'center', borderWidth: 2, borderBottomColor: 'rgb(190, 190, 194)' }}>
 
             <Row style={{ marginBottom: 5 }}>
               <div style={{ margin: 'auto' }}>
@@ -343,9 +404,12 @@ class PromoAccount extends React.Component {
               </div>
             </Row>
 
-            <Row style={{}}>
+            <Row>
+              {this.usingLikesConfig()}
+            </Row>
+
+            <Row>
               <div style={{ margin: 'auto', textAlign: 'center' }}>
-                <Title style={{ color: 'white', fontSize: 14, textDecoration: 'underline' }} level={5}><AimOutlined style={{ marginRight: 5 }} /> Target IG Accounts</Title>
                 {this.targetAccountsField()}
               </div>
             </Row>
