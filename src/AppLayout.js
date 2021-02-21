@@ -27,7 +27,8 @@ class AppLayout extends React.Component {
       location: '',
       email: localStorage.getItem('email'),
       usingCustomComments: false,
-      userPromoAccounts: []
+      userPromoAccounts: [],
+      user_total_comments: 0
     }
   }
 
@@ -40,7 +41,8 @@ class AppLayout extends React.Component {
           brand: response.data.user_data.user_brand_name,
           location: response.data.user_data.user_location,
           usingCustomComments: response.data.user_data.user_using_custom_coments,
-          userPromoAccounts: response.data.user_data.user_promo_accounts
+          userPromoAccounts: response.data.user_data.user_promo_accounts,
+          userTotalComments: response.data.user_data.user_total_comments,
         });
       }).catch(err => {
         console.log(err);
@@ -128,6 +130,7 @@ class AppLayout extends React.Component {
                 'userUsername': this.state.userUsername,
                 'brand': this.state.brand,
                 'userPromoAccounts': this.state.userPromoAccounts,
+                'userTotalComments': this.state.userTotalComments,
                 }}/>
           </Switch>
         </Layout>

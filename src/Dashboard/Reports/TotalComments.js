@@ -7,7 +7,7 @@ class TotalComments extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      totalComments: props.totalComments
+      totalComments: props.userTotalComments
     }
   }
 
@@ -22,7 +22,7 @@ class TotalComments extends React.Component {
           <Title
           level={5}
           style={{color: 'white'}}>
-            {'Total Comments Done: '+ this.state.totalComments}
+            {'Total Comments Done: '+ this.props.userTotalComments}
           </Title>
         </Card>
       </div>

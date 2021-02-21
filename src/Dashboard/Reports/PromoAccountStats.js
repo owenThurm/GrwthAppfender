@@ -5,16 +5,17 @@ class PromoAccountStats extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      promoCommentLevels: props.promoCommentLevels
+      userPromoAccounts: props.userPromoAccounts
     }
   }
 
   render() {
+    console.log('promo account stats props', this.props)
     return(
       <List
       grid={{ gutter: 16, column: 4 }}
-      dataSource={this.props.promoCommentLevels}
-      renderItem={item => {
+      dataSource={this.props.userPromoAccounts}
+      renderItem={promoAccount => {
         return (
           <List.Item>
             <Card
@@ -22,8 +23,8 @@ class PromoAccountStats extends React.Component {
             borderColor: 'white', backgroundColor: 'rgb(36, 36, 52)',
             textAlign: 'center', width: '35vh', color: 'white'}}
             headStyle={{ color: 'white'}}
-            title={item[0]}
-            >{'Volume: ' + item[1] * 10 + ' comments/day'}</Card>
+            title={promoAccount.promo_username}
+            >{'Volume: ' + promoAccount.promo_comment_level * 10 + ' comments/day'}</Card>
           </List.Item>
         )}}
       />

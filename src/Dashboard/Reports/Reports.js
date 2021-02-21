@@ -9,25 +9,9 @@ class Reports extends React.Component {
     super(props);
     this.state = {
       userUsername: props.props.userUsername,
-      totalComments: 0,
-      promoCommentLevels: [],
-      loading: true,
+      totalComments: props.props.userTotalComments,
+      promoAccounts: props.props.userPromoAccounts,
     }
-  }
-
-  componentDidMount() {
-    //axios get statistics
-    axios.get(
-      'https://owenthurm.com/api/user/statistics?user='+this.props.props.userUsername
-    ).then(response => {
-      this.setState({
-        totalComments: response.data.data.all_time_num_comments,
-        promoCommentLevels: response.data.data.user_promo_accounts_comment_level,
-        loading: false,
-      });
-    }).catch(err => {
-      console.log(err);
-    });
   }
 
   reportsBody = () => {
@@ -42,10 +26,10 @@ class Reports extends React.Component {
       return (
           <div>
             <Row type='flex' style={{marginBottom: 15}}>
-              <TotalComments totalComments={this.state.totalComments}/>
+              <TotalComments userTotalComments={this.props.props.userTotalComments}/>
             </Row>
             <Row type='flex'>
-              <PromoAccountStats promoCommentLevels={this.state.promoCommentLevels}/>
+              <PromoAccountStats userPromoAccounts={this.props.props.userPromoAccounts}/>
             </Row>
           </div>
         )
