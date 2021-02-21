@@ -27,7 +27,7 @@ class AppLayout extends React.Component {
       location: '',
       email: localStorage.getItem('email'),
       usingCustomComments: false,
-      user_promo_accounts: []
+      userPromoAccounts: []
     }
   }
 
@@ -40,8 +40,8 @@ class AppLayout extends React.Component {
           brand: response.data.user_data.user_brand_name,
           location: response.data.user_data.user_location,
           usingCustomComments: response.data.user_data.user_using_custom_coments,
-          user_promo_accounts: response.data.user_data.user_promo_accounts
-        }, () => console.log(this.state));
+          userPromoAccounts: response.data.user_data.user_promo_accounts
+        });
       }).catch(err => {
         console.log(err);
       });

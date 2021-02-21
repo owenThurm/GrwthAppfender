@@ -17,7 +17,6 @@ class Promo extends React.Component {
      {
        "username": this.props.props.userUsername
       }).then(response => {
-        console.log('promo tab post result: ', response);
         this.setState({
           promoUsernames: response.data.data
         });
@@ -32,7 +31,6 @@ class Promo extends React.Component {
      {
        "username": this.props.props.userUsername
       }).then(response => {
-        console.log('promo tab post result: ', response);
         this.setState({
           promoUsernames: response.data.data
         });
@@ -46,7 +44,9 @@ class Promo extends React.Component {
   render() {
     return (
       <div style={{ marginTop: 30, marginLeft: 40 }}>
-        <PromoAccount userUsername={this.props.props.userUsername}
+        <PromoAccount
+        data={this.props.props.userPromoAccounts ? this.props.props.userPromoAccounts[0] : undefined}
+        userUsername={this.props.props.userUsername}
         submitted={this.state.promoUsernames.length > 0}
         promoUsername={this.state.promoUsernames.length > 0 ? this.state.promoUsernames[0] : ''}/>
       </div>

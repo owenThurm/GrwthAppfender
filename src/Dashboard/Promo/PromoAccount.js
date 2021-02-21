@@ -26,7 +26,8 @@ class PromoAccount extends React.Component {
       editedPromoPassword: '',
       configuring: false,
       promoUsingLikes: props.promoUsingLikes,
-      editedTargetAccounts: []
+      editedTargetAccounts: [],
+      isDisabled: props.data ? props.data.promo_is_disabled : false
     }
   }
 
@@ -238,6 +239,19 @@ class PromoAccount extends React.Component {
   activateSwitch = () => {
     if (this.state.configuring) {
       return
+    } else if(this.state.submitted && !this.state.underReview
+          && !this.state.editing && this.state.isDisabled) {
+        return <Switch
+        style={{ width: 200, margin: 'auto', marginTop: 20 }}
+        disabled={this.state.isDisabled}
+        checked={false}
+        unCheckedChildren={
+          <div>
+            Promo Disabled <CloseOutlined />
+          </div>
+        }
+        />
+
     } else if (this.state.submitted && !this.state.underReview && !this.state.editing) {
       return <Switch
         style={{ width: 200, margin: 'auto', marginTop: 20 }}
@@ -380,7 +394,8 @@ class PromoAccount extends React.Component {
   }
 
   render() {
-    console.log('state', this.state)
+    console.log('Promo Props', this.props)
+    console.log('promo state', this.state)
     return (
       <Row type="flex" gutter={[40, 40]}>
         <Col>
