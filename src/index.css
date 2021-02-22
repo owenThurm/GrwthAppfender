@@ -51,6 +51,18 @@ code {
   background-color: transparent;
 }
 
+.ant-popover-inner-content {
+
+}
+
+.ant-popover-title {
+
+}
+
+.ant-popover-placement-rightTop > .ant-popover-content > .ant-popover-arrow {
+
+}
+
 .ant-spin-dot-item {
   background-color: white;
 }
@@ -65,7 +77,7 @@ code {
 }
 
 .ant-tag-close-icon :hover {
-  color: #1890ff
+  color: #40a9ff
 }
 
 .ant-modal-header {

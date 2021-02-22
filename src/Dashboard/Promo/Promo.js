@@ -45,10 +45,12 @@ class Promo extends React.Component {
     return (
       <div style={{ marginTop: 30, marginLeft: 40 }}>
         <PromoAccount
+        userIsOnboarding={this.props.props.userIsOnboarding}
         data={this.props.props.userPromoAccounts ? this.props.props.userPromoAccounts[0] : undefined}
         userUsername={this.props.props.userUsername}
         submitted={this.state.promoUsernames.length > 0}
-        promoUsername={this.state.promoUsernames.length > 0 ? this.state.promoUsernames[0] : ''}/>
+        promoUsername={this.state.promoUsernames.length > 0 ? this.state.promoUsernames[0] : ''}
+        menuIsCollapsed={this.props.props.menuIsCollapsed}/>
       </div>
     )
   }

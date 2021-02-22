@@ -21,14 +21,15 @@ class AppLayout extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      collapsed: false,
+      collapsed: true,
       brand: '',
       userUsername: localStorage.getItem('username'),
       location: '',
       email: localStorage.getItem('email'),
       usingCustomComments: false,
       userPromoAccounts: [],
-      user_total_comments: 0
+      userTotalComments: 0,
+      userIsOnboarding: localStorage.getItem('isOnboarding') == 'true',
     }
   }
 
@@ -131,7 +132,9 @@ class AppLayout extends React.Component {
                 'brand': this.state.brand,
                 'userPromoAccounts': this.state.userPromoAccounts,
                 'userTotalComments': this.state.userTotalComments,
-                }}/>
+                'userIsOnboarding': this.state.userIsOnboarding,
+                'menuIsCollapsed': this.state.collapsed,
+              }}/>
           </Switch>
         </Layout>
       </Layout>

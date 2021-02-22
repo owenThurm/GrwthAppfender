@@ -12,7 +12,8 @@ class Dashboard extends React.Component {
     super(props);
     this.state = {
       userUsername: props.props.userUsername,
-      brand: props.props.brand
+      brand: props.props.brand,
+      userIsOnboarding: props.props.userIsOnboarding,
     }
   }
 
@@ -42,8 +43,10 @@ class Dashboard extends React.Component {
           }}/>
           <ProtectedRoute path='/' component={Promo}
           props={{
+            'userIsOnboarding': this.props.props.userIsOnboarding,
             'userUsername': this.props.props.userUsername,
             'userPromoAccounts': this.props.props.userPromoAccounts,
+            'menuIsCollapsed': this.props.props.menuIsCollapsed,
           }}/>
         </Switch>
       </div>

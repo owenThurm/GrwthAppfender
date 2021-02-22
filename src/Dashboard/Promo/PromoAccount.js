@@ -1,9 +1,9 @@
 import React from 'react';
-import { Card, Input, Switch, Row, Col, Button, Typography, message } from 'antd';
+import { Card, Input, Switch, Row, Col, Button, Typography, message, Popover } from 'antd';
 import {
   CheckOutlined, CloseOutlined, EyeInvisibleOutlined, EyeOutlined,
   InstagramOutlined, AimOutlined, LockOutlined, UserOutlined, EditOutlined,
-  SettingOutlined } from '@ant-design/icons';
+  SettingOutlined, CaretRightFilled } from '@ant-design/icons';
 import axios from 'axios';
 import EditableTagGroup from './EditableTag';
 
@@ -27,7 +27,9 @@ class PromoAccount extends React.Component {
       configuring: false,
       promoUsingLikes: props.promoUsingLikes,
       editedTargetAccounts: [],
-      isDisabled: props.data ? props.data.promo_is_disabled : false
+      isDisabled: props.data ? props.data.promo_is_disabled : false,
+      userIsOnboarding: props.userIsOnboarding,
+      onBoardingStep: props.submitted ? 5 : 0,
     }
   }
 
@@ -49,12 +51,19 @@ class PromoAccount extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps != this.props) {
+    if (prevProps.menuIsCollapsed != this.props.menuIsCollapsed && localStorage.getItem('isOnboarding') == 'true') {
+      this.setState({
+        userIsOnboarding: false
+      }, () => this.setState({ userIsOnboarding: true }))
+    } else if (prevProps.data != this.props.data
+      || prevProps.promoUsername != this.props.promoUsername || prevProps.submitted != this.props.submitted
+      || prevProps.userIsOnboarding != this.props.userIsOnboarding || prevProps.userUsername != this.props.userUsername) {
       this.setState({
         submitted: this.props.submitted,
         promoUsername: this.props.promoUsername,
         userUsername: this.props.userUsername,
-        editedPromoUsername: this.props.promoUsername
+        editedPromoUsername: this.props.promoUsername,
+        onBoardingStep: (this.state.onBoardingStep == 0 || this.state.onBoardingStep == 5) ? this.props.submitted ? 5 : 0 : this.state.onBoardingStep
       })
       axios.get('https://owenthurm.com/api/promo?username=' + this.props.promoUsername)
         .then(response => {
@@ -91,12 +100,14 @@ class PromoAccount extends React.Component {
           active: false,
           editedPromoUsername: this.state.promoUsername,
           editedPromoPassword: this.state.promoPassword,
-          editedTargetAccounts: this.state.targetAccounts
+          editedTargetAccounts: this.state.targetAccounts,
+          onBoardingStep: 5,
         });
       }).catch(err => {
         console.log(err);
       });
     } else {
+      console.log(this.state)
       this.warningMessage('Fill in all fields and include target brands!')
     }
   }
@@ -158,7 +169,8 @@ class PromoAccount extends React.Component {
     this.setState({
       editing: !this.state.editing,
       configuring: false,
-    });
+      userIsOnboarding: false
+    }, () => this.setState({ userIsOnboarding: true}));
   }
 
   toggleConfigure = () => {
@@ -223,16 +235,33 @@ class PromoAccount extends React.Component {
 
   submitForReviewButton = () => {
     if (!this.state.submitted) {
-      return <Button
+      return (<Popover
+        content={this.reviewButtonPopoverContent()}
+        title={'Submit for review'}
+        visible={this.state.userIsOnboarding && this.state.onBoardingStep == 4 && !this.state.submitted}
+        placement='bottom'
+        >
+        <Button
         style={{ backgroundColor: 'rgb(36, 36, 52)', borderRadius: '1.2vh', color: 'white', margin: 'auto', marginTop:10 }}
         onClick={() => this.onSubmitReview()}>
-        Submit For Review
-      </Button>
+          Submit For Review
+        </Button>
+      </Popover>)
     } else if (this.state.underReview && !this.state.editing) {
-      return <Button disabled={true}
+      return <div
+        style={{margin: 'auto'}}
+        ><Popover
+        content={this.underReviewPopoverContent()}
+        title={'Under Review'}
+        visible={this.state.userIsOnboarding && this.state.onBoardingStep == 5}
+        placement='bottom'
+        >
+        <Button disabled={true}
         style={{ backgroundColor: 'rgb(36, 36, 52)', borderRadius: '1.2vh', color: 'white', margin: 'auto', marginTop:10 }}>
-        <strong>Status: Under Review</strong>
-      </Button>
+          <strong>Status: Under Review</strong>
+        </Button>
+      </Popover>
+      </div>
     }
   }
 
@@ -277,12 +306,20 @@ class PromoAccount extends React.Component {
         <Title level={5} style={{ color: 'white', fontSize: 15 }}><UserOutlined style={{ color: "white", "marginRight": 5 }} />{this.state.promoUsername}</Title>
       </Row>);
     } else if (!this.state.submitted && !this.state.editing) {
-      return <Input onChange={event => this.onChangeHandler(event, "promoUsername")}
+      return (
+      <Popover
+      content={this.usernamePopoverContent()}
+      title={'IG Username'}
+      visible={this.state.userIsOnboarding && this.state.onBoardingStep == 1}
+      placement='bottom'
+      >
+        <Input onChange={event => this.onChangeHandler(event, "promoUsername")}
         prefix={<InstagramOutlined className='site-form-item-icon' />}
         defaultValue={this.state.promoUsername}
         disabled={this.state.underReview}
         placeholder='Username'
         style={{ borderRadius: '1.2vh', color: 'white', backgroundColor: 'rgb(36, 36, 52)', width: 200 }} />
+      </Popover>)
     } else if (this.state.editing) {
       return <Input onChange={event => this.onChangeHandler(event, "editedPromoUsername")}
         prefix={<InstagramOutlined className='site-form-item-icon' />}
@@ -296,12 +333,19 @@ class PromoAccount extends React.Component {
 
   passwordField = () => {
     if (!this.state.submitted) {
-      return <Input.Password onChange={event => this.onChangeHandler(event, "promoPassword")}
+      return <Popover
+        content={this.passwordPopoverContent()}
+        title={'IG Password'}
+        visible={this.state.userIsOnboarding && this.state.onBoardingStep == 2}
+        placement='bottom'
+        >
+        <Input.Password onChange={event => this.onChangeHandler(event, "promoPassword")}
         prefix={<LockOutlined className='site-form-item-icon' />}
         defaultValue={this.state.promoPassword}
         iconRender={visible => (visible ? <EyeOutlined style={{ color: 'white' }} /> : <EyeInvisibleOutlined style={{ color: 'white' }} />)}
         placeholder='Password'
         style={{ borderRadius: '1.2vh', color: 'white', backgroundColor: 'rgb(36, 36, 52)', width: 200 }} />
+        </Popover>
     } else if (this.state.editing) {
       return <Input.Password onChange={event => this.onChangeHandler(event, "editedPromoPassword")}
         prefix={<LockOutlined className='site-form-item-icon' />}
@@ -337,15 +381,22 @@ class PromoAccount extends React.Component {
       />
       </div>)
     } else {
-      return (<div>
+      return (
+        <Popover
+        content={this.targetAccountPopoverContent()}
+        title='Target Accounts'
+        visible={this.state.userIsOnboarding && this.state.onBoardingStep == 3}
+        placement='bottom'
+        ><div>
         <Title style={{ color: 'white', fontSize: 14, textDecoration: 'underline' }}
-         level={5}><AimOutlined style={{ marginRight: 5 }} /> Target IG Accounts</Title>
-        <EditableTagGroup
-        isEditing={true}
-        targetAccountsTags={this.state.targetAccounts}
-        setTargetAccounts={this.setTargetAccounts}
-      />
-      </div>)
+          level={5}><AimOutlined style={{ marginRight: 5 }} /> Target IG Accounts</Title>
+          <EditableTagGroup
+          isEditing={true}
+          targetAccountsTags={this.state.targetAccounts}
+          setTargetAccounts={this.setTargetAccounts}
+          />
+        </div>
+        </Popover>)
     }
   }
 
@@ -393,52 +444,206 @@ class PromoAccount extends React.Component {
     }
   }
 
+  welcomePopoverContent = () => {
+    return (
+      <div style={{width: 300}}>
+        This is your promo account, the Instagram account you'll be drawing traffic to!
+        <br />
+        <br />
+        <a onClick={() => this.setState({
+          onBoardingStep: 1
+        })}>
+          Next<CaretRightFilled />
+        </a>
+      </div>
+    )
+  }
+
+  usernamePopoverContent = () => {
+    return (
+      <div style={{width: 300}}>
+        Enter the <span style={{fontStyle: 'italic'}}>exact</span> username of the Instagram account you want to grow!
+        {
+        this.state.promoUsername ?
+        <a onClick={() => this.setState({
+          onBoardingStep: 2
+        })}>
+          <br />
+          <br />
+          Next<CaretRightFilled />
+        </a> : ''
+        }
+      </div>
+    )
+  }
+
+  passwordPopoverContent = () => {
+    return (
+      <div style={{width: 300}}>
+        Enter the Instagram password for your promo account.
+        <br />
+        (Your information is PBKDF2 grade encrypted!)
+        {
+        this.state.promoPassword ?
+        <a onClick={() => this.setState({
+          onBoardingStep: 3
+        })}>
+          <br />
+          <br />
+          Next<CaretRightFilled />
+        </a> : ''
+        }
+      </div>
+    )
+  }
+
+  targetAccountPopoverContent = () => {
+    return (
+      <div style={{width: 300}}>
+        Add some target IG accounts to draw traffic from!
+        <br />
+        (8 targets recommended)
+        {
+        this.state.targetAccounts != undefined && this.state.targetAccounts.length > 0 ?
+        <a onClick={() => this.setState({
+          onBoardingStep: 4
+        })}>
+          <br />
+          <br />
+          Next<CaretRightFilled />
+        </a> : ''
+        }
+      </div>
+    )
+  }
+
+  reviewButtonPopoverContent = () => {
+    return (
+      <div style={{width: 300}}>
+        That's all!
+        <br />
+        <br />
+        Submit your promo account and targets for review!
+      </div>
+    )
+  }
+
+  underReviewPopoverContent = () => {
+    return (
+      <div style={{width: 300}}>
+        Your account details and targets are being validated...
+        <br />
+        Once your promo is approved you'll start getting traffic!
+        <a onClick={() => this.setState({
+          onBoardingStep: 6
+        })}>
+          <br />
+          <br />
+          Next<CaretRightFilled />
+        </a>
+      </div>
+    )
+  }
+
+  promoConfigPopoverContent = () => {
+    return (
+      <div style={{width: 300}}>
+        Here you can configure the behavior of your promo account.
+        {this.state.configuring ? <a onClick={() => this.setState({
+          onBoardingStep: 7
+        })}>
+          <br />
+          <br />
+          Next<CaretRightFilled />
+        </a> : ''}
+      </div>
+    )
+  }
+
+  editPromoPopoverContent = () => {
+    return (
+      <div style={{width: 300}}>
+        You can edit your promo account details and targets here.
+        <br />
+        That's it! Enjoy your traffic!
+        <a onClick={() => this.setState({
+          onBoardingStep: 8
+        }, () => localStorage.setItem('isOnboarding', false))}>
+          <br />
+          <br />
+          Done!<CaretRightFilled />
+        </a>
+      </div>
+    )
+  }
+
   render() {
     return (
       <Row type="flex" gutter={[40, 40]}>
         <Col>
-          <Card style={{
-            height:"100%", width: 300, backgroundColor: 'rgb(36, 36, 52)',
-            borderColor: 'rgb(190, 190, 194)', borderRadius: '1.5vh', borderWidth: 2
-          }}
-          actions={ this.state.submitted ? [
-            <SettingOutlined onClick={this.toggleConfigure}/>,
-            <EditOutlined onClick={this.toggleEdit}/>
-          ] : []}
-          title='Promo Account #1'
-          headStyle={{ color: 'white', textAlign: 'center', borderWidth: 2, borderBottomColor: 'rgb(190, 190, 194)' }}>
+          <Popover
+          content={this.welcomePopoverContent()}
+          title={'Welcome to Growth Automation!'}
+          visible={this.state.userIsOnboarding && this.state.onBoardingStep == 0}
+          placement='bottom'
+          >
+            <Card style={{
+              height:"100%", width: 300, backgroundColor: 'rgb(36, 36, 52)',
+              borderColor: 'rgb(190, 190, 194)', borderRadius: '1.5vh', borderWidth: 2
+            }}
+            actions={ this.state.submitted ? [
+              <Popover
+              content={this.promoConfigPopoverContent()}
+              title={'Configure promo account'}
+              visible={this.state.userIsOnboarding && this.state.onBoardingStep == 6}
+              placement='bottom'
+              >
+                <SettingOutlined onClick={this.toggleConfigure}/>
+              </Popover>,
+              <Popover
+              content={this.editPromoPopoverContent()}
+              title={'Edit promo account'}
+              visible={this.state.userIsOnboarding && this.state.onBoardingStep == 7}
+              placement='bottom'
+              >
+                <EditOutlined onClick={this.toggleEdit}/>
+              </Popover>
+            ] : []}
+            title='Promo Account #1'
+            headStyle={{ color: 'white', textAlign: 'center', borderWidth: 2, borderBottomColor: 'rgb(190, 190, 194)' }}>
 
-            <Row style={{ marginBottom: 5 }}>
-              <div style={{ margin: 'auto' }}>
-                {this.usernameField()}
-              </div>
-            </Row >
-            <Row style={{ marginBottom: 5 }}>
-              <div style={{ margin: 'auto' }}>
-                {this.passwordField()}
-              </div>
-            </Row>
+              <Row style={{ marginBottom: 5 }}>
+                <div style={{ margin: 'auto' }}>
+                  {this.usernameField()}
+                </div>
+              </Row >
+              <Row style={{ marginBottom: 5 }}>
+                <div style={{ margin: 'auto' }}>
+                  {this.passwordField()}
+                </div>
+              </Row>
 
-            <Row>
-              {this.usingLikesConfig()}
-            </Row>
+              <Row>
+                {this.usingLikesConfig()}
+              </Row>
 
-            <Row>
-              <div style={{ margin: 'auto', textAlign: 'center' }}>
-                {this.targetAccountsField()}
-              </div>
-            </Row>
+              <Row>
+                <div style={{ margin: 'auto', textAlign: 'center' }}>
+                  {this.targetAccountsField()}
+                </div>
+              </Row>
 
-            {this.editButton()}
+              {this.editButton()}
 
-            <Row>
-              {this.submitForReviewButton()}
-            </Row>
+              <Row>
+                {this.submitForReviewButton()}
+              </Row>
 
-            <Row>
-              {this.activateSwitch()}
-            </Row>
-          </Card>
+              <Row>
+                {this.activateSwitch()}
+              </Row>
+            </Card>
+          </Popover>
         </Col>
       </Row>
     )

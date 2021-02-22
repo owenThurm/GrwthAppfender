@@ -34,8 +34,9 @@ function RegisterForm() {
       .then(response => {
         console.log(response);
         if(response.data.message == 'saved') {
-          localStorage.setItem("token", response.data.token)
-          window.location.replace("/");
+          localStorage.setItem('token', response.data.token);
+          localStorage.setItem('isOnboarding', true);
+          window.location.replace('/');
         } else {
           form.setFields([
             {
