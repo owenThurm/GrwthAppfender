@@ -51,20 +51,25 @@ class PromoAccount extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
+    console.log('UPDATED', this.state)
     if (prevProps.menuIsCollapsed != this.props.menuIsCollapsed && localStorage.getItem('isOnboarding') == 'true') {
+      console.log('HERERE')
+      console.log('12343121')
       this.setState({
         userIsOnboarding: false
-      }, () => this.setState({ userIsOnboarding: true }))
+      }, () => this.setState({ userIsOnboarding: true }, () => console.log('gotcha', this.state)))
     } else if (prevProps.data != this.props.data
       || prevProps.promoUsername != this.props.promoUsername || prevProps.submitted != this.props.submitted
       || prevProps.userIsOnboarding != this.props.userIsOnboarding || prevProps.userUsername != this.props.userUsername) {
+      console.log('CALLED HERE')
       this.setState({
         submitted: this.props.submitted,
         promoUsername: this.props.promoUsername,
         userUsername: this.props.userUsername,
         editedPromoUsername: this.props.promoUsername,
         onBoardingStep: (this.state.onBoardingStep == 0 || this.state.onBoardingStep == 5) ? this.props.submitted ? 5 : 0 : this.state.onBoardingStep
-      })
+      }, () => console.log('got em', this.state))
+      console.log("HERE???")
       axios.get('https://owenthurm.com/api/promo?username=' + this.props.promoUsername)
         .then(response => {
           this.setState({
@@ -75,11 +80,12 @@ class PromoAccount extends React.Component {
             editedPromoPassword: response.data.promo_password,
             editedTargetAccounts: response.data.target_accounts,
             promoUsingLikes: response.data.is_liking,
-          });
+          }, () => console.log('got me', this.state));
         }).catch(err => {
           console.log(err);
         });
     }
+    console.log('ended', this.state)
   }
 
   //When adding a promo account for the first time
@@ -115,6 +121,7 @@ class PromoAccount extends React.Component {
 
 
   updatePromo = () => {
+    console.log('before', this.state, this.props)
     if (!(this.state.promoUsername == this.state.editedPromoUsername
       && this.state.promoPassword == this.state.editedPromoPassword
       && this.state.targetAccounts == this.state.editedTargetAccounts)
@@ -170,7 +177,7 @@ class PromoAccount extends React.Component {
       editing: !this.state.editing,
       configuring: false,
       userIsOnboarding: false
-    }, () => this.setState({ userIsOnboarding: true}));
+    }, () => this.setState({ userIsOnboarding: this.props.userIsOnboarding }));
   }
 
   toggleConfigure = () => {
@@ -204,6 +211,7 @@ class PromoAccount extends React.Component {
   }
 
   setEditedTargetAccounts = targetAccounts => {
+    console.log('setting targets', this.state)
     this.setState({
       editedTargetAccounts: targetAccounts
     });
@@ -578,6 +586,7 @@ class PromoAccount extends React.Component {
   }
 
   render() {
+    console.log('render', this.state, this.props)
     return (
       <Row type="flex" gutter={[40, 40]}>
         <Col>
