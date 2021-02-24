@@ -52,16 +52,14 @@ code {
   background-color: transparent;
 }
 
-.ant-popover-inner-content {
-
-}
-
-.ant-popover-title {
-
-}
-
-.ant-popover-placement-rightTop > .ant-popover-content > .ant-popover-arrow {
-
+.ant-input:-webkit-autofill,
+.ant-input:-webkit-autofill:hover,
+.ant-input:-webkit-autofill:active,
+.ant-input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 20px rgb(36, 36, 52) inset !important;
+  -webkit-text-fill-color: white !important;
+  transition: background-color 5000s ease-in-out 0s;
+  caret-color: white;
 }
 
 .ant-spin-dot-item {

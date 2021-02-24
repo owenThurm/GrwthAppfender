@@ -70,7 +70,6 @@ class LoginForm extends React.Component {
             <h2 className="form-header">Sign In</h2>
             <Form
               ref={this.formRef}
-              autoComplete='off'
               name="normal_login"
               className="login-form"
               initialValues={{

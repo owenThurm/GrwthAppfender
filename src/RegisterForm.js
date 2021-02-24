@@ -66,7 +66,6 @@ function RegisterForm() {
       <h2 className="form-header">Register</h2>
       <Form
         form={form}
-        autoComplete='off'
         name="normal_login"
         className="login-form"
         initialValues={{
