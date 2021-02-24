@@ -11,6 +11,8 @@ function RegisterForm() {
 
   const onFinish = (values) => {
     console.log('Received values of form: ', values);
+    values.email = values.email.toLowerCase()
+    console.log('and again', values)
     createUser(values);
   };
 

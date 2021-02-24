@@ -16,8 +16,7 @@ class LoginForm extends React.Component {
   }
 
   onFinish = (values) => {
-    console.log('Received values of form: ', values);
-    console.log(this.props);
+    values.email = values.email.toLowerCase()
     // check credentials here with POST
     this.checkLoginCredentials(values);
   };
