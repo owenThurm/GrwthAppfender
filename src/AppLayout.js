@@ -34,6 +34,11 @@ class AppLayout extends React.Component {
   }
 
   componentDidMount() {
+    this.getUserData()
+  }
+
+  getUserData = () => {
+    console.log('called')
     axios.get(
       'https://owenthurm.com/api/user?email='+this.state.email
       ).then(response => {
@@ -128,6 +133,7 @@ class AppLayout extends React.Component {
 
               <ProtectedRoute path='/' component={Dashboard}
               props={{
+                'reQueryUserData': this.getUserData,
                 'userUsername': this.state.userUsername,
                 'brand': this.state.brand,
                 'userPromoAccounts': this.state.userPromoAccounts,

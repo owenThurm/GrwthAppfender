@@ -15,105 +15,69 @@ class PromoAccount extends React.Component {
     super(props)
     this.state = {
       userUsername: props.userUsername,
-      promoUsername: props.promoUsername,
-      promoPassword: '',
-      targetAccounts: [],
-      active: false,
-      underReview: false,
+      promoUsername: props.promoData.promo_username,
+      promoPassword: props.promoData.promo_password,
+      targetAccounts: props.promoData.promo_target_accounts,
+      active: props.promoData.promo_is_activated,
+      underReview: props.promoData.promo_under_review,
+      isDisabled: props.promoData ? props.promoData.promo_is_disabled : false,
       submitted: props.submitted,
       editing: false,
-      editedPromoUsername: props.promoUsername,
-      editedPromoPassword: '',
+      editedPromoUsername: props.promoData.promo_username,
+      editedPromoPassword: props.promoData.promo_password,
+      editedTargetAccounts: props.promoData.promo_target_accounts,
       configuring: false,
-      promoUsingLikes: props.promoUsingLikes,
-      editedTargetAccounts: [],
-      isDisabled: props.data ? props.data.promo_is_disabled : false,
+      promoUsingLikes: props.promoData.promo_is_liking,
       userIsOnboarding: props.userIsOnboarding,
       onBoardingStep: props.submitted ? 5 : 0,
     }
   }
 
-  componentDidMount() {
-    axios.get('https://owenthurm.com/api/promo?username=' + this.props.promoUsername)
-      .then(response => {
-        this.setState({
-          promoPassword: response.data.promo_password,
-          active: response.data.activated,
-          underReview: response.data.under_review,
-          targetAccounts: response.data.target_accounts,
-          editedPromoPassword: response.data.promo_password,
-          editedTargetAccounts: response.data.target_accounts,
-          promoUsingLikes: response.data.is_liking,
-        });
-      }).catch(err => {
-        console.log(err);
-      });
-  }
-
   componentDidUpdate(prevProps) {
-    console.log('UPDATED', this.state)
     if (prevProps.menuIsCollapsed != this.props.menuIsCollapsed && localStorage.getItem('isOnboarding') == 'true') {
-      console.log('HERERE')
-      console.log('12343121')
       this.setState({
         userIsOnboarding: false
-      }, () => this.setState({ userIsOnboarding: true }, () => console.log('gotcha', this.state)))
-    } else if (prevProps.data != this.props.data
-      || prevProps.promoUsername != this.props.promoUsername || prevProps.submitted != this.props.submitted
-      || prevProps.userIsOnboarding != this.props.userIsOnboarding || prevProps.userUsername != this.props.userUsername) {
-      console.log('CALLED HERE')
-      this.setState({
-        submitted: this.props.submitted,
-        promoUsername: this.props.promoUsername,
-        userUsername: this.props.userUsername,
-        editedPromoUsername: this.props.promoUsername,
-        onBoardingStep: (this.state.onBoardingStep == 0 || this.state.onBoardingStep == 5) ? this.props.submitted ? 5 : 0 : this.state.onBoardingStep
-      }, () => console.log('got em', this.state))
-      console.log("HERE???")
-      axios.get('https://owenthurm.com/api/promo?username=' + this.props.promoUsername)
-        .then(response => {
-          this.setState({
-            promoPassword: response.data.promo_password,
-            targetAccounts: response.data.target_accounts,
-            active: response.data.activated,
-            underReview: response.data.under_review,
-            editedPromoPassword: response.data.promo_password,
-            editedTargetAccounts: response.data.target_accounts,
-            promoUsingLikes: response.data.is_liking,
-          }, () => console.log('got me', this.state));
-        }).catch(err => {
-          console.log(err);
-        });
+      }, () => this.setState({ userIsOnboarding: true }))
     }
-    console.log('ended', this.state)
   }
 
   //When adding a promo account for the first time
   onSubmitReview() {
+    console.log('submitted for review')
     if (this.state.promoUsername != '' && this.state.promoUsername != undefined
       && this.state.promoPassword != '' && this.state.promoPassword != undefined
       && this.state.targetAccounts != [] && this.state.targetAccounts != undefined
       && this.state.targetAccounts.length > 0) {
+      console.log({
+        "promo_username": this.state.promoUsername,
+        "promo_password": this.state.promoPassword,
+        "target_accounts": this.state.targetAccounts,
+        "user": this.state.userUsername
+      })
       axios.post('https://owenthurm.com/api/promo', {
         "promo_username": this.state.promoUsername,
         "promo_password": this.state.promoPassword,
         "target_accounts": this.state.targetAccounts,
         "user": this.state.userUsername
       }).then(response => {
-        this.setState({
-          submitted: true,
-          underReview: true,
-          active: false,
-          editedPromoUsername: this.state.promoUsername,
-          editedPromoPassword: this.state.promoPassword,
-          editedTargetAccounts: this.state.targetAccounts,
-          onBoardingStep: 5,
-        });
+        if(response.data.message == 'invalid') {
+          message.warning('promo account with username ' + this.state.promoUsername + ' already exists')
+        } else {
+          this.setState({
+            submitted: true,
+            underReview: true,
+            active: false,
+            editedPromoUsername: this.state.promoUsername,
+            editedPromoPassword: this.state.promoPassword,
+            editedTargetAccounts: this.state.targetAccounts,
+            onBoardingStep: 5,
+            promoUsingLikes: true
+          });
+        }
       }).catch(err => {
         console.log(err);
       });
     } else {
-      console.log(this.state)
       this.warningMessage('Fill in all fields and include target brands!')
     }
   }
@@ -121,7 +85,6 @@ class PromoAccount extends React.Component {
 
 
   updatePromo = () => {
-    console.log('before', this.state, this.props)
     if (!(this.state.promoUsername == this.state.editedPromoUsername
       && this.state.promoPassword == this.state.editedPromoPassword
       && this.state.targetAccounts == this.state.editedTargetAccounts)
@@ -211,7 +174,6 @@ class PromoAccount extends React.Component {
   }
 
   setEditedTargetAccounts = targetAccounts => {
-    console.log('setting targets', this.state)
     this.setState({
       editedTargetAccounts: targetAccounts
     });
@@ -586,7 +548,6 @@ class PromoAccount extends React.Component {
   }
 
   render() {
-    console.log('render', this.state, this.props)
     return (
       <Row type="flex" gutter={[40, 40]}>
         <Col>
@@ -618,7 +579,7 @@ class PromoAccount extends React.Component {
                 <EditOutlined onClick={this.toggleEdit}/>
               </Popover>
             ] : []}
-            title='Promo Account #1'
+            title={'Promo Account #' + this.props.promoNumber}
             headStyle={{ color: 'white', textAlign: 'center', borderWidth: 2, borderBottomColor: 'rgb(190, 190, 194)' }}>
 
               <Row style={{ marginBottom: 5 }}>
