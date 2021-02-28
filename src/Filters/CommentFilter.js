@@ -98,7 +98,7 @@ class CommentFilter extends React.Component {
   }
 
   updateMinFollowers = (minFollowers) => {
-    if(minFollowers != "" && minFollowers != null) {
+    if(minFollowers !== "" && minFollowers != null) {
       this.setState({
         accountMinFollowers: minFollowers,
       })
