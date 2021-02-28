@@ -146,7 +146,7 @@ code {
 }
 
 .ant-menu {
-  background-color:rgb(36, 36, 52);
+  background-color: rgb(36, 36, 52);
   color: rgb(190, 190, 194);
 
   border-right-color: rgb(38, 41, 56);
@@ -156,6 +156,28 @@ code {
 .ant-card-meta-title {
   color: white;
   margin: 0;
+}
+
+.ant-card-head-title {
+  color: white;
+}
+
+.ant-input-number {
+  background-color: rgb(36, 36, 52);
+  border-color: rgb(36, 36, 52);
+  color: white;
+  width: 90px;
+  padding: 0px;
+  border-radius: 1.2vh;
+}
+
+.ant-input-number-input {
+  padding: 5px;
+}
+
+.ant-card-head {
+  border-bottom-color: rgb(38, 41, 56);
+  border-bottom-width: 2px;
 }
 
 .ant-card-meta-description {
@@ -182,6 +204,12 @@ code {
   background-color: rgb(36, 36, 52);
   color: white;
   border-bottom-color: white;
+}
+
+.ant-menu-horizontal {
+  border-bottom-color: rgb(38, 41, 56);
+  margin-top: 20px;
+  border-bottom-width: 2px;
 }
 
 .ant-layout {

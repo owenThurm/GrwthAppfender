@@ -23,8 +23,8 @@ class Dashboard extends React.Component {
         <Menu mode='horizontal'
         style={{
           marginTop: 20,
-           borderBottomColor: 'rgb(38, 41, 56)',
-            borderBottomWidth: 2}}>
+          borderBottomColor: 'rgb(38, 41, 56)',
+          borderBottomWidth: 2}}>
           <Menu.Item icon={<RiseOutlined />}>
             <Link to='/' />
             Promo

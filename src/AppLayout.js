@@ -5,7 +5,8 @@ import {
   MenuFoldOutlined,
   DashboardOutlined,
   SettingOutlined,
-  LogoutOutlined
+  LogoutOutlined,
+  FilterOutlined
 } from '@ant-design/icons';
 import { NameCard } from './NameCard';
 import { Switch, Link } from 'react-router-dom';
@@ -14,11 +15,11 @@ import Dashboard from './Dashboard/Dashboard';
 import { Settings } from './Settings/Settings';
 import axios from 'axios';
 import NavBar from './NavBar';
+import Filters from './Filters/Filters';
 
 const { Header, Sider, Content } = Layout;
 
 class AppLayout extends React.Component {
-
   constructor(props) {
     super(props)
     this.state = {
@@ -31,6 +32,7 @@ class AppLayout extends React.Component {
       userPromoAccounts: [],
       userTotalComments: 0,
       userIsOnboarding: localStorage.getItem('isOnboarding') == 'true',
+      userFilter: {},
     }
   }
 
@@ -39,7 +41,6 @@ class AppLayout extends React.Component {
   }
 
   getUserData = () => {
-    console.log('called')
     axios.get(
       'https://owenthurm.com/api/user?email='+this.state.email
       ).then(response => {
@@ -50,6 +51,7 @@ class AppLayout extends React.Component {
           usingCustomComments: response.data.user_data.user_using_custom_coments,
           userPromoAccounts: response.data.user_data.user_promo_accounts,
           userTotalComments: response.data.user_data.user_total_comments,
+          userFilter: response.data.user_data.user_comment_filter,
         });
       }).catch(err => {
         console.log(err);
@@ -102,6 +104,10 @@ class AppLayout extends React.Component {
                 <Link to='/' />
                 Dashboard
               </Menu.Item>
+              <Menu.Item icon={<FilterOutlined />}>
+              <Link to='/filters'/>
+                Action Filters
+              </Menu.Item>
               <Menu.Item key="2" icon={<SettingOutlined />}>
                 Settings
                 <Link to='/settings' style={{
@@ -133,13 +139,17 @@ class AppLayout extends React.Component {
             </Header>
           </div>
           <Switch>
-
               <ProtectedRoute path='/settings' component={Settings}
               props={{
                 'userUsername': this.state.userUsername,
                 'usingCustomComments': this.state.usingCustomComments,
               }}/>
-
+              <ProtectedRoute path='/filters' component={Filters}
+              props={{
+                'userFilter': this.state.userFilter,
+                'userUsername': this.state.userUsername,
+                'updateUserData': this.getUserData,
+              }}/>
               <ProtectedRoute path='/' component={Dashboard}
               props={{
                 'reQueryUserData': this.getUserData,

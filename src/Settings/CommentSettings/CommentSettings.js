@@ -17,7 +17,6 @@ class CommentSettings extends React.Component {
 
   componentDidMount() {
     //axios get to get user's custom comments
-    console.log(this.props.props.userUsername)
     axios.get(
       'https://owenthurm.com/api/user/customcomments?user=' + this.props.props.userUsername
       ).then(response => {
