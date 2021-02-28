@@ -174,7 +174,43 @@ code {
   background-color: rgb(36, 36, 52);
 }
 
+.ant-drawer-body {
+  background-color: rgb(36, 36, 52);
+}
+
+.ant-drawer-header {
+  background-color: rgb(36, 36, 52);
+  color: white;
+  border-bottom-color: white;
+}
+
 .ant-layout {
   background-color: rgb(36, 36, 52);
   color: white;
 }
+
+.ant-drawer-title {
+  color: white;
+}
+
+#AppLayoutSiderButton {
+  display: none;
+}
+
+#AppLayoutDiv {
+  display: none;
+}
+
+@media only screen and (min-width: 600px) {
+  #AppLayoutDiv {
+    display: block;
+  }
+  #AppLayoutSiderButton {
+    display: inline-block;
+  }
+  #AppLayoutNavBar {
+    display: none;
+  }
+}
+
+

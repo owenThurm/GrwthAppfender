@@ -16,7 +16,7 @@ class ProtectedRoute extends React.Component {
   componentDidMount() {
     //axios call to authenticate user
     axios.post('https://owenthurm.com/api/user/getidentity', {
-      'token': localStorage.getItem('token')
+      'token': localStorage.getItem('token') || 'empty'
     }).then(response => {
       if(response.data.message === "user identity") {
         localStorage.setItem('email', response.data.email)

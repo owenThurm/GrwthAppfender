@@ -13,6 +13,7 @@ import ProtectedRoute from './ProtectedRoute';
 import Dashboard from './Dashboard/Dashboard';
 import { Settings } from './Settings/Settings';
 import axios from 'axios';
+import NavBar from './NavBar';
 
 const { Header, Sider, Content } = Layout;
 
@@ -21,7 +22,7 @@ class AppLayout extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      collapsed: true,
+      collapsed: false,
       brand: '',
       userUsername: localStorage.getItem('username'),
       location: '',
@@ -69,13 +70,17 @@ class AppLayout extends React.Component {
   render() {
     return (
       <Layout>
-        <div style={{
+        <div id="AppLayoutDiv" style={{
             height: '100vh',
             borderRightWidth: 2,
             borderRightStyle: 'solid',
             borderRightColor: 'rgb(38, 41, 56)',
           }}>
-        <Sider style={{height: 500}} trigger={null} collapsible collapsed={this.state.collapsed}>
+        <Sider
+        trigger={null}
+        collapsible
+        collapsedWidth={this.state.mobile ? 0 : 75}
+        collapsed={this.state.collapsed}>
           <div style={{
             borderBottomWidth: 2,
             borderBottomStyle: 'solid',
@@ -120,7 +125,11 @@ class AppLayout extends React.Component {
               {React.createElement(this.state.collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
                 className: 'trigger',
                 onClick: this.toggle,
+                id: 'AppLayoutSiderButton',
               })}
+              <div id="AppLayoutNavBar">
+                <NavBar logout={this.logout}/>
+              </div>
             </Header>
           </div>
           <Switch>
