@@ -548,6 +548,8 @@ class PromoAccount extends React.Component {
   }
 
   render() {
+    console.log('promo account props', this.props)
+    console.log('promo account car state', this.state)
     return (
       <Row type="flex" gutter={[40, 40]}>
         <Col>

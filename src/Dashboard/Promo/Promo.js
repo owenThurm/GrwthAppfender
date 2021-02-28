@@ -23,12 +23,17 @@ class Promo extends React.Component {
       })
     }
 
+    console.log('after adding', userPromoAccountList)
+
     return (
       <div style={{ marginTop: 30, marginLeft: 40 }}>
         <List
           grid={{ gutter: 16, column: 4 }}
           dataSource={userPromoAccountList}
-          renderItem={(promoAccount, index) => (
+          renderItem={(promoAccount, index) => {
+            console.log('promo data', promoAccount)
+            console.log('promo index', index)
+            return (
             <List.Item>
               <PromoAccount
               promoNumber={index+1}
@@ -40,7 +45,7 @@ class Promo extends React.Component {
               reQueryUserData={this.props.props.reQueryUserData}
               />
             </List.Item>
-          )}
+          )}}
         />
       </div>
     )
