@@ -12,7 +12,7 @@ class Promo extends React.Component {
   }
 
   render() {
-
+    console.log('user promo accounts props>>', this.props.props.userPromoAccounts)
     let userPromoAccountList = this.props.props.userPromoAccounts ?
      JSON.parse(JSON.stringify(this.props.props.userPromoAccounts))
      : [];
