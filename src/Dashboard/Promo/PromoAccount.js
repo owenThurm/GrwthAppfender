@@ -10,9 +10,10 @@ import EditableTagGroup from './EditableTag';
 const { Title } = Typography;
 
 class PromoAccount extends React.Component {
-
   constructor(props) {
     super(props)
+    console.log('constructed promo acount', props)
+    console.log('targetAccounts', props.promoData.promo_target_accounts)
     this.state = {
       userUsername: props.userUsername,
       promoUsername: props.promoData.promo_username,
@@ -31,9 +32,29 @@ class PromoAccount extends React.Component {
       userIsOnboarding: props.userIsOnboarding,
       onBoardingStep: props.submitted ? 5 : 0,
     }
+    console.log('state constructed', this.state)
+    console.log('targetAccounts', props.promoData.promo_target_accounts)
   }
 
   componentDidUpdate(prevProps) {
+    console.log('called component did update')
+    if(prevProps.promoUsername == null && this.props.promoUsername != prevProps.promoUsername) {
+      console.log('resetting props')
+      this.setState({
+        promoUsername: props.promoData.promo_username,
+        promoPassword: props.promoData.promo_password,
+        targetAccounts: props.promoData.promo_target_accounts,
+        active: props.promoData.promo_is_activated,
+        underReview: props.promoData.promo_under_review,
+        isDisabled: props.promoData ? props.promoData.promo_is_disabled : false,
+        submitted: props.submitted,
+        editedPromoUsername: props.promoData.promo_username,
+        editedPromoPassword: props.promoData.promo_password,
+        editedTargetAccounts: props.promoData.promo_target_accounts,
+        promoUsingLikes: props.promoData.promo_is_liking,
+        onBoardingStep: props.submitted ? 5 : 0,
+      });
+    }
     if (prevProps.menuIsCollapsed != this.props.menuIsCollapsed && localStorage.getItem('isOnboarding') == 'true') {
       this.setState({
         userIsOnboarding: false
