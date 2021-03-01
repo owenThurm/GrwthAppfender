@@ -46,7 +46,7 @@ class PromoAccount extends React.Component {
         targetAccounts: this.props.promoData.promo_target_accounts,
         active: this.props.promoData.promo_is_activated,
         underReview: this.props.promoData.promo_under_review,
-        isDisabled: this.props.promoData ? props.promoData.promo_is_disabled : false,
+        isDisabled: this.props.promoData ? this.props.promoData.promo_is_disabled : false,
         submitted: this.props.submitted,
         editedPromoUsername: this.props.promoData.promo_username,
         editedPromoPassword: this.props.promoData.promo_password,
