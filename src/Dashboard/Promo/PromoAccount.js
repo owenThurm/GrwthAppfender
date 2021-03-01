@@ -41,18 +41,18 @@ class PromoAccount extends React.Component {
     if(prevProps.promoUsername == null && this.props.promoUsername != prevProps.promoUsername) {
       console.log('resetting props')
       this.setState({
-        promoUsername: props.promoData.promo_username,
-        promoPassword: props.promoData.promo_password,
-        targetAccounts: props.promoData.promo_target_accounts,
-        active: props.promoData.promo_is_activated,
-        underReview: props.promoData.promo_under_review,
-        isDisabled: props.promoData ? props.promoData.promo_is_disabled : false,
-        submitted: props.submitted,
-        editedPromoUsername: props.promoData.promo_username,
-        editedPromoPassword: props.promoData.promo_password,
-        editedTargetAccounts: props.promoData.promo_target_accounts,
-        promoUsingLikes: props.promoData.promo_is_liking,
-        onBoardingStep: props.submitted ? 5 : 0,
+        promoUsername: this.props.promoData.promo_username,
+        promoPassword: this.props.promoData.promo_password,
+        targetAccounts: this.props.promoData.promo_target_accounts,
+        active: this.props.promoData.promo_is_activated,
+        underReview: this.props.promoData.promo_under_review,
+        isDisabled: this.props.promoData ? props.promoData.promo_is_disabled : false,
+        submitted: this.props.submitted,
+        editedPromoUsername: this.props.promoData.promo_username,
+        editedPromoPassword: this.props.promoData.promo_password,
+        editedTargetAccounts: this.props.promoData.promo_target_accounts,
+        promoUsingLikes: this.props.promoData.promo_is_liking,
+        onBoardingStep: this.props.submitted ? 5 : 0,
       });
     }
     if (prevProps.menuIsCollapsed != this.props.menuIsCollapsed && localStorage.getItem('isOnboarding') == 'true') {
