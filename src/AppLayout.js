@@ -33,6 +33,7 @@ class AppLayout extends React.Component {
       userTotalComments: 0,
       userIsOnboarding: localStorage.getItem('isOnboarding') == 'true',
       userFilter: {},
+      loading: true,
     }
   }
 
@@ -52,6 +53,7 @@ class AppLayout extends React.Component {
           userPromoAccounts: response.data.user_data.user_promo_accounts,
           userTotalComments: response.data.user_data.user_total_comments,
           userFilter: response.data.user_data.user_comment_filter,
+          loading: false,
         });
       }).catch(err => {
         console.log(err);

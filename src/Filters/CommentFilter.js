@@ -58,6 +58,7 @@ class CommentFilter extends React.Component {
   }
 
   updateMinComments = (minComments) => {
+    console.log('called update min comments')
     if(minComments !== "" && minComments != null && !isNaN(minComments)) {
       this.setState({
         postMinComments: minComments,
@@ -98,7 +99,9 @@ class CommentFilter extends React.Component {
   }
 
   updateMinFollowers = (minFollowers) => {
-    if(minFollowers !== "" && minFollowers != null && isNaN(minFollowers)) {
+    console.log('valled here', minFollowers)
+    if(minFollowers !== "" && minFollowers != null && !isNaN(minFollowers)) {
+      console.log('here')
       this.setState({
         accountMinFollowers: minFollowers,
       })
@@ -106,7 +109,7 @@ class CommentFilter extends React.Component {
   }
 
   updateMaxFollowers = (maxFollowers) => {
-    if(maxFollowers !== "" && maxFollowers != null && isNaN(maxFollowers)) {
+    if(maxFollowers !== "" && maxFollowers != null && !isNaN(maxFollowers)) {
       this.setState({
         accountMaxFollowers: maxFollowers,
       })
@@ -114,7 +117,7 @@ class CommentFilter extends React.Component {
   }
 
   updateMinFollowing = (minFollowing) => {
-    if(minFollowing !== "" && minFollowing != null && isNaN(minFollowing)) {
+    if(minFollowing !== "" && minFollowing != null && !isNaN(minFollowing)) {
       this.setState({
         accountMinFollowing: minFollowing,
       })
@@ -122,7 +125,7 @@ class CommentFilter extends React.Component {
   }
 
   updateMaxFollowing = (maxFollowing) => {
-    if(maxFollowing !== "" && maxFollowing != null && isNaN(maxFollowing)) {
+    if(maxFollowing !== "" && maxFollowing != null && !isNaN(maxFollowing)) {
       this.setState({
         accountMaxFollowing: maxFollowing,
       })
