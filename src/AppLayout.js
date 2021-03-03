@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layout, Menu, Image } from 'antd';
+import { Layout, Menu, Image, Spin } from 'antd';
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
@@ -73,98 +73,106 @@ class AppLayout extends React.Component {
 
   render() {
     return (
-      <Layout>
-        <div id="AppLayoutDiv" style={{
-            height: '100vh',
-            borderRightWidth: 2,
-            borderRightStyle: 'solid',
-            borderRightColor: 'rgb(38, 41, 56)',
-          }}>
-        <Sider
-        trigger={null}
-        collapsible
-        collapsedWidth={this.state.mobile ? 0 : 75}
-        collapsed={this.state.collapsed}>
-          <div style={{
-            borderBottomWidth: 2,
-            borderBottomStyle: 'solid',
-            borderBottomColor: 'rgb(38, 41, 56)',}}>
+      <div>
+        {this.state.loading ?
+        <div style={{position: 'absolute', top: '50vh', left: 0, right: 0}}>
+        <Spin style={{position: 'absolute', margin: 'auto', left: 0, right: 0, top: 0, bottom: 0}}
+        size='large'/>
+        </div> : (
+        <Layout>
+          <div id="AppLayoutDiv" style={{
+              height: '100vh',
+              borderRightWidth: 2,
+              borderRightStyle: 'solid',
+              borderRightColor: 'rgb(38, 41, 56)',
+            }}>
+          <Sider
+          trigger={null}
+          collapsible
+          collapsedWidth={this.state.mobile ? 0 : 75}
+          collapsed={this.state.collapsed}>
             <div style={{
-              marginTop: 10,
-              marginBottom: 10,
-              marginLeft: 60,
-              marginRight: 70,
-              }}>
-              <Image src='http://genuineapparelgrowth.com/Images/WhiteLabel.png' />
-            </div>
-          </div>
-
-          <NameCard userUsername={this.state.userUsername} brand={this.state.brand} />
-
-            <Menu mode="inline" defaultSelectedKeys={['1']}>
-              <Menu.Item key="1" icon={<DashboardOutlined />}>
-                <Link to='/' />
-                Dashboard
-              </Menu.Item>
-              <Menu.Item icon={<FilterOutlined />}>
-              <Link to='/filters'/>
-                Action Filters
-              </Menu.Item>
-              <Menu.Item key="2" icon={<SettingOutlined />}>
-                Settings
-                <Link to='/settings' style={{
-                  color: 'white'
-                }} />
-              </Menu.Item>
-              <Menu.Item key="3" icon={<LogoutOutlined />} onClick={() => this.logout()}>
-                Log Out
-              </Menu.Item>
-            </Menu>
-        </Sider>
-        </div>
-        <Layout className="site-layout">
-          <div style={{
-            borderBottomWidth: 2,
-            borderBottomStyle: 'solid',
-            borderBottomColor: 'rgb(38, 41, 56)',
-            height: 73,
-          }}>
-            <Header className="site-layout-background" style={{ paddingLeft: 40 }}>
-              {React.createElement(this.state.collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
-                className: 'trigger',
-                onClick: this.toggle,
-                id: 'AppLayoutSiderButton',
-              })}
-              <div id="AppLayoutNavBar">
-                <NavBar logout={this.logout}/>
+              borderBottomWidth: 2,
+              borderBottomStyle: 'solid',
+              borderBottomColor: 'rgb(38, 41, 56)',}}>
+              <div style={{
+                marginTop: 10,
+                marginBottom: 10,
+                marginLeft: 60,
+                marginRight: 70,
+                }}>
+                <Image src='http://genuineapparelgrowth.com/Images/WhiteLabel.png' />
               </div>
-            </Header>
+            </div>
+
+            <NameCard userUsername={this.state.userUsername} brand={this.state.brand} />
+
+              <Menu mode="inline" defaultSelectedKeys={['1']}>
+                <Menu.Item key="1" icon={<DashboardOutlined />}>
+                  <Link to='/' />
+                  Dashboard
+                </Menu.Item>
+                <Menu.Item icon={<FilterOutlined />}>
+                <Link to='/filters'/>
+                  Action Filters
+                </Menu.Item>
+                <Menu.Item key="2" icon={<SettingOutlined />}>
+                  Settings
+                  <Link to='/settings' style={{
+                    color: 'white'
+                  }} />
+                </Menu.Item>
+                <Menu.Item key="3" icon={<LogoutOutlined />} onClick={() => this.logout()}>
+                  Log Out
+                </Menu.Item>
+              </Menu>
+          </Sider>
           </div>
-          <Switch>
-              <ProtectedRoute path='/settings' component={Settings}
-              props={{
-                'userUsername': this.state.userUsername,
-                'usingCustomComments': this.state.usingCustomComments,
-              }}/>
-              <ProtectedRoute path='/filters' component={Filters}
-              props={{
-                'userFilter': this.state.userFilter,
-                'userUsername': this.state.userUsername,
-                'updateUserData': this.getUserData,
-              }}/>
-              <ProtectedRoute path='/' component={Dashboard}
-              props={{
-                'reQueryUserData': this.getUserData,
-                'userUsername': this.state.userUsername,
-                'brand': this.state.brand,
-                'userPromoAccounts': this.state.userPromoAccounts,
-                'userTotalComments': this.state.userTotalComments,
-                'userIsOnboarding': this.state.userIsOnboarding,
-                'menuIsCollapsed': this.state.collapsed,
-              }}/>
-          </Switch>
+          <Layout className="site-layout">
+            <div style={{
+              borderBottomWidth: 2,
+              borderBottomStyle: 'solid',
+              borderBottomColor: 'rgb(38, 41, 56)',
+              height: 73,
+            }}>
+              <Header className="site-layout-background" style={{ paddingLeft: 40 }}>
+                {React.createElement(this.state.collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
+                  className: 'trigger',
+                  onClick: this.toggle,
+                  id: 'AppLayoutSiderButton',
+                })}
+                <div id="AppLayoutNavBar">
+                  <NavBar logout={this.logout}/>
+                </div>
+              </Header>
+            </div>
+            <Switch>
+                <ProtectedRoute path='/settings' component={Settings}
+                props={{
+                  'userUsername': this.state.userUsername,
+                  'usingCustomComments': this.state.usingCustomComments,
+                }}/>
+                <ProtectedRoute path='/filters' component={Filters}
+                props={{
+                  'userFilter': this.state.userFilter,
+                  'userUsername': this.state.userUsername,
+                  'updateUserData': this.getUserData,
+                }}/>
+                <ProtectedRoute path='/' component={Dashboard}
+                props={{
+                  'reQueryUserData': this.getUserData,
+                  'userUsername': this.state.userUsername,
+                  'brand': this.state.brand,
+                  'userPromoAccounts': this.state.userPromoAccounts,
+                  'userTotalComments': this.state.userTotalComments,
+                  'userIsOnboarding': this.state.userIsOnboarding,
+                  'menuIsCollapsed': this.state.collapsed,
+                }}/>
+            </Switch>
+          </Layout>
         </Layout>
-      </Layout>
+        )}
+      </div>
     );
   }
 }

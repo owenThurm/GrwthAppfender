@@ -37,8 +37,10 @@ class PromoAccount extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    console.log('called component did update')
-    if(prevProps.promoUsername == null && this.props.promoUsername != prevProps.promoUsername) {
+    /*console.log('called component did update in card', prevProps, this.props)
+    console.log(1, prevProps.promoData.promo_username == null)
+    console.log(2, this.props.promoData.promo_username != prevProps.promoData.promo_username)
+    if(prevProps.promoData.promo_username == null && this.props.promoData.promo_username != prevProps.promoData.promo_username) {
       console.log('resetting props')
       this.setState({
         promoUsername: this.props.promoData.promo_username,
@@ -55,6 +57,7 @@ class PromoAccount extends React.Component {
         onBoardingStep: this.props.submitted ? 5 : 0,
       });
     }
+    */
     if (prevProps.menuIsCollapsed != this.props.menuIsCollapsed && localStorage.getItem('isOnboarding') == 'true') {
       this.setState({
         userIsOnboarding: false

@@ -21,6 +21,7 @@ class Dashboard extends React.Component {
     return(
       <div>
         <Menu mode='horizontal'
+        defaultSelectedKeys={['1']}
         style={{
           marginTop: 20,
           borderBottomColor: 'rgb(38, 41, 56)',

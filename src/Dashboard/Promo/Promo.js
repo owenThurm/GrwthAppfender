@@ -10,14 +10,19 @@ class Promo extends React.Component {
       userPromoAccounts: props.props.userPromoAccounts,
     }
   }
-
+/*
   componentDidUpdate(prevProps) {
-    if(prevProps.props.userPromoAccountList.length < 1 && this.props.props.userPromoAccounts.length > 0) {
+    console.log('XXXXXXXXXXXXXXXXXXXXXXX', prevProps, this.props)
+    alert('HAPPENED')
+    if((prevProps.props.userPromoAccounts == null || prevProps.props.userPromoAccounts.length < 1)
+    && this.props.props.userPromoAccounts != null && this.props.props.userPromoAccounts.length > 0) {
+      console.log('about to reset state')
       this.setState({
         userPromoAccounts: this.props.props.userPromoAccounts
       })
     }
   }
+*/
 
   render() {
     console.log('user promo accounts props>>', this.props.props.userPromoAccounts)
