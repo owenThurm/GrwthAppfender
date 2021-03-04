@@ -12,8 +12,6 @@ const { Title } = Typography;
 class PromoAccount extends React.Component {
   constructor(props) {
     super(props)
-    console.log('constructed promo acount', props)
-    console.log('targetAccounts', props.promoData.promo_target_accounts)
     this.state = {
       userUsername: props.userUsername,
       promoUsername: props.promoData.promo_username,
@@ -32,32 +30,9 @@ class PromoAccount extends React.Component {
       userIsOnboarding: props.userIsOnboarding,
       onBoardingStep: props.submitted ? 5 : 0,
     }
-    console.log('state constructed', this.state)
-    console.log('targetAccounts', props.promoData.promo_target_accounts)
   }
 
   componentDidUpdate(prevProps) {
-    /*console.log('called component did update in card', prevProps, this.props)
-    console.log(1, prevProps.promoData.promo_username == null)
-    console.log(2, this.props.promoData.promo_username != prevProps.promoData.promo_username)
-    if(prevProps.promoData.promo_username == null && this.props.promoData.promo_username != prevProps.promoData.promo_username) {
-      console.log('resetting props')
-      this.setState({
-        promoUsername: this.props.promoData.promo_username,
-        promoPassword: this.props.promoData.promo_password,
-        targetAccounts: this.props.promoData.promo_target_accounts,
-        active: this.props.promoData.promo_is_activated,
-        underReview: this.props.promoData.promo_under_review,
-        isDisabled: this.props.promoData ? this.props.promoData.promo_is_disabled : false,
-        submitted: this.props.submitted,
-        editedPromoUsername: this.props.promoData.promo_username,
-        editedPromoPassword: this.props.promoData.promo_password,
-        editedTargetAccounts: this.props.promoData.promo_target_accounts,
-        promoUsingLikes: this.props.promoData.promo_is_liking,
-        onBoardingStep: this.props.submitted ? 5 : 0,
-      });
-    }
-    */
     if (prevProps.menuIsCollapsed != this.props.menuIsCollapsed && localStorage.getItem('isOnboarding') == 'true') {
       this.setState({
         userIsOnboarding: false
@@ -67,17 +42,10 @@ class PromoAccount extends React.Component {
 
   //When adding a promo account for the first time
   onSubmitReview() {
-    console.log('submitted for review')
     if (this.state.promoUsername != '' && this.state.promoUsername != undefined
       && this.state.promoPassword != '' && this.state.promoPassword != undefined
       && this.state.targetAccounts != [] && this.state.targetAccounts != undefined
       && this.state.targetAccounts.length > 0) {
-      console.log({
-        "promo_username": this.state.promoUsername,
-        "promo_password": this.state.promoPassword,
-        "target_accounts": this.state.targetAccounts,
-        "user": this.state.userUsername
-      })
       axios.post('https://owenthurm.com/api/promo', {
         "promo_username": this.state.promoUsername,
         "promo_password": this.state.promoPassword,
@@ -572,8 +540,6 @@ class PromoAccount extends React.Component {
   }
 
   render() {
-    console.log('promo account props', this.props)
-    console.log('promo account car state', this.state)
     return (
       <Row type="flex" gutter={[40, 40]}>
         <Col>

@@ -10,22 +10,8 @@ class Promo extends React.Component {
       userPromoAccounts: props.props.userPromoAccounts,
     }
   }
-/*
-  componentDidUpdate(prevProps) {
-    console.log('XXXXXXXXXXXXXXXXXXXXXXX', prevProps, this.props)
-    alert('HAPPENED')
-    if((prevProps.props.userPromoAccounts == null || prevProps.props.userPromoAccounts.length < 1)
-    && this.props.props.userPromoAccounts != null && this.props.props.userPromoAccounts.length > 0) {
-      console.log('about to reset state')
-      this.setState({
-        userPromoAccounts: this.props.props.userPromoAccounts
-      })
-    }
-  }
-*/
 
   render() {
-    console.log('user promo accounts props>>', this.props.props.userPromoAccounts)
     let userPromoAccountList = this.props.props.userPromoAccounts ?
      JSON.parse(JSON.stringify(this.props.props.userPromoAccounts))
      : [];
@@ -36,16 +22,12 @@ class Promo extends React.Component {
       })
     }
 
-    console.log('after adding', userPromoAccountList)
-
     return (
       <div style={{ marginTop: 30, marginLeft: 40 }}>
         <List
           grid={{ gutter: 16, column: 4 }}
           dataSource={userPromoAccountList}
           renderItem={(promoAccount, index) => {
-            console.log('promo data', promoAccount)
-            console.log('promo index', index)
             return (
             <List.Item>
               <PromoAccount
