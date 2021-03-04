@@ -9,6 +9,7 @@ import CommentSettings from './CommentSettings/CommentSettings';
 export const Settings = props => {
 
   let path = window.location.pathname;
+  let subPath = path.split('/')[2]
 
   const commentSettingsIcon = () => {
     if(path == '/settings/comments') {
@@ -28,17 +29,19 @@ export const Settings = props => {
 
   return(
     <div>
-      <Menu mode='horizontal'
+      <Menu
+      defaultSelectedKeys={subPath ? subPath : 'account'}
+      mode='horizontal'
       style={{
         marginTop: 20,
         borderBottomColor: 'rgb(38, 41, 56)',
           borderBottomWidth: 2}}>
-        <Menu.Item icon={accountSettingsIcon()}>
+        <Menu.Item key='account' icon={accountSettingsIcon()}>
           <Link to='/settings' />
           Account Settings
         </Menu.Item>
 
-        <Menu.Item icon={commentSettingsIcon()}>
+        <Menu.Item key='comments' icon={commentSettingsIcon()}>
           <Link to='/settings/comments' />
           Comment Settings
         </Menu.Item>

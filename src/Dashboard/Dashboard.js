@@ -1,6 +1,6 @@
 import React from 'react';
 import { Menu } from 'antd';
-import { RiseOutlined, CopyOutlined } from '@ant-design/icons';
+import { ThunderboltFilled, ThunderboltOutlined, CopyOutlined, CopyFilled } from '@ant-design/icons';
 import { Link, Switch } from 'react-router-dom';
 import ProtectedRoute from '../ProtectedRoute';
 import Promo from './Promo/Promo';
@@ -18,19 +18,22 @@ class Dashboard extends React.Component {
   }
 
   render() {
+    let path = window.location.pathname;
+    let subPath = path.split('/')[1]
+
     return(
       <div>
         <Menu mode='horizontal'
-        defaultSelectedKeys={['1']}
+        defaultSelectedKeys={subPath ? subPath : 'promo'}
         style={{
           marginTop: 20,
           borderBottomColor: 'rgb(38, 41, 56)',
           borderBottomWidth: 2}}>
-          <Menu.Item icon={<RiseOutlined />}>
+          <Menu.Item key="promo" icon={path == '/' ? <ThunderboltFilled /> : <ThunderboltOutlined />}>
             <Link to='/' />
             Promo
           </Menu.Item>
-          <Menu.Item icon={<CopyOutlined />}>
+          <Menu.Item key='reports' icon={path == '/reports' ? <CopyFilled /> : <CopyOutlined />}>
             <Link to='/reports' />
             Reports
           </Menu.Item>

@@ -4,9 +4,12 @@ import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
   DashboardOutlined,
+  DashboardFilled,
   SettingOutlined,
+  SettingFilled,
   LogoutOutlined,
-  FilterOutlined
+  FilterOutlined,
+  FilterFilled,
 } from '@ant-design/icons';
 import { NameCard } from './NameCard';
 import { Switch, Link } from 'react-router-dom';
@@ -72,6 +75,8 @@ class AppLayout extends React.Component {
   }
 
   render() {
+    let path = window.location.pathname;
+    let subPath = path.split('/')[1]
     return (
       <div>
         {this.state.loading ?
@@ -107,22 +112,22 @@ class AppLayout extends React.Component {
 
             <NameCard userUsername={this.state.userUsername} brand={this.state.brand} />
 
-              <Menu mode="inline" defaultSelectedKeys={['1']}>
-                <Menu.Item key="1" icon={<DashboardOutlined />}>
+              <Menu mode='inline' defaultSelectedKeys={[subPath ? subPath : 'dashboard']}>
+                <Menu.Item key='dashboard' icon={path == '/' || path == '/reports' ?  <DashboardFilled/> : <DashboardOutlined/>}>
                   <Link to='/' />
                   Dashboard
                 </Menu.Item>
-                <Menu.Item icon={<FilterOutlined />}>
+                <Menu.Item key='filters' icon={subPath == 'filters' ? <FilterFilled/> : <FilterOutlined/>}>
                 <Link to='/filters'/>
                   Action Filters
                 </Menu.Item>
-                <Menu.Item key="2" icon={<SettingOutlined />}>
+                <Menu.Item key="settings" icon={subPath == 'settings' ? <SettingFilled/> :  <SettingOutlined/>}>
                   Settings
                   <Link to='/settings' style={{
                     color: 'white'
                   }} />
                 </Menu.Item>
-                <Menu.Item key="3" icon={<LogoutOutlined />} onClick={() => this.logout()}>
+                <Menu.Item icon={<LogoutOutlined />} onClick={() => this.logout()}>
                   Log Out
                 </Menu.Item>
               </Menu>

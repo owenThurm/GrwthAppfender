@@ -2,7 +2,7 @@ import React from 'react';
 import { Menu } from 'antd';
 import { Link, Switch } from 'react-router-dom';
 import ProtectedRoute from '../ProtectedRoute';
-import { MessageOutlined } from '@ant-design/icons';
+import { MessageOutlined, MessageFilled } from '@ant-design/icons';
 import CommentFilter from './CommentFilter';
 
 class Filter extends React.Component {
@@ -14,10 +14,13 @@ class Filter extends React.Component {
   }
 
   render() {
+    let path = window.location.pathname;
+    let subPath = path.split('/')[2]
+
     return(
       <div>
-        <Menu mode='horizontal'>
-          <Menu.Item icon={<MessageOutlined />}>
+        <Menu defaultSelectedKeys={subPath ? subPath : 'comment'} mode='horizontal'>
+          <Menu.Item key='comment' icon={path == '/filters' ? <MessageFilled /> : <MessageOutlined />}>
             <Link to='/filters'/>
             Comment Filters
           </Menu.Item>
