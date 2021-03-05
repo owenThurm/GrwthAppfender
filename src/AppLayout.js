@@ -112,7 +112,7 @@ class AppLayout extends React.Component {
 
             <NameCard userUsername={this.state.userUsername} brand={this.state.brand} />
 
-              <Menu mode='inline' defaultSelectedKeys={[subPath ? subPath : 'dashboard']}>
+              <Menu mode='inline' defaultSelectedKeys={[subPath && subPath != 'reports' ? subPath : 'dashboard']}>
                 <Menu.Item key='dashboard' icon={path == '/' || path == '/reports' ?  <DashboardFilled/> : <DashboardOutlined/>}>
                   <Link to='/' />
                   Dashboard
