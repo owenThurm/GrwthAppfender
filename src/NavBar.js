@@ -1,6 +1,7 @@
 import React from 'react';
 import { Drawer, Menu } from 'antd';
-import { DashboardOutlined, SettingOutlined, LogoutOutlined, UnorderedListOutlined, FilterOutlined } from '@ant-design/icons'
+import { DashboardOutlined, DashboardFilled, SettingOutlined, SettingFilled,
+  LogoutOutlined, UnorderedListOutlined, FilterOutlined, FilterFilled } from '@ant-design/icons'
 import { Link } from 'react-router-dom'
 
 class NavBar extends React.Component {
@@ -31,6 +32,8 @@ class NavBar extends React.Component {
 
 
   render() {
+    let path = window.location.pathname;
+    let subPath = path.split('/')[1]
     return(
       <div>
         <a style={{color: 'white'}} onClick={this.showDrawer}>
@@ -48,16 +51,17 @@ class NavBar extends React.Component {
           key="top"
         >
           <Menu
+          defaultSelectedKeys={[subPath && subPath != 'reports' ? subPath : 'dashboard']}
           mode="inline">
-            <Menu.Item key="1" icon={<DashboardOutlined />}>
+            <Menu.Item key='dashboard' icon={path == '/' || path == '/reports' ?  <DashboardFilled/> : <DashboardOutlined/>}>
               <Link to='/' onClick={this.onClose}/>
               Dashboard
             </Menu.Item>
-            <Menu.Item icon={<FilterOutlined />}>
+            <Menu.Item key='filters' icon={subPath == 'filters' ? <FilterFilled/> : <FilterOutlined/>}>
               <Link to='/filters' onClick={this.onClose}/>
               Action Filters
             </Menu.Item>
-            <Menu.Item key="2" icon={<SettingOutlined />}>
+            <Menu.Item key='settings' icon={subPath == 'settings' ? <SettingFilled/> :  <SettingOutlined/>}>
               <Link to='/settings' onClick={this.onClose}/>
               Settings
             </Menu.Item>
