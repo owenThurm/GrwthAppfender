@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Form, Input, Button, Checkbox, Row, Col } from 'antd';
+import { Form, Input, Button, Checkbox, Row, Col, message } from 'antd';
 import { UserOutlined, LockOutlined, MailOutlined, EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import './Forms.css';
@@ -27,19 +27,25 @@ class LoginForm extends React.Component {
       'Access-Control-Allow-Origin': "*",
       "Access-Control-Allow-Methods": "DELETE, POST, GET, OPTIONS"
     }
-    // axios post request with body as email and password
-    axios.post("https://owenthurm.com/api/user/authenticate", {
-      "email": values.email,
-      "password": values.password
-    },
-      { headers: headers }
-    )
-      .then(response => {
+    let queryString = window.location.search;
+    let parameters = new URLSearchParams(queryString);
+    let token = parameters.get('token');
+
+    if(token != null) {
+      // axios post to the auth with email validation endpoint
+      axios.post("https://owenthurm.com/api/user/authenticateemail", {
+        "email": values.email,
+        "password": values.password,
+        "email_validation_token": token,
+      }).then(response => {
         console.log(response)
         if (response.data.authenticated) {
           localStorage.setItem("token", response.data.token)
           window.location.replace("/");
-        } else {
+        } else if (response.data.message == "invalid email validation token"
+        || response.data.message == "email validation token invalid") {
+          message.warning('invalid or outdated email verification token')
+        } else if (response.data.message == "invalid credentials") {
           this.formRef.current.setFields([
             {
               name: 'email',
@@ -51,10 +57,39 @@ class LoginForm extends React.Component {
             }
           ])
         }
-      })
-      .catch(err => {
+      }).catch(err => {
         console.log(err);
-      });
+      })
+    } else {
+      // axios post request with body as email and password
+      axios.post("https://owenthurm.com/api/user/authenticate", {
+        "email": values.email,
+        "password": values.password
+      },
+        { headers: headers }
+      )
+        .then(response => {
+          console.log(response)
+          if (response.data.authenticated) {
+            localStorage.setItem("token", response.data.token)
+            window.location.replace("/");
+          } else {
+            this.formRef.current.setFields([
+              {
+                name: 'email',
+                errors: ['Invalid email or password!']
+              },
+              {
+                name: 'password',
+                errors: ['Invalid email or password!']
+              }
+            ])
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+      }
   };
 
   render() {

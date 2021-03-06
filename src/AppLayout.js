@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layout, Menu, Image, Spin } from 'antd';
+import { Layout, Menu, Image, Spin, Typography, Card } from 'antd';
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
@@ -20,7 +20,8 @@ import axios from 'axios';
 import NavBar from './NavBar';
 import Filters from './Filters/Filters';
 
-const { Header, Sider, Content } = Layout;
+const { Header, Sider } = Layout;
+const { Title } = Typography;
 
 class AppLayout extends React.Component {
   constructor(props) {
@@ -37,6 +38,7 @@ class AppLayout extends React.Component {
       userIsOnboarding: localStorage.getItem('isOnboarding') == 'true',
       userFilter: {},
       loading: true,
+      userValidatedEmail: false,
     }
   }
 
@@ -57,6 +59,7 @@ class AppLayout extends React.Component {
           userTotalComments: response.data.user_data.user_total_comments,
           userFilter: response.data.user_data.user_comment_filter,
           loading: false,
+          userValidatedEmail: response.data.user_data.user_email_validated,
         });
       }).catch(err => {
         console.log(err);
@@ -77,6 +80,20 @@ class AppLayout extends React.Component {
   render() {
     let path = window.location.pathname;
     let subPath = path.split('/')[1]
+    if(!this.state.userValidatedEmail && !this.state.loading) {
+      return (
+        <Card className='center' title={<Title level={4} style={{color: 'white'}}>Verify your email!</Title>}>
+          <div >
+            To use GrowthAutomation, click the link in the email we sent to {this.state.email}.
+            This helps keep your account secure.
+            <br/>
+            <br/>
+            Wrong address? <a onClick={this.logout}>Log out</a> to sign in with a different email.
+            If you mistyped your email when signing up, create a new account.
+          </div>
+        </Card>
+      )
+    }
     return (
       <div>
         {this.state.loading ?

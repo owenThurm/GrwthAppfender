@@ -132,6 +132,14 @@ code {
   border-top-color: rgb(38, 41, 56);
 }
 
+.ant-card {
+  background-color: rgb(36, 36, 52);
+  border-color: rgb(190, 190, 194);
+  border-radius: 1.5vh;
+  border-width: 2;
+  color: white
+}
+
 .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
   background-color: transparent;
 }
@@ -169,6 +177,16 @@ code {
   width: 90px;
   padding: 0px;
   border-radius: 1.2vh;
+}
+
+.center {
+  position: absolute;
+    width: 70%;
+    top: 40%;
+    left: 50%;
+    margin-left: -35%; /* margin is -0.5 * dimension */
+    margin-top: -35%;
+    text-align: center;
 }
 
 .ant-input-number-input {
@@ -238,6 +256,11 @@ code {
   }
   #AppLayoutNavBar {
     display: none;
+  }
+  .center {
+    margin-top: -15%;
+    width: 40%;
+    margin-left: -20%
   }
 }
 
