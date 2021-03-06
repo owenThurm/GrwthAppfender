@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layout, Menu, Image, Spin, Typography, Card } from 'antd';
+import { Layout, Menu, Image, Spin, Typography, Card, message } from 'antd';
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
@@ -77,6 +77,17 @@ class AppLayout extends React.Component {
     window.location.replace("/login");
   }
 
+  resendEmailValidationEmail = () => {
+    axios.get(
+      'https://owenthurm.com/api/user/authenticateemail?email='+this.state.email
+    ).then(response => {
+      message.success('email sent to ' + this.state.email+'!')
+    }).catch(err => {
+      console.log(err);
+      message.error('issue sending email!')
+    })
+  }
+
   render() {
     let path = window.location.pathname;
     let subPath = path.split('/')[1]
@@ -86,6 +97,9 @@ class AppLayout extends React.Component {
           <div >
             To use GrowthAutomation, click the link in the email we sent to {this.state.email}.
             This helps keep your account secure.
+            <br/>
+            <br/>
+            No email in your inbox or spam folder? <a onClick={this.resendEmailValidationEmail}>Let’s resend it</a>.
             <br/>
             <br/>
             Wrong address? <a onClick={this.logout}>Log out</a> to sign in with a different email.
