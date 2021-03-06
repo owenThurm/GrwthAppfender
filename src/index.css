@@ -243,6 +243,12 @@ code {
   display: none;
 }
 
+.ant-card-extra {
+  padding-top: 5;
+  color: white;
+  padding-bottom: 0;
+}
+
 .ant-form-item-label > label::after {
   color: white
 }

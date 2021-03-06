@@ -1,9 +1,9 @@
 import React from 'react';
-import { Card, Input, Switch, Row, Col, Button, Typography, message, Popover } from 'antd';
+import { Card, Input, Switch, Row, Col, Button, Typography, message, Popover, Tooltip } from 'antd';
 import {
   CheckOutlined, CloseOutlined, EyeInvisibleOutlined, EyeOutlined,
   InstagramOutlined, AimOutlined, LockOutlined, UserOutlined, EditOutlined,
-  SettingOutlined, CaretRightFilled } from '@ant-design/icons';
+  SettingOutlined, CaretRightFilled, HourglassOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import EditableTagGroup from './EditableTag';
 
@@ -29,6 +29,7 @@ class PromoAccount extends React.Component {
       promoUsingLikes: props.promoData.promo_is_liking,
       userIsOnboarding: props.userIsOnboarding,
       onBoardingStep: props.submitted ? 5 : 0,
+      promoIsResting: props.promoData.promo_is_resting,
     }
   }
 
@@ -539,6 +540,22 @@ class PromoAccount extends React.Component {
     )
   }
 
+  title = () => {
+    if(this.state.promoIsResting) {
+      return (
+        <div>
+          {'Promo Account #' + this.props.promoNumber}
+          <Tooltip placement="top" title={this.state.promoUsername + ' is sleeping for a day'}>
+            <HourglassOutlined style={{position: 'absolute', marginLeft: 25, marginTop: 3}}/>
+          </Tooltip>
+        </div>
+      )
+    }
+    else {
+      return ('Promo Account #' + this.props.promoNumber)
+    }
+  }
+
   render() {
     return (
       <Row type="flex" gutter={[40, 40]}>
@@ -549,7 +566,8 @@ class PromoAccount extends React.Component {
           visible={this.state.userIsOnboarding && this.state.onBoardingStep == 0}
           placement='bottom'
           >
-            <Card style={{
+            <Card
+            style={{
               height:"100%", width: 300, backgroundColor: 'rgb(36, 36, 52)',
               borderColor: 'rgb(190, 190, 194)', borderRadius: '1.5vh', borderWidth: 2
             }}
@@ -571,7 +589,7 @@ class PromoAccount extends React.Component {
                 <EditOutlined onClick={this.toggleEdit}/>
               </Popover>
             ] : []}
-            title={'Promo Account #' + this.props.promoNumber}
+            title={this.title()}
             headStyle={{ color: 'white', textAlign: 'center', borderWidth: 2, borderBottomColor: 'rgb(190, 190, 194)' }}>
 
               <Row style={{ marginBottom: 5 }}>
