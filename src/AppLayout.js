@@ -34,6 +34,7 @@ class AppLayout extends React.Component {
       email: localStorage.getItem('email'),
       usingCustomComments: false,
       userPromoAccounts: [],
+      userCustomComments: [],
       userTotalComments: 0,
       userIsOnboarding: localStorage.getItem('isOnboarding') == 'true',
       userFilter: {},
@@ -55,6 +56,7 @@ class AppLayout extends React.Component {
           brand: response.data.user_data.user_brand_name,
           location: response.data.user_data.user_location,
           usingCustomComments: response.data.user_data.user_using_custom_coments,
+          userCustomComments: response.data.user_data.user_custom_comment_pool,
           userPromoAccounts: response.data.user_data.user_promo_accounts,
           userTotalComments: response.data.user_data.user_total_comments,
           userFilter: response.data.user_data.user_comment_filter,
@@ -89,6 +91,7 @@ class AppLayout extends React.Component {
   }
 
   render() {
+    console.log('layout state', this.state)
     let path = window.location.pathname;
     let subPath = path.split('/')[1]
     if(!this.state.userValidatedEmail && !this.state.loading) {
@@ -187,6 +190,8 @@ class AppLayout extends React.Component {
                 props={{
                   'userUsername': this.state.userUsername,
                   'usingCustomComments': this.state.usingCustomComments,
+                  'userCustomComments': this.state.userCustomComments,
+                  'requeryUser': this.getUserData,
                 }}/>
                 <ProtectedRoute path='/filters' component={Filters}
                 props={{

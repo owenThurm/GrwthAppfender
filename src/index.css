@@ -243,6 +243,10 @@ code {
   display: none;
 }
 
+.ant-form-item-label > label::after {
+  color: white
+}
+
 #AppLayoutDiv {
   display: none;
 }

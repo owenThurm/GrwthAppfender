@@ -11,68 +11,28 @@ class CommentSettings extends React.Component {
     super(props);
     this.state = {
       userUsername: props.props.userUsername,
-      userCustomComments: []
+      userCustomComments: props.props.userCustomComments,
+      usingCustomComments: props.props.usingCustomComments,
     }
   }
 
-  componentDidMount() {
-    //axios get to get user's custom comments
-    axios.get(
-      'https://owenthurm.com/api/user/customcomments?user=' + this.props.props.userUsername
-      ).then(response => {
-        let customComments = []
-        for(let i=0; i<response.data.data.length; i++) {
-          let customCommentTextNumberTuple = [i+1, response.data.data[i].comment_text]
-          customComments.push(customCommentTextNumberTuple)
-        }
-        this.setState({
-          userCustomComments: customComments
-        }, () => console.log('comment settings state: ', this.state));
-    }).catch(err => {
-      console.log(err);
-    });
-  }
-
-  deleteCustomComment = (commentTuple) => {
+  deleteCustomComment = (commentText) => {
     //axios delete custom comments
-    let commentText = commentTuple[1]
     console.log('Comment text>>' + commentText)
     axios.delete('https://owenthurm.com/api/user/customcomments', {
       data: {
         "user_username": this.props.props.userUsername,
         "custom_comment_text": commentText
       }
-    }).then(response => {
-      let newCommentList = []
-      let counter = 1
-      for(let i=0; i<this.state.userCustomComments.length; i++) {
-        if(this.state.userCustomComments[i][1] != commentText) {
-          let modifiedCounterComment = this.state.userCustomComments[i]
-          modifiedCounterComment[0] = counter
-          counter++;
-
-          newCommentList.push(modifiedCounterComment)
-        }
-      }
-      this.setState({
-        userCustomComments: newCommentList
-      }, () => console.log(this.state))
-      console.log(response);
+    }).then(() => {
+      this.updateComments()
     }).catch(err => {
       console.log(err);
     });
   }
 
-  addToCommentList = (newComments) => {
-    let newCommentsWithNumbers = []
-    for(let i=0; i<newComments.length; i++) {
-      let customCommentTextNumberTuple = [i+1+this.state.userCustomComments.length, newComments[i]]
-      newCommentsWithNumbers.push(customCommentTextNumberTuple)
-    }
-    let newCommentList = this.state.userCustomComments.concat(newCommentsWithNumbers)
-    this.setState({
-      userCustomComments: newCommentList
-    }, () => console.log(this.state));
+  updateComments = () => {
+    this.props.props.requeryUser()
   }
 
   render() {
@@ -84,9 +44,9 @@ class CommentSettings extends React.Component {
         borderColor: 'rgb(38, 41, 56)',
         backgroundColor: 'rgb(36, 36, 52)'}
       }>
-        <CommentPoolSwitch usingCustomComments={this.props.props.usingCustomComments} userUsername={this.props.props.userUsername} customCommentCount={this.state.userCustomComments.length}/>
-        <AddCustomComments customCommentsTuples={this.state.userCustomComments} userUsername={this.props.props.userUsername} addToCommentList={this.addToCommentList}/>
-        <CustomCommentList userCustomComments={this.state.userCustomComments} deleteCustomComment={this.deleteCustomComment}/>
+        <CommentPoolSwitch updateComments={this.updateComments} usingCustomComments={this.props.props.usingCustomComments} userUsername={this.props.props.userUsername} customCommentCount={this.props.props.userCustomComments.length}/>
+        <AddCustomComments customComments={this.props.props.userCustomComments} userUsername={this.props.props.userUsername} updateCommentList={this.updateComments}/>
+        <CustomCommentList userCustomComments={this.props.props.userCustomComments} deleteCustomComment={this.deleteCustomComment}/>
       </Card>
     )
   }

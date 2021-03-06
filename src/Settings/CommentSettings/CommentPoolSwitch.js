@@ -13,24 +13,13 @@ class CommentPoolSwitch extends React.Component {
     }
   }
 
-  componentDidUpdate(prevProps) {
-    if(prevProps != this.props) {
-      this.setState({
-        usingCustomComments: this.props.usingCustomComments
-      })
-    }
-  }
-
   toggleSwitch = () => {
     //axios post to set the comment pool for the user
     axios.post('https://owenthurm.com/api/user/setcustomcomments', {
       'user_username': this.props.userUsername,
-      'using_custom_comments': !this.state.usingCustomComments
-    }).then(response => {
-      console.log(response);
-      this.setState({
-        usingCustomComments: !this.state.usingCustomComments
-      });
+      'using_custom_comments': !this.props.usingCustomComments
+    }).then(() => {
+      this.props.updateComments()
     }).catch(err => {
       console.log(err);
     });
@@ -51,7 +40,7 @@ class CommentPoolSwitch extends React.Component {
           <Title level={5} style={{color: 'white', marginRight: 5}}>Using: </Title>
           <Switch
           defaultChecked={false}
-          checked={this.state.usingCustomComments && this.props.customCommentCount >= 25}
+          checked={this.props.usingCustomComments && this.props.customCommentCount >= 25}
           checkedChildren={"Custom Comments"}
           unCheckedChildren={"Default Comments"}
           onChange={this.toggleSwitch}

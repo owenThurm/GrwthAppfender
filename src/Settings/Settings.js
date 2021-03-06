@@ -47,13 +47,15 @@ export const Settings = props => {
         </Menu.Item>
       </Menu>
       <Switch>
-
         <ProtectedRoute exact path='/settings/comments' component={CommentSettings}
-        props={{'userUsername': props.props.userUsername, 'usingCustomComments': props.props.usingCustomComments}}/>
-
+        props={{
+          'userUsername': props.props.userUsername,
+          'usingCustomComments': props.props.usingCustomComments,
+          'userCustomComments': props.props.userCustomComments,
+          'requeryUser': props.props.requeryUser,
+        }}/>
         <ProtectedRoute path='/settings' component={AccountSettings}
         props={{'userUsername': props.props.userUsername}}/>
-
       </Switch>
     </div>
   );

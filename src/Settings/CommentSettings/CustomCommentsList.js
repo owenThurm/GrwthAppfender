@@ -9,16 +9,16 @@ const CustomCommentList = props => {
       style={{color: 'white', borderRadius: '1.2vh'}}
       dataSource={props.userCustomComments}
       bordered
-      renderItem={item => {
+      renderItem={(customComment, index) => {
         return (
           <List.Item
             style={{color: 'white'}}>
-            {item[0] + '. '}
-            {item[1]}
+            {index+1 + '. '}
+            {customComment}
           <MinusCircleOutlined
             style={{"margin": 10,color:"white"}}
             className="dynamic-delete-button"
-            onClick={() => props.deleteCustomComment(item)}/>
+            onClick={() => props.deleteCustomComment(customComment)}/>
           </List.Item>)}}
     />
   )
