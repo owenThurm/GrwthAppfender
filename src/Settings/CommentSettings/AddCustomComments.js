@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {Form, Input, Button, Spin } from 'antd';
+import {Form, Input, Button, Spin, message } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import axios from 'axios';
 
@@ -27,16 +27,17 @@ const AddCustomComments = props => {
   const [loading, setLoading] = useState(false);
 
   const onFinish = values => {
-    setLoading(true);
-    if(values.names == null) return
-    console.log('Received values of form:', values);
+    if(values.names == null || values.names.length < 1) {
+      message.warning('Add custom comments before submitting!')
+      return
+    }
     let customCommentsText = values.names;
+    setLoading(true);
     //axios post to add list of comment values
     axios.post('https://owenthurm.com/api/user/customcomments', {
       'user_username': props.userUsername,
       'new_custom_comments': customCommentsText,
     }).then(response => {
-      console.log(response);
       setLoading(false);
       if(response.data.message != "Comments are not unique") {
         props.updateCommentList()
