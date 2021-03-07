@@ -201,7 +201,7 @@ class AppLayout extends React.Component {
                 }}/>
                 <ProtectedRoute path='/' component={Dashboard}
                 props={{
-                  'reQueryUserData': this.getUserData,
+                  'requeryUser': this.getUserData,
                   'userUsername': this.state.userUsername,
                   'brand': this.state.brand,
                   'userPromoAccounts': this.state.userPromoAccounts,

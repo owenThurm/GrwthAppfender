@@ -21,6 +21,7 @@ class Promo extends React.Component {
         newPromo: true
       })
     }
+    console.log(this.props.props.requeryUser)
 
     return (
       <div style={{ marginTop: 30, marginLeft: 40 }}>
@@ -37,7 +38,7 @@ class Promo extends React.Component {
               promoData={promoAccount}
               menuIsCollapsed={this.props.props.menuIsCollapsed}
               submitted={!promoAccount.newPromo}
-              reQueryUserData={this.props.props.reQueryUserData}
+              requeryUser={this.props.props.requeryUser}
               />
             </List.Item>
           )}}
