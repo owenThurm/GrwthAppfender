@@ -24,7 +24,7 @@ class Promo extends React.Component {
     console.log(this.props.props.requeryUser)
 
     return (
-      <div style={{ marginTop: 30, marginLeft: 40 }}>
+      <div style={{ marginTop: 30, marginLeft: 20 }}>
         <List
           grid={{ gutter: 16, column: 4 }}
           dataSource={userPromoAccountList}

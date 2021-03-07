@@ -13,7 +13,7 @@ class TotalComments extends React.Component {
 
   render() {
     return(
-      <div style={{width: 300}}>
+      <div>
         <Card
         bodyStyle={{color: 'white'}}
         style={{borderRadius: '1.5vh', height: '100%', borderWidth: 1,

@@ -7,6 +7,7 @@ import {
 import axios from 'axios';
 import EditableTagGroup from './EditableTag';
 import { ConfigurePromo } from './configurePromo';
+import './Promo.css';
 
 const { Title } = Typography;
 
@@ -517,7 +518,7 @@ class PromoAccount extends React.Component {
 
   render() {
     return (
-      <Row type="flex" gutter={[40, 40]}>
+      <Row type="flex" gutter={[40, 40]} className="promoRow" style={{alignItems: "center"}}>
         <Col>
           <Popover
           content={this.welcomePopoverContent()}

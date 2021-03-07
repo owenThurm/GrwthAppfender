@@ -3,6 +3,7 @@ import { Card, Row, Spin } from 'antd';
 import axios from 'axios';
 import TotalComments from './TotalComments';
 import PromoAccountStats from './PromoAccountStats';
+import './Reports.css';
 
 class Reports extends React.Component {
   constructor(props) {
@@ -25,10 +26,10 @@ class Reports extends React.Component {
     } else {
       return (
           <div>
-            <Row type='flex' style={{marginBottom: 15}}>
+            <Row type='flex' style={{marginBottom: 15}} className="reports">
               <TotalComments userTotalComments={this.props.props.userTotalComments}/>
             </Row>
-            <Row type='flex'>
+            <Row type='flex' className="reports">
               <PromoAccountStats userPromoAccounts={this.props.props.userPromoAccounts}/>
             </Row>
           </div>

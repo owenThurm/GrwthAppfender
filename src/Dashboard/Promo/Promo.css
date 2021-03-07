@@ -13,5 +13,7 @@
         min-width:100vw;
         min-height:50vh; 
         margin-left:20;
+        justify-content: center;
     }
-  }
+
+}
