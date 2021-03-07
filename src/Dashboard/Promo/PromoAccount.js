@@ -6,6 +6,7 @@ import {
   SettingOutlined, CaretRightFilled, HourglassOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import EditableTagGroup from './EditableTag';
+import { ConfigurePromo } from './configurePromo';
 
 const { Title } = Typography;
 
@@ -26,7 +27,6 @@ class PromoAccount extends React.Component {
       editedPromoPassword: props.promoData.promo_password,
       editedTargetAccounts: props.promoData.promo_target_accounts,
       configuring: false,
-      promoUsingLikes: props.promoData.promo_is_liking,
       userIsOnboarding: props.userIsOnboarding,
       onBoardingStep: props.submitted ? 5 : 0,
       promoIsResting: props.promoData.promo_is_resting,
@@ -75,8 +75,6 @@ class PromoAccount extends React.Component {
     }
   }
 
-
-
   updatePromo = () => {
     if (!(this.state.promoUsername == this.state.editedPromoUsername
       && this.state.promoPassword == this.state.editedPromoPassword
@@ -108,20 +106,6 @@ class PromoAccount extends React.Component {
     } else {
       this.warningMessage('Make changes to submit for review!')
     }
-  }
-
-  updateUsingLikes = usingLikes => {
-    //axios put to update using likes
-    axios.put('https://owenthurm.com/api/promo/liking', {
-      'promo_username': this.state.promoUsername,
-      'is_liking': usingLikes,
-    }).then(response => {
-      this.setState({
-        promoUsingLikes: usingLikes,
-      });
-    }).catch(err => {
-      console.log(err);
-    });
   }
 
   warningMessage = warning => {
@@ -382,31 +366,6 @@ class PromoAccount extends React.Component {
     }
   }
 
-  usingLikesConfig = () => {
-    if(this.state.configuring) {
-      return (
-      <div>
-        <Row>
-          <Title style={{fontSize: 14, color: 'white'}}>
-            Liking Photos:
-          </Title>
-          <Switch
-          style={{position: 'absolute', right: 15}}
-          onChange={this.updateUsingLikes}
-          checked={this.state.promoUsingLikes}
-          checkedChildren={
-            <div>
-              <CheckOutlined/> (Recommended)
-            </div>}
-          unCheckedChildren={
-            <div>
-              <CloseOutlined/> (Discouraged)
-            </div>}/>
-        </Row>
-      </div>)
-    }
-  }
-
   welcomePopoverContent = () => {
     return (
       <div style={{width: 300}}>
@@ -603,10 +562,11 @@ class PromoAccount extends React.Component {
                 </div>
               </Row>
 
-              <Row>
-                {this.usingLikesConfig()}
-              </Row>
-
+              {this.state.configuring ? <ConfigurePromo
+              promoUsername={this.props.promoData.promo_username}
+              requeryUser={this.props.requeryUser}
+              promoUsingLikes={this.props.promoData.promo_is_liking}
+              promoUsingCommentFilter={this.props.promoData.promo_using_comment_filter}/> : ''}
               <Row>
                 <div style={{ margin: 'auto', textAlign: 'center' }}>
                   {this.targetAccountsField()}

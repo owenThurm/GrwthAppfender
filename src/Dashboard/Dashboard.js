@@ -47,7 +47,7 @@ class Dashboard extends React.Component {
           }}/>
           <ProtectedRoute path='/' component={Promo}
           props={{
-            'reQueryUserData': this.props.props.reQueryUserData,
+            'requeryUser': this.props.props.requeryUser,
             'userIsOnboarding': this.props.props.userIsOnboarding,
             'userUsername': this.props.props.userUsername,
             'userPromoAccounts': this.props.props.userPromoAccounts,
