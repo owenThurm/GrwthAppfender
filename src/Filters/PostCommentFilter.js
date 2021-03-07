@@ -3,6 +3,8 @@ import { Card, InputNumber, Row, Col, Typography } from 'antd';
 import PhraseTags from './PhraseTags';
 
 const { Title } = Typography;
+const min = Math.min
+const max = Math.max
 
 class PostCommentFilter extends React.Component {
   constructor(props) {
@@ -32,14 +34,14 @@ class PostCommentFilter extends React.Component {
             Minimum post likes:
             <InputNumber
             min={0}
-            max={this.props.postMaxLikes}
+            max={min(this.props.postMaxLikes, 200)}
             bordered={false}
             value={this.props.postMinLikes}
             onChange={this.props.setPostMinLikes}/>
             <br />
             Maximum post likes:
             <InputNumber
-            min={this.props.postMinLikes + 1}
+            min={max(this.props.postMinLikes + 1, 20)}
             max={10000000}
             bordered={false}
             value={this.props.postMaxLikes}
@@ -48,14 +50,14 @@ class PostCommentFilter extends React.Component {
             Minimum post comments:
             <InputNumber
             min={0}
-            max={this.props.postMaxComments}
+            max={min(this.props.postMaxComments, 20)}
             bordered={false}
             value={this.props.postMinComments}
             onChange={this.props.setPostMinComments}/>
             <br />
             Maximum post comments:
             <InputNumber
-            min={this.props.postMinComments + 1}
+            min={max(this.props.postMinComments + 1, 1)}
             max={1000000}
             bordered={false}
             value={this.props.postMaxComments}

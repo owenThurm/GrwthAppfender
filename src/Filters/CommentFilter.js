@@ -20,6 +20,7 @@ class CommentFilter extends React.Component {
       postMaxLikes: props.props.userFilter.post_max_number_of_likes,
       postDescriptionAvoidedPhrases: props.props.userFilter.post_description_avoided_key_phrases,
       isLoading: false,
+      narrowFilterWarning: false,
     }
   }
 
@@ -57,9 +58,25 @@ class CommentFilter extends React.Component {
     }
   }
 
+  narrowFilterWarning = () => {
+    message.config({
+      maxCount: 1
+    })
+    message.warning('We restrict how narrow your filters can be to maintain traffic volume!')
+    this.setState({
+      narrowFilterWarning: false,
+    })
+  }
+
   updateMinComments = (minComments) => {
-    console.log('called update min comments')
-    if(minComments !== "" && minComments != null && !isNaN(minComments)) {
+    if(minComments === "" || minComments == null || isNaN(minComments)) {
+      return
+    }
+    if(minComments > 20) {
+      this.setState({
+        narrowFilterWarning: true,
+      });
+    } else {
       this.setState({
         postMinComments: minComments,
       })
@@ -67,7 +84,14 @@ class CommentFilter extends React.Component {
   }
 
   updateMaxComments = (maxComments) => {
-    if(maxComments !== "" && maxComments != null && !isNaN(maxComments)) {
+    if(maxComments === "" || maxComments == null || isNaN(maxComments)) {
+      return
+    }
+    if(maxComments < 1) {
+      this.setState({
+        narrowFilterWarning: true,
+      });
+    } else {
       this.setState({
         postMaxComments: maxComments,
       })
@@ -75,7 +99,14 @@ class CommentFilter extends React.Component {
   }
 
   updateMinLikes = (minLikes) => {
-    if(minLikes !== "" && minLikes != null && !isNaN(minLikes)) {
+    if(minLikes === "" || minLikes == null || isNaN(minLikes)) {
+      return
+    }
+    if(minLikes > 200) {
+      this.setState({
+        narrowFilterWarning: true,
+      });
+    } else {
       this.setState({
         postMinLikes: minLikes,
       })
@@ -83,7 +114,14 @@ class CommentFilter extends React.Component {
   }
 
   updateMaxLikes = (maxLikes) => {
-    if(maxLikes !== "" && maxLikes != null && !isNaN(maxLikes)) {
+    if(maxLikes === "" || maxLikes == null || isNaN(maxLikes)) {
+      return
+    }
+    if (maxLikes < 20) {
+      this.setState({
+        narrowFilterWarning: true,
+      });
+    } else {
       this.setState({
         postMaxLikes: maxLikes,
       })
@@ -99,9 +137,14 @@ class CommentFilter extends React.Component {
   }
 
   updateMinFollowers = (minFollowers) => {
-    console.log('valled here', minFollowers)
-    if(minFollowers !== "" && minFollowers != null && !isNaN(minFollowers)) {
-      console.log('here')
+    if(minFollowers === "" || minFollowers == null || isNaN(minFollowers)) {
+      return
+    }
+    if(minFollowers > 1000) {
+      this.setState({
+        narrowFilterWarning: true,
+      });
+    } else {
       this.setState({
         accountMinFollowers: minFollowers,
       })
@@ -109,7 +152,14 @@ class CommentFilter extends React.Component {
   }
 
   updateMaxFollowers = (maxFollowers) => {
-    if(maxFollowers !== "" && maxFollowers != null && !isNaN(maxFollowers)) {
+    if(maxFollowers === "" || maxFollowers == null || isNaN(maxFollowers)) {
+      return
+    }
+    if(maxFollowers < 100) {
+      this.setState({
+        narrowFilterWarning: true,
+      });
+    } else {
       this.setState({
         accountMaxFollowers: maxFollowers,
       })
@@ -117,7 +167,14 @@ class CommentFilter extends React.Component {
   }
 
   updateMinFollowing = (minFollowing) => {
-    if(minFollowing !== "" && minFollowing != null && !isNaN(minFollowing)) {
+    if(minFollowing === "" || minFollowing == null || isNaN(minFollowing)) {
+      return
+    }
+    if(minFollowing > 1000) {
+      this.setState({
+        narrowFilterWarning: true,
+      });
+    } else {
       this.setState({
         accountMinFollowing: minFollowing,
       })
@@ -125,7 +182,14 @@ class CommentFilter extends React.Component {
   }
 
   updateMaxFollowing = (maxFollowing) => {
-    if(maxFollowing !== "" && maxFollowing != null && !isNaN(maxFollowing)) {
+    if(maxFollowing === "" || maxFollowing == null || isNaN(maxFollowing)) {
+      return
+    }
+    if(maxFollowing < 100) {
+      this.setState({
+        narrowFilterWarning: true,
+      });
+    } else {
       this.setState({
         accountMaxFollowing: maxFollowing,
       })
@@ -159,6 +223,7 @@ class CommentFilter extends React.Component {
   render() {
     return(
       <div>
+        {this.state.narrowFilterWarning ? this.narrowFilterWarning() : ''}
         {this.state.isLoading ?
         <div style={{position: 'absolute', top: '50vh', left: 0, right: 0}}>
         <Spin style={{position: 'absolute', margin: 'auto', left: 0, right: 0, top: 0, bottom: 0, zIndex: 5}}

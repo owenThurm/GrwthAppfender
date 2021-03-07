@@ -3,6 +3,8 @@ import { Card, Row, InputNumber, Col, Typography } from 'antd';
 import PhraseTags from './PhraseTags';
 
 const { Title } = Typography;
+const min = Math.min
+const max = Math.max
 
 class AccountCommentFilter extends React.Component {
   constructor(props) {
@@ -36,14 +38,14 @@ class AccountCommentFilter extends React.Component {
             Minumim account followers:
             <InputNumber
             min={0}
-            max={this.props.accountMaxFollowers}
+            max={min(this.props.accountMaxFollowers, 1000)}
             bordered={false}
             value={this.props.accountMinFollowers}
             onChange={this.props.setAccountMinFollowers}/>
             <br />
             Maximum account followers:
             <InputNumber
-            min={this.props.accountMinFollowers + 1}
+            min={max(this.props.accountMinFollowers + 1, 100)}
             max={10000000}
             bordered={false}
             value={this.props.accountMaxFollowers}
@@ -52,14 +54,14 @@ class AccountCommentFilter extends React.Component {
             Minimum account following:
             <InputNumber
             min={0}
-            max={this.props.accountMaxFollowing}
+            max={min(this.props.accountMaxFollowing, 1000)}
             bordered={false}
             value={this.props.accountMinFollowing}
             onChange={this.props.setAccountMinFollowing}/>
             <br />
             Maximum account following:
             <InputNumber
-            min={this.props.accountMinFollowing + 1}
+            min={max(this.props.accountMinFollowing + 1, 100)}
             max={10000000}
             bordered={false}
             value={this.props.accountMaxFollowing}
