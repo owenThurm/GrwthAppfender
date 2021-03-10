@@ -67,6 +67,7 @@ class PromoAccount extends React.Component {
             onBoardingStep: 5,
             promoUsingLikes: true
           });
+          this.props.requeryUser()
         }
       }).catch(err => {
         console.log(err);
@@ -101,6 +102,7 @@ class PromoAccount extends React.Component {
           promoPassword: this.state.editedPromoPassword,
           targetAccounts: this.state.editedTargetAccounts
         })
+        this.props.requeryUser()
       }).catch(err => {
         console.log(err);
       });
@@ -491,7 +493,10 @@ class PromoAccount extends React.Component {
         That's it! Enjoy your traffic!
         <a onClick={() => this.setState({
           onBoardingStep: 8
-        }, () => localStorage.setItem('isOnboarding', false))}>
+        }, () => {
+          localStorage.setItem('isOnboarding', false)
+          this.props.requeryUser()
+        })}>
           <br />
           <br />
           Done!<CaretRightFilled />

@@ -41,6 +41,7 @@ class LoginForm extends React.Component {
         console.log(response)
         if (response.data.authenticated) {
           localStorage.setItem("token", response.data.token)
+          localStorage.setItem("isOnboarding", true)
           window.location.replace("/");
         } else if (response.data.message == "invalid email validation token"
         || response.data.message == "email validation token invalid") {

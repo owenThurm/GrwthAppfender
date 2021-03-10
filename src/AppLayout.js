@@ -62,6 +62,7 @@ class AppLayout extends React.Component {
           userFilter: response.data.user_data.user_comment_filter,
           loading: false,
           userValidatedEmail: response.data.user_data.user_email_validated,
+          userIsOnboarding: localStorage.getItem('isOnboarding') == 'true',
         });
       }).catch(err => {
         console.log(err);

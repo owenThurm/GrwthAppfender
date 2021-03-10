@@ -21,7 +21,6 @@ class Promo extends React.Component {
         newPromo: true
       })
     }
-    console.log(this.props.props.requeryUser)
 
     return (
       <div style={{ marginTop: 30, marginLeft: 20 }}>
